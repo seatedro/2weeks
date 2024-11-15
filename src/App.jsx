@@ -27,7 +27,7 @@ export default function App() {
     window.dispatchEvent(new CustomEvent('matrixIntensify'));
     setTimeout(() => {
       window.dispatchEvent(new CustomEvent('matrixNormalize'));
-    }, 2000);
+    }, 1000);
   };
 
   // Initialize appState based on whether path is already selected
@@ -79,7 +79,7 @@ export default function App() {
       window.dispatchEvent(matrixIntensify);
 
       // Wait for transition effects
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 0));
 
       // Switch to learning interface
       setAppState('learning');
@@ -120,16 +120,18 @@ export default function App() {
 
   return (
     <>
-      {renderContent()}
-      <PathStatus selectedPath={selectedPath} />
-      <Terminal
-        isVisible={isTerminalVisible}
-        setIsVisible={setIsTerminalVisible}
-        debugMode={debugMode}
-        resetPath={handleResetPath}
-      />
-      <KonamiHandler />
+      <div className="h-screen w-screen overflow-auto relative">
+        {renderContent()}
+        <PathStatus selectedPath={selectedPath} />
+        <Terminal
+          isVisible={isTerminalVisible}
+          setIsVisible={setIsTerminalVisible}
+          debugMode={debugMode}
+          resetPath={handleResetPath}
+        />
+        <KonamiHandler />
 
+      </div>
       {/* Global styles for effects */}
       <style jsx global>{`
         /* Scanline effect in debug mode */
