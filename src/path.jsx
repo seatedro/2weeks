@@ -182,7 +182,7 @@ const PathSelector = ({ onPathSelected }) => {
                   if (typeof onPathSelected === 'function') {
                     onPathSelected(selectedPath);
                   }
-                }, 2000);
+                }, 1500);
               }}
               className={`bg-black border-2 ${paths[selectedPath].color} px-6 py-3 
                 hover:${paths[selectedPath].glow} transition-all duration-300 relative
@@ -202,12 +202,12 @@ const PathSelector = ({ onPathSelected }) => {
               }
               
               .screen-glitch {
-                animation: screen-glitch 0.5s ease-in-out infinite;
+                animation: screen-glitch 2s ease-in-out infinite;
               }
 
               .sustained-glitch {
                 opacity: 0.98;
-                animation: sustained-glitch 4s linear;
+                animation: sustained-glitch 2s linear;
               }
 
               @keyframes sustained-glitch {
@@ -243,12 +243,8 @@ const PathSelector = ({ onPathSelected }) => {
                 100% { transform: translate(0); }
               }
 
-              .screen-glitch {
-                animation: screen-glitch 0.5s ease-in-out forwards;
-              }
-
               .animate-shine {
-                animation: shine 1s linear infinite;
+                animation: shine 2s linear infinite;
               }
             `}</style>
           </div>

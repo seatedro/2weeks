@@ -375,9 +375,11 @@ Loading curriculum...`,
         top: position.y,
         width: size.width,
         height: size.height,
+        maxWidth: '95vw',
+        maxHeight: '90vh',
         display: isVisible ? 'flex' : 'none'
       }}
-      className="flex flex-col bg-black border border-green-400 rounded shadow-lg overflow-hidden"
+      className="flex flex-col bg-black border border-green-400 rounded shadow-lg overflow-hidden z-50"
       ref={terminalRef}
     >
       {/* Terminal header */}

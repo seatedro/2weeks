@@ -261,3 +261,15 @@ body {
 .debug-mode {
   outline: 1px solid rgba(0, 255, 0, 0.2);
 }
+
+html,
+body {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+#__next {
+  height: 100%;
+  overflow: auto;
+}
