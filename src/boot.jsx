@@ -19,20 +19,14 @@ const BOOT_MESSAGES = [
 ];
 
 
-const BootSequence = () => {
+const BootSequence = ({ setBootSequence }) => {
   const [currentMessage, setCurrentMessage] = useState(0);
   const [text, setText] = useState('');
   const [glitchLines, setGlitchLines] = useState(new Array(BOOT_MESSAGES.length).fill(''));
   const [glitchActive, setGlitchActive] = useState(false);
   const [powerFlicker, setPowerFlicker] = useState(false);
-  const [degaussActive, setDegaussActive] = useState(true);
   const [interference, setInterference] = useState(false);
   const noiseCanvasRef = useRef(null);
-
-  // Initialize with degauss effect
-  useEffect(() => {
-    setTimeout(() => setDegaussActive(false), 0);
-  }, []);
 
   // Static noise effect
   useEffect(() => {
@@ -123,16 +117,15 @@ const BootSequence = () => {
         clearInterval(interval);
         setTimeout(() => {
           setCurrentMessage(prev => prev + 1);
-        }, 800);
+        }, 400); // Reduced from 800
       }
-    }, 50);
+    }, 20); // Reduced from 50
     return () => clearInterval(interval);
   }, [currentMessage]);
 
   return (
     <div className={`fixed inset-0 bg-black flex items-center justify-center overflow-hidden 
-      ${powerFlicker ? 'power-flicker' : ''} 
-      ${degaussActive ? 'degauss' : ''}`}>
+      ${powerFlicker ? 'power-flicker' : ''}`}>
 
       {/* Static noise canvas */}
       <canvas
@@ -240,29 +233,6 @@ const BootSequence = () => {
             rgba(0, 0, 0, 0.1) 4px
           );
           opacity: 0.8;
-        }
-
-        @keyframes degauss {
-          0% {
-            filter: hue-rotate(0deg) saturate(100%);
-            transform: scale(1);
-          }
-          20% {
-            filter: hue-rotate(-45deg) saturate(200%);
-            transform: scale(1.1);
-          }
-          40% {
-            filter: hue-rotate(45deg) saturate(300%);
-            transform: scale(0.95);
-          }
-          60% {
-            filter: hue-rotate(-20deg) saturate(200%);
-            transform: scale(1.05);
-          }
-          100% {
-            filter: hue-rotate(0deg) saturate(100%);
-            transform: scale(1);
-          }
         }
 
         @keyframes screen-warp {
