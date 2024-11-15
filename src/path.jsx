@@ -2,22 +2,26 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 
 const ASCII_ENGINEER = `
-┌─────────────────────────┐
-│ ███████ ███▄    █  ▄▄▄  │
-│ ██      ████▄   █ ▒████▄│
-│ █████   ██ ▀█▄  █ ▒██  ▀│
-│ ██      ██  ▀█▄ █ ░██▄▄▄│
-│ ███████ ██   ▀█▐█  ▓█   │
-└─────────────────────────┘`;
+┌────────────────────────────────────────┐
+│░▒▓████████▓▒░▒▓███████▓▒░ ░▒▓██████▓▒░ │ 
+│░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░│ 
+│░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░       │ 
+│░▒▓██████▓▒░ ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒▒▓███▓▒░│ 
+│░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░│ 
+│░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░│ 
+│░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░░▒▓██████▓▒░ │ 
+└────────────────────────────────────────┘`;
 
 const ASCII_RESEARCHER = `
-┌─────────────────────────┐
-│ ▄▄▄█████  ▄████▄   ██▓ │
-│ ▓  ██▒   ▒██▀ ▀█  ▓██▒ │
-│ ▒ ▓██░   ▒▓█    ▄ ▒██▒ │
-│ ░ ▓██▓▒  ▒▓▓▄ ▄██▒░██░ │
-│   ▒██▒   ▒ ▓███▀ ░░██░ │
-└─────────────────────────┘`;
+┌────────────────────────────────────────┐
+│░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░ │ 
+│░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░│ 
+│░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░│ 
+│░▒▓███████▓▒░░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░│ 
+│░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░│ 
+│░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░│ 
+│░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░ │ 
+└────────────────────────────────────────┘`;
 
 const PathSelector = () => {
   const [selectedPath, setSelectedPath] = useState(null);
@@ -28,8 +32,8 @@ const PathSelector = () => {
       title: "[ENGINEER_PATH]",
       ascii: ASCII_ENGINEER,
       description: "BUILD.DEPLOY.SCALE",
-      color: "border-cyan-500",
-      glow: "shadow-cyan-500/50",
+      color: "border-cyan-400",
+      glow: "shadow-cyan-400/80",
       steps: [
         {
           title: "FRAMEWORK_MASTERY",
@@ -55,8 +59,8 @@ const PathSelector = () => {
       title: "[RESEARCHER_PATH]",
       ascii: ASCII_RESEARCHER,
       description: "UNDERSTAND.INNOVATE.ADVANCE",
-      color: "border-green-500",
-      glow: "shadow-green-500/50",
+      color: "border-green-400",
+      glow: "shadow-green-400/80",
       steps: [
         {
           title: "MATHEMATICAL_FOUNDATIONS",
@@ -89,14 +93,14 @@ const PathSelector = () => {
         className={`relative overflow-hidden transition-all duration-300 transform 
           ${isHovered || isSelected ? 'scale-105' : 'scale-100'}
           cursor-pointer bg-black border-2 ${path.color} ${isHovered || isSelected ? path.glow : ''}
-          hover:shadow-lg`}
+          hover:shadow-lg hover:shadow-${path.color.split('-')[1]} shadow-lg`}
         onClick={() => setSelectedPath(type)}
         onMouseEnter={() => setHoverPath(type)}
         onMouseLeave={() => setHoverPath(null)}
       >
         <CardContent className="p-6 text-white font-mono">
-          <pre className={`text-xs mb-4 transition-colors duration-300 
-            ${isHovered || isSelected ? `text-${path.color.split('-')[1]}` : 'text-gray-500'}`}>
+          <pre className={`text-sm mb-4 transition-colors duration-300 font-bold
+            ${isHovered || isSelected ? `text-${path.color.split('-')[1]} animate-pulse` : 'text-gray-400'}`}>
             {path.ascii}
           </pre>
 
@@ -137,12 +141,14 @@ const PathSelector = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-8">
+    <div className="min-h-screen bg-gray-950 text-white p-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 font-mono">
-          <h1 className="text-4xl font-bold mb-4 tracking-wider">SELECT_NEURAL_PATH</h1>
-          <div className="text-xl text-gray-500 tracking-wide">
-            CHOOSE_WISELY {'>>'} PATH_DETERMINES_FUTURE
+          <h1 className="text-4xl font-bold mb-4 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-green-400 animate-pulse">
+            SELECT_NEURAL_PATH
+          </h1>
+          <div className="text-xl text-gray-400 tracking-wide drop-shadow-glow">
+            CHOOSE_WISELY >> PATH_DETERMINES_FUTURE
           </div>
         </div>
 
@@ -164,11 +170,23 @@ const PathSelector = () => {
         )}
       </div>
 
-      {/* Retro effects */}
+      {/* Enhanced retro effects */}
       <div className="pointer-events-none fixed inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,_rgba(0,255,0,0.02)_50%)] bg-[length:100%_4px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_50%,_transparent,_rgba(0,0,0,0.96))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,_rgba(0,255,0,0.05)_50%)] bg-[length:100%_4px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_50%,_rgba(0,255,255,0.1),_transparent_40%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_50%,_rgba(6,182,212,0.1),_transparent_40%)]" />
       </div>
+
+      <style jsx global>{`
+        .drop-shadow-glow {
+          filter: drop-shadow(0 0 8px rgba(6,182,212,0.3));
+        }
+        
+        @keyframes neon-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.8; }
+        }
+      `}</style>
     </div>
   );
 };
