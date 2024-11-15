@@ -23,7 +23,7 @@ const ASCII_RESEARCHER = `
 │░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░ │ 
 └────────────────────────────────────────┘`;
 
-const PathSelector = () => {
+const PathSelector = ({ onPathSelected }) => {
   const [selectedPath, setSelectedPath] = useState(null);
   const [hoverPath, setHoverPath] = useState(null);
 
@@ -148,7 +148,7 @@ const PathSelector = () => {
             SELECT_NEURAL_PATH
           </h1>
           <div className="text-xl text-gray-400 tracking-wide drop-shadow-glow">
-            CHOOSE_WISELY >> PATH_DETERMINES_FUTURE
+            CHOOSE_WISELY {'>>'} PATH_DETERMINES_FUTURE
           </div>
         </div>
 
@@ -162,10 +162,95 @@ const PathSelector = () => {
             <div className={`text-xl mb-4 text-${paths[selectedPath].color.split('-')[1]}`}>
               PATH_SELECTED: {paths[selectedPath].title}
             </div>
-            <button className={`bg-black border-2 ${paths[selectedPath].color} px-6 py-3 
-              hover:${paths[selectedPath].glow} transition-all duration-300`}>
-              INITIALIZE_SEQUENCE
+            <button
+              onClick={() => {
+                // Add glitch effect to entire screen
+                document.body.classList.add('screen-glitch');
+
+                // Add sustained glitch effect
+                document.body.classList.add('sustained-glitch');
+
+                // Trigger matrix rain intensity
+                window.dispatchEvent(new CustomEvent('matrixIntensify'));
+
+                // After effects, trigger the path initialization
+                setTimeout(() => {
+                  // Remove glitch effects
+                  document.body.classList.remove('screen-glitch');
+                  document.body.classList.remove('sustained-glitch');
+
+                  if (typeof onPathSelected === 'function') {
+                    onPathSelected(selectedPath);
+                  }
+                }, 2000);
+              }}
+              className={`bg-black border-2 ${paths[selectedPath].color} px-6 py-3 
+                hover:${paths[selectedPath].glow} transition-all duration-300 relative
+                overflow-hidden group`}
+            >
+              <span className="relative z-10 group-hover:animate-pulse">INITIALIZE_SEQUENCE</span>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 
+                transition-opacity duration-300 bg-gradient-to-r 
+                from-transparent via-white to-transparent -translate-x-full 
+                group-hover:animate-shine" />
             </button>
+
+            <style jsx global>{`
+              @keyframes shine {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(100%); }
+              }
+              
+              .screen-glitch {
+                animation: screen-glitch 0.5s ease-in-out infinite;
+              }
+
+              .sustained-glitch {
+                opacity: 0.98;
+                animation: sustained-glitch 4s linear;
+              }
+
+              @keyframes sustained-glitch {
+                0% { filter: none; transform: translate(0); }
+                5% { filter: hue-rotate(90deg); transform: translate(2px, -2px); }
+                10% { filter: hue-rotate(180deg); transform: translate(-2px, 2px); }
+                15% { filter: hue-rotate(270deg); transform: translate(2px, 2px); }
+                20% { filter: hue-rotate(360deg); transform: translate(-2px, -2px); }
+                25% { filter: contrast(1.5); transform: translate(0); }
+                30% { filter: contrast(1) hue-rotate(180deg); transform: translate(2px, 2px); }
+                35% { filter: invert(0.2); transform: translate(-2px, 2px); }
+                40% { filter: invert(0) hue-rotate(90deg); transform: translate(2px, -2px); }
+                45% { filter: saturate(1.5) hue-rotate(180deg); transform: translate(0); }
+                50% { filter: saturate(1) contrast(1.2); transform: translate(-2px, -2px); }
+                55% { filter: hue-rotate(90deg) saturate(1.5); transform: translate(2px, 2px); }
+                60% { filter: hue-rotate(180deg) contrast(1.3); transform: translate(-2px, 2px); }
+                65% { filter: hue-rotate(270deg) saturate(1.2); transform: translate(2px, -2px); }
+                70% { filter: hue-rotate(360deg) contrast(1.1); transform: translate(0); }
+                75% { filter: saturate(1.4) hue-rotate(180deg); transform: translate(-2px, 2px); }
+                80% { filter: saturate(1.2) contrast(1.3); transform: translate(2px, 2px); }
+                85% { filter: hue-rotate(90deg) saturate(1.3); transform: translate(-2px, -2px); }
+                90% { filter: contrast(1.2) hue-rotate(180deg); transform: translate(2px, -2px); }
+                95% { filter: saturate(1.1) hue-rotate(270deg); transform: translate(0); }
+                100% { filter: none; transform: translate(0); }
+              }
+
+              @keyframes screen-glitch {
+                0% { transform: translate(0); }
+                20% { transform: translate(-2px, 2px); filter: hue-rotate(90deg); }
+                40% { transform: translate(-2px, -2px); filter: hue-rotate(180deg); }
+                60% { transform: translate(2px, 2px); filter: hue-rotate(270deg); }
+                80% { transform: translate(2px, -2px); filter: hue-rotate(360deg); }
+                100% { transform: translate(0); }
+              }
+
+              .screen-glitch {
+                animation: screen-glitch 0.5s ease-in-out forwards;
+              }
+
+              .animate-shine {
+                animation: shine 1s linear infinite;
+              }
+            `}</style>
           </div>
         )}
       </div>

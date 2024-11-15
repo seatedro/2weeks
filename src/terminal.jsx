@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Minus, Maximize2 } from 'lucide-react';
 import { useSpring, animated } from 'react-spring';
 
-const Terminal = ({ isVisible, setIsVisible, debugMode }) => {
+const Terminal = ({ isVisible, setIsVisible, debugMode, resetPath }) => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [size, setSize] = useState({ width: 600, height: 400 });
   const [isDragging, setIsDragging] = useState(false);
@@ -57,18 +57,95 @@ on  - Enable boot sequence`,
         type: 'info'
       };
     },
+    path: () => {
+      const currentPath = localStorage.getItem('selectedPath');
+      if (!currentPath) {
+        return {
+          output: 'No path currently selected.\nUse the path selection interface to choose your journey.',
+          type: 'info'
+        };
+      }
+
+      const pathDetails = {
+        engineer: {
+          name: '[ENG]',
+          status: 'ACTIVE',
+          modules: [
+            'FRAMEWORK_MASTERY [14 DAYS]',
+            'APPLICATION_DEVELOPMENT [14 DAYS]',
+            'SYSTEM_ARCHITECTURE [14 DAYS]'
+          ],
+          timeCompression: 'ENABLED'
+        },
+        researcher: {
+          name: '[PHD]',
+          status: 'ACTIVE',
+          modules: [
+            'MATHEMATICAL_FOUNDATIONS [14 DAYS]',
+            'CLASSICAL_ML_THEORY [14 DAYS]',
+            'DEEP_LEARNING_MASTERY [14 DAYS]'
+          ],
+          timeCompression: 'ENABLED'
+        }
+      };
+
+      const details = pathDetails[currentPath];
+      return {
+        output: `
+PATH_STATUS:
+============
+NAME: ${details.name}
+STATUS: ${details.status}
+TIME_COMPRESSION: ${details.timeCompression}
+
+ACTIVE_MODULES:
+${details.modules.map(m => `> ${m}`).join('\n')}
+
+Use 'reset_path' command to choose a different path.`,
+        type: 'success'
+      };
+    },
+
+    reset_path: () => {
+      const currentPath = localStorage.getItem('selectedPath');
+      if (!currentPath) {
+        return {
+          output: 'ERROR: No path currently selected.',
+          type: 'error'
+        };
+      }
+
+      if (resetPath) {
+        resetPath();
+        return {
+          output: `
+WARNING: PATH RESET INITIATED
+============================
+PREVIOUS_PATH: ${currentPath === 'engineer' ? '[SYS.DEV.OPS]' : '[PHD.SCI.LAB]'}
+STATUS: DEACTIVATING...
+ACTION: Redirecting to path selection...`,
+          type: 'warning'
+        };
+      }
+
+      return {
+        output: 'ERROR: Reset handler not found',
+        type: 'error'
+      };
+    },
     help: () => {
       let output = `Available commands:
 
-help     - Show this help message
-clear    - Clear terminal
-topics   - List all learning topics
-select   - Select a topic (usage: select <topic>)
-progress - Show learning progress
-matrix   - Toggle matrix rain effect
-boot     - Control boot sequence (usage: boot <on|off>)
-unlock   - Unlock special modes (if you know the code...)
-exit     - Close terminal`;
+help        - Show this help message
+clear       - Clear terminal
+topics      - List all learning topics
+select      - Select a topic (usage: select <topic>)
+progress    - Show learning progress
+matrix      - Toggle matrix rain effect
+boot        - Control boot sequence (usage: boot <on|off>)
+reset_path  - Reset learning path selection
+unlock      - Unlock special modes (if you know the code...)
+exit        - Close terminal`;
 
       if (debugMode) {
         output += `

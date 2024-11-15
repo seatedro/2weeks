@@ -5,6 +5,7 @@ import KonamiHandler from './konami';
 import MLRetroDashboard from "./dashboard";
 import BootSequence from './boot';
 import PathSelector from './path';
+import PathStatus from './pathstatus';
 
 export default function App() {
   const [isTerminalVisible, setIsTerminalVisible] = useState(false);
@@ -12,8 +13,29 @@ export default function App() {
   const [bootSequence, setBootSequence] = useState(() => {
     return localStorage.getItem('skipBoot') !== 'true';
   });
-  const [selectedPath, setSelectedPath] = useState(null);
-  const [appState, setAppState] = useState('boot'); // boot -> pathSelect -> learning
+
+  // Initialize selectedPath from localStorage
+  const [selectedPath, setSelectedPath] = useState(() => {
+    return localStorage.getItem('selectedPath');
+  });
+
+  const handleResetPath = () => {
+    localStorage.removeItem('selectedPath');
+    setSelectedPath(null);
+    setAppState('pathSelect');
+    // Trigger matrix effect for transition
+    window.dispatchEvent(new CustomEvent('matrixIntensify'));
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('matrixNormalize'));
+    }, 2000);
+  };
+
+  // Initialize appState based on whether path is already selected
+  const [appState, setAppState] = useState(() => {
+    if (bootSequence) return 'boot';
+    if (localStorage.getItem('selectedPath')) return 'learning';
+    return 'pathSelect';
+  });
 
   useEffect(() => {
     const handleDebugMode = () => setDebugMode(true);
@@ -39,14 +61,35 @@ export default function App() {
   // Handle boot sequence completion
   const handleBootComplete = () => {
     setBootSequence(false);
-    setAppState('pathSelect');
+    // If path already selected, go straight to learning
+    setAppState(selectedPath ? 'learning' : 'pathSelect');
   };
 
-  // Handle path selection
+  // Handle path selection with transition effects
   const handlePathSelected = (path) => {
     setSelectedPath(path);
-    setAppState('learning');
-    // Could trigger some cool transition effects here
+
+    // Start transition sequence
+    const transitionSequence = async () => {
+      // Save path to localStorage for persistence
+      localStorage.setItem('selectedPath', path);
+
+      // Intensify matrix rain effect first
+      const matrixIntensify = new CustomEvent('matrixIntensify');
+      window.dispatchEvent(matrixIntensify);
+
+      // Wait for transition effects
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Switch to learning interface
+      setAppState('learning');
+
+      // Reset matrix rain to normal after transition
+      const matrixNormalize = new CustomEvent('matrixNormalize');
+      window.dispatchEvent(matrixNormalize);
+    };
+
+    transitionSequence();
   };
 
   // Render logic based on app state
@@ -78,10 +121,12 @@ export default function App() {
   return (
     <>
       {renderContent()}
+      <PathStatus selectedPath={selectedPath} />
       <Terminal
         isVisible={isTerminalVisible}
         setIsVisible={setIsTerminalVisible}
         debugMode={debugMode}
+        resetPath={handleResetPath}
       />
       <KonamiHandler />
 

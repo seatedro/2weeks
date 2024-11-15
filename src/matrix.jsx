@@ -64,10 +64,28 @@ const useMatrixRain = () => {
   const isEnabledRef = useRef(true);
   const lastDrawTimeRef = useRef(0);
   const animationFrameId = useRef(null);
+  const intensityRef = useRef(1);
 
   useEffect(() => {
     const canvas = matrixRef.current;
     const ctx = canvas.getContext('2d');
+
+    // Handle intensity changes
+    const handleIntensify = () => {
+      intensityRef.current = 3; // Triple the intensity
+      speedRef.current = 2; // Double the speed
+      // Make the green more vibrant during intensity
+      ctx.fillStyle = '#00ff00';
+    };
+
+    const handleNormalize = () => {
+      intensityRef.current = 1;
+      speedRef.current = 1;
+    };
+
+    window.addEventListener('matrixIntensify', handleIntensify);
+    window.addEventListener('matrixNormalize', handleNormalize);
+
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -121,11 +139,18 @@ const useMatrixRain = () => {
 
       lastDrawTimeRef.current = currentTime - (deltaTime % frameInterval);
 
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      // Adjust opacity based on intensity
+      ctx.fillStyle = `rgba(0, 0, 0, ${0.05 / intensityRef.current})`;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       const fontSize = 14;
       ctx.font = fontSize + 'px monospace';
+
+      // Create more drops during high intensity
+      if (intensityRef.current > 1 && Math.random() < 0.1) {
+        const randomColumn = Math.floor(Math.random() * dropsRef.current.length);
+        dropsRef.current[randomColumn] = 0;
+      }
 
       dropsRef.current.forEach((drop, i) => {
         // Handle glitch characters
@@ -140,15 +165,25 @@ const useMatrixRain = () => {
         } else {
           const char = String.fromCharCode(0x30A0 + Math.random() * 96);
           const gradient = ctx.createLinearGradient(0, drop - fontSize, 0, drop);
-          gradient.addColorStop(0, '#0F0');
-          gradient.addColorStop(1, '#040');
+          // More vibrant colors during high intensity
+          if (intensityRef.current > 1) {
+            gradient.addColorStop(0, '#00ff00');
+            gradient.addColorStop(1, '#00aa00');
+          } else {
+            gradient.addColorStop(0, '#0F0');
+            gradient.addColorStop(1, '#040');
+          }
+
           ctx.fillStyle = gradient;
           ctx.fillText(char, i * fontSize, drop);
 
-          // More natural falling speed with deltaTime adjustment
-          const normalizedSpeed = (speedRef.current * deltaTime) / frameInterval;
+          // Speed affected by intensity
+          const normalizedSpeed = (speedRef.current * deltaTime * intensityRef.current) / frameInterval;
           dropsRef.current[i] += fontSize * 0.5 * normalizedSpeed;
-          if (drop > canvas.height && Math.random() > 0.975) {
+
+          // More frequent resets during high intensity
+          const resetThreshold = intensityRef.current > 1 ? 0.95 : 0.975;
+          if (drop > canvas.height && Math.random() > resetThreshold) {
             dropsRef.current[i] = 0;
           }
         }
