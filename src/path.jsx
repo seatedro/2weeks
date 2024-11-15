@@ -98,16 +98,16 @@ const PathSelector = ({ onPathSelected }) => {
         onMouseEnter={() => setHoverPath(type)}
         onMouseLeave={() => setHoverPath(null)}
       >
-        <CardContent className="p-6 text-white font-mono">
-          <pre className={`text-sm mb-4 transition-colors duration-300 font-bold
+        <CardContent className="p-6 text-white ">
+          <pre className={`text-[0.5rem] xs:text-xs sm:text-sm mb-4 transition-colors duration-300 font-bold leading-[0.7rem] xs:leading-[0.8rem] sm:leading-[1rem]
             ${isHovered || isSelected ? `text-${path.color.split('-')[1]} animate-pulse` : 'text-gray-400'}`}>
             {path.ascii}
           </pre>
 
           <div className={`mb-4 transition-all duration-300 
             ${isHovered || isSelected ? `text-${path.color.split('-')[1]}` : 'text-gray-400'}`}>
-            <h2 className="text-2xl font-bold tracking-wider mb-2">{path.title}</h2>
-            <div className="text-sm opacity-80">{path.description}</div>
+            <h2 className="text-xl sm:text-2xl font-bold tracking-wider mb-2">{path.title}</h2>
+            <div className="text-xs sm:text-sm opacity-80">{path.description}</div>
           </div>
 
           {isSelected && (
@@ -141,61 +141,63 @@ const PathSelector = ({ onPathSelected }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12 font-mono">
-          <h1 className="text-4xl font-bold mb-4 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-green-400 animate-pulse">
-            SELECT_NEURAL_PATH
-          </h1>
-          <div className="text-xl text-gray-400 tracking-wide drop-shadow-glow">
-            CHOOSE_WISELY {'>>'} PATH_DETERMINES_FUTURE
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          <PathCard path={paths.engineer} type="engineer" />
-          <PathCard path={paths.researcher} type="researcher" />
-        </div>
-
-        {selectedPath && (
-          <div className="mt-12 text-center font-mono">
-            <div className={`text-xl mb-4 text-${paths[selectedPath].color.split('-')[1]}`}>
-              PATH_SELECTED: {paths[selectedPath].title}
+    <div className="fixed inset-0 overflow-y-auto overflow-x-hidden bg-gray-950 text-white">
+      {/* Main content wrapper */}
+      <div className="relative min-h-full w-full p-4 sm:p-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12 ">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-green-400 animate-pulse">
+              SELECT_NEURAL_PATH
+            </h1>
+            <div className="text-lg sm:text-xl text-gray-400 tracking-wide drop-shadow-glow">
+              CHOOSE_WISELY {'>>'} PATH_DETERMINES_FUTURE
             </div>
-            <button
-              onClick={() => {
-                // Add glitch effect to entire screen
-                document.body.classList.add('screen-glitch');
+          </div>
 
-                // Add sustained glitch effect
-                document.body.classList.add('sustained-glitch');
+          <div className="grid md:grid-cols-2 gap-8">
+            <PathCard path={paths.engineer} type="engineer" />
+            <PathCard path={paths.researcher} type="researcher" />
+          </div>
 
-                // Trigger matrix rain intensity
-                window.dispatchEvent(new CustomEvent('matrixIntensify'));
+          {selectedPath && (
+            <div className="mt-12 text-center ">
+              <div className={`text-xl mb-4 text-${paths[selectedPath].color.split('-')[1]}`}>
+                PATH_SELECTED: {paths[selectedPath].title}
+              </div>
+              <button
+                onClick={() => {
+                  // Add glitch effect to entire screen
+                  document.body.classList.add('screen-glitch');
 
-                // After effects, trigger the path initialization
-                setTimeout(() => {
-                  // Remove glitch effects
-                  document.body.classList.remove('screen-glitch');
-                  document.body.classList.remove('sustained-glitch');
+                  // Add sustained glitch effect
+                  document.body.classList.add('sustained-glitch');
 
-                  if (typeof onPathSelected === 'function') {
-                    onPathSelected(selectedPath);
-                  }
-                }, 1500);
-              }}
-              className={`bg-black border-2 ${paths[selectedPath].color} px-6 py-3 
+                  // Trigger matrix rain intensity
+                  window.dispatchEvent(new CustomEvent('matrixIntensify'));
+
+                  // After effects, trigger the path initialization
+                  setTimeout(() => {
+                    // Remove glitch effects
+                    document.body.classList.remove('screen-glitch');
+                    document.body.classList.remove('sustained-glitch');
+
+                    if (typeof onPathSelected === 'function') {
+                      onPathSelected(selectedPath);
+                    }
+                  }, 1500);
+                }}
+                className={`bg-black border-2 ${paths[selectedPath].color} px-6 py-3 
                 hover:${paths[selectedPath].glow} transition-all duration-300 relative
                 overflow-hidden group`}
-            >
-              <span className="relative z-10 group-hover:animate-pulse">INITIALIZE_SEQUENCE</span>
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 
+              >
+                <span className="relative z-10 group-hover:animate-pulse">INITIALIZE_SEQUENCE</span>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 
                 transition-opacity duration-300 bg-gradient-to-r 
                 from-transparent via-white to-transparent -translate-x-full 
                 group-hover:animate-shine" />
-            </button>
+              </button>
 
-            <style jsx global>{`
+              <style jsx global>{`
               @keyframes shine {
                 0% { transform: translateX(-100%); }
                 100% { transform: translateX(100%); }
@@ -247,18 +249,18 @@ const PathSelector = ({ onPathSelected }) => {
                 animation: shine 2s linear infinite;
               }
             `}</style>
-          </div>
-        )}
-      </div>
+            </div>
+          )}
+        </div>
 
-      {/* Enhanced retro effects */}
-      <div className="pointer-events-none fixed inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,_rgba(0,255,0,0.05)_50%)] bg-[length:100%_4px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_50%,_rgba(0,255,255,0.1),_transparent_40%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_50%,_rgba(6,182,212,0.1),_transparent_40%)]" />
-      </div>
+        {/* Enhanced retro effects */}
+        <div className="pointer-events-none fixed inset-0">
+          <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,_rgba(0,255,0,0.05)_50%)] bg-[length:100%_4px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_50%,_rgba(0,255,255,0.1),_transparent_40%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_600px_at_50%_50%,_rgba(6,182,212,0.1),_transparent_40%)]" />
+        </div>
 
-      <style jsx global>{`
+        <style jsx global>{`
         .drop-shadow-glow {
           filter: drop-shadow(0 0 8px rgba(6,182,212,0.3));
         }
@@ -268,6 +270,7 @@ const PathSelector = ({ onPathSelected }) => {
           50% { opacity: 0.8; }
         }
       `}</style>
+      </div>
     </div>
   );
 };
