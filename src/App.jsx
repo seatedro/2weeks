@@ -1,26 +1,34 @@
+import React, { useState, useEffect } from 'react';
 import Terminal from './terminal';
 import EnhancedMatrixRain from './matrix';
 import KonamiHandler from './konami';
-import MLRetroDashboard from "./dashboard"
-import React, { useState, useEffect } from 'react';
+import MLRetroDashboard from "./dashboard";
+import BootSequence from './boot';
+import PathSelector from './path';
 
 export default function App() {
   const [isTerminalVisible, setIsTerminalVisible] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
+  const [bootSequence, setBootSequence] = useState(() => {
+    return localStorage.getItem('skipBoot') !== 'true';
+  });
+  const [selectedPath, setSelectedPath] = useState(null);
+  const [appState, setAppState] = useState('boot'); // boot -> pathSelect -> learning
 
   useEffect(() => {
-    const handleDebugMode = () => {
-      setDebugMode(true);
-      // Add any debug mode specific effects here
-    };
+    const handleDebugMode = () => setDebugMode(true);
+    const handleDebugModeOff = () => setDebugMode(false);
 
     window.addEventListener('debugModeEnabled', handleDebugMode);
-    return () => window.removeEventListener('debugModeEnabled', handleDebugMode);
+    window.addEventListener('debugModeDisabled', handleDebugModeOff);
+    return () => {
+      window.removeEventListener('debugModeEnabled', handleDebugMode);
+      window.removeEventListener('debugModeDisabled', handleDebugModeOff);
+    };
   }, []);
 
   useEffect(() => {
     const handleKonami = () => {
-      // Add any Konami code specific effects here
       document.documentElement.classList.add('hyperlearning-mode');
     };
 
@@ -28,34 +36,58 @@ export default function App() {
     return () => window.removeEventListener('konamiActivated', handleKonami);
   }, []);
 
+  // Handle boot sequence completion
+  const handleBootComplete = () => {
+    setBootSequence(false);
+    setAppState('pathSelect');
+  };
+
+  // Handle path selection
+  const handlePathSelected = (path) => {
+    setSelectedPath(path);
+    setAppState('learning');
+    // Could trigger some cool transition effects here
+  };
+
+  // Render logic based on app state
+  const renderContent = () => {
+    if (bootSequence) {
+      return <BootSequence setBootSequence={handleBootComplete} />;
+    }
+
+    switch (appState) {
+      case 'pathSelect':
+        return (
+          <>
+            <EnhancedMatrixRain />
+            <PathSelector onPathSelected={handlePathSelected} />
+          </>
+        );
+      case 'learning':
+        return (
+          <>
+            <EnhancedMatrixRain />
+            <MLRetroDashboard debugMode={debugMode} selectedPath={selectedPath} />
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
-      <EnhancedMatrixRain />
-      <MLRetroDashboard debugMode={debugMode} />
-      <Terminal isVisible={isTerminalVisible} setIsVisible={setIsTerminalVisible} />
+      {renderContent()}
+      <Terminal
+        isVisible={isTerminalVisible}
+        setIsVisible={setIsTerminalVisible}
+        debugMode={debugMode}
+      />
       <KonamiHandler />
 
-      {/* Add some global styles for our effects */}
+      {/* Global styles for effects */}
       <style jsx global>{`
-        .hyperlearning-mode {
-          animation: hyperlearning-pulse 4s infinite;
-        }
-
-        @keyframes hyperlearning-pulse {
-          0%, 100% { filter: none; }
-          50% { filter: hue-rotate(45deg) brightness(1.2); }
-        }
-
-        body {
-          overflow: hidden; /* Prevent scrollbars during effects */
-        }
-
-        /* Debug mode styles */
-        .debug-mode {
-          outline: 1px solid rgba(0, 255, 0, 0.2);
-        }
-
-        /* Add a subtle scan line effect to everything in debug mode */
+        /* Scanline effect in debug mode */
         ${debugMode ? `
           ::after {
             content: '';
@@ -65,7 +97,7 @@ export default function App() {
             width: 100%;
             height: 100%;
             background: linear-gradient(
-              transparent 50%, 
+              transparent 87%, 
               rgba(0, 255, 0, 0.02) 50%
             );
             background-size: 100% 4px;
@@ -73,6 +105,16 @@ export default function App() {
             z-index: 9999;
           }
         ` : ''}
+
+        /* Time compression effect */
+        .hyperlearning-mode {
+          animation: hyperlearning 2s infinite;
+        }
+
+        @keyframes hyperlearning {
+          0%, 100% { filter: hue-rotate(0deg); }
+          50% { filter: hue-rotate(360deg); }
+        }
       `}</style>
     </>
   );

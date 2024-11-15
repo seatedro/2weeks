@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Minus, Maximize2 } from 'lucide-react';
 import { useSpring, animated } from 'react-spring';
 
-const Terminal = ({ isVisible, setIsVisible }) => {
+const Terminal = ({ isVisible, setIsVisible, debugMode }) => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [size, setSize] = useState({ width: 600, height: 400 });
   const [isDragging, setIsDragging] = useState(false);
@@ -20,13 +20,155 @@ const Terminal = ({ isVisible, setIsVisible }) => {
     config: { tension: 300, friction: 20 }
   });
 
+  const standardTopics = {
+    foundations: 'Mathematical Arsenal',
+    core_ml: 'Core ML Concepts',
+    deep_learning: 'Neural Networks & Deep Learning',
+    advanced_ml: 'Advanced Machine Learning'
+  };
+
+  const secretTopics = {
+    quantum_learning: 'Quantum Neural Networks [CLASSIFIED]',
+    time_compression: 'Temporal Learning Compression [RESTRICTED]',
+    consciousness_api: 'Consciousness API [REDACTED]',
+    matrix_breach: 'Matrix Architecture Exploits [DANGEROUS]'
+  };
+
   // Available commands
   const commands = {
+    boot: (_, args) => {
+      if (args[0] === 'off') {
+        localStorage.setItem('skipBoot', 'true');
+        return {
+          output: 'Boot sequence disabled. System will skip initialization on next launch.',
+          type: 'success'
+        };
+      } else if (args[0] === 'on') {
+        localStorage.removeItem('skipBoot');
+        return {
+          output: 'Boot sequence enabled. System will show initialization on next launch.',
+          type: 'success'
+        };
+      }
+      return {
+        output: `Usage: boot <on|off>
+off - Disable boot sequence
+on  - Enable boot sequence`,
+        type: 'info'
+      };
+    },
+    help: () => {
+      let output = `Available commands:
+
+help     - Show this help message
+clear    - Clear terminal
+topics   - List all learning topics
+select   - Select a topic (usage: select <topic>)
+progress - Show learning progress
+matrix   - Toggle matrix rain effect
+boot     - Control boot sequence (usage: boot <on|off>)
+unlock   - Unlock special modes (if you know the code...)
+exit     - Close terminal`;
+
+      if (debugMode) {
+        output += `
+
+[DEBUG COMMANDS AVAILABLE]
+scan     - Scan for hidden modules
+debug    - Control debug mode (usage: debug off)`;
+      }
+
+      return {
+        output,
+        type: debugMode ? 'warning' : 'info'
+      };
+    },
+    scan: (_, args) => {
+
+      if (!debugMode) {
+        return {
+          output: 'ERROR: Debug mode required for system scan.',
+          type: 'error'
+        };
+      }
+
+      return {
+        output: `Scanning system architecture...
+
+[!] WARNING: Unauthorized neural pathways detected
+[!] Quantum entanglement signature found
+[!] Temporal anomalies present
+[!] Consciousness framework exposed
+
+Hidden modules available. Use 'topics' to view.
+Use 'select <topic_name>' to access restricted content.`,
+        type: 'warning'
+      };
+    },
+    topics: () => {
+
+      let output = `Available topics:
+
+1. foundations   - Mathematical Arsenal
+2. core_ml      - Core ML Concepts
+3. deep_learning - Neural Networks & Deep Learning
+4. advanced_ml  - Advanced Machine Learning`;
+
+      if (debugMode) {
+        output += `\n\n[RESTRICTED ACCESS GRANTED] Hidden topics detected:
+
+5. quantum_learning - Quantum Neural Networks [CLASSIFIED]
+6. time_compression - Temporal Learning Compression [RESTRICTED]
+7. consciousness_api - Consciousness API [REDACTED]
+8. matrix_breach - Matrix Architecture Exploits [DANGEROUS]`;
+      }
+
+      return {
+        output,
+        type: debugMode ? 'warning' : 'success'
+      };
+    },
+    select: (_, args) => {
+      const topic = args[0];
+
+      if (secretTopics[topic] && !debugMode) {
+        return {
+          output: 'ERROR: Access denied. Topic does not exist in standard reality.',
+          type: 'error'
+        };
+      }
+
+      if (secretTopics[topic]) {
+        return {
+          output: `WARNING: Accessing restricted topic: ${secretTopics[topic]}
+          
+[!] Neural safeguards disabled
+[!] Reality anchors destabilizing
+[!] Consciousness expansion in progress
+
+Proceed with caution. Knowledge cannot be unlearned.`,
+          type: 'warning'
+        };
+      }
+
+      if (standardTopics[topic]) {
+        return {
+          output: `Selected topic: ${standardTopics[topic]}
+Loading curriculum...`,
+          type: 'success'
+        };
+      }
+
+      return {
+        output: 'ERROR: Invalid topic. Use "topics" to see available options.',
+        type: 'error'
+      };
+    },
     unlock: (_, args) => {
       if (args[0] === '42') {
         window.dispatchEvent(new CustomEvent('debugModeEnabled'));
         return {
-          output: 'Debug mode activated. Reality configuration unlocked.',
+          output: 'Debug mode activated. Reality configuration unlocked.\nUse "debug off" to disable.',
           type: 'success'
         };
       }
@@ -35,45 +177,34 @@ const Terminal = ({ isVisible, setIsVisible }) => {
         type: 'error'
       };
     },
-    hack: () => ({
-      output: 'Initiating neural override...\nHint: The ancient gamers knew a secret code...',
-      type: 'warning'
-    }),
-    help: () => ({
-      output: `Available commands:
-help     - Show this help message
-clear    - Clear terminal
-topics   - List all learning topics
-select   - Select a topic (usage: select <topic>)
-progress - Show learning progress
-matrix   - Toggle matrix rain effect
-exit     - Close terminal`,
-      type: 'info'
-    }),
-    clear: () => {
-      setCommandHistory([]);
-      return { output: '', type: 'system' };
-    },
-    topics: () => ({
-      output: `Available topics:
-1. foundations   - Mathematical Arsenal
-2. core_ml      - Core ML Concepts
-3. deep_learning - Neural Networks & Deep Learning
-4. advanced_ml  - Advanced Machine Learning`,
-      type: 'success'
-    }),
-    exit: () => {
-      setIsVisible(false);
-      return { output: 'Closing terminal...', type: 'system' };
+    debug: (_, args) => {
+      if (args[0] === 'off') {
+        window.dispatchEvent(new CustomEvent('debugModeDisabled'));
+        return {
+          output: 'Debug mode deactivated. Reality restored.',
+          type: 'success'
+        };
+      }
+      return {
+        output: 'Unknown debug command. Try "debug off"',
+        type: 'error'
+      };
     },
     matrix: () => ({
       output: 'Toggling matrix rain effect...',
       type: 'success',
       callback: () => window.dispatchEvent(new CustomEvent('toggleMatrix'))
     }),
+    progress: () => ({
+      output: 'Learning progress: 42%\nNeural plasticity: OPTIMAL',
+      type: 'info'
+    }),
+    exit: () => {
+      setIsVisible(false);
+      return { output: 'Closing terminal...', type: 'system' };
+    },
     unknown: (cmd) => ({
-      output: `Command not found: ${cmd}
-Type 'help' for available commands.`,
+      output: `Command not found: ${cmd}\nType 'help' for available commands.`,
       type: 'error'
     })
   };
@@ -84,6 +215,13 @@ Type 'help' for available commands.`,
     if (!trimmedCmd) return;
 
     const [command, ...args] = trimmedCmd.split(' ');
+
+    // Special handling for clear command
+    if (command === 'clear') {
+      setCommandHistory([]);
+      return;
+    }
+
     const commandFn = commands[command] || commands.unknown;
     const result = commandFn(command, args);
 
@@ -203,7 +341,7 @@ Type 'help' for available commands.`,
             <div className="text-green-400">
               <span className="text-blue-400">→</span> {entry.command}
             </div>
-            <div className={`ml-4 ${entry.type === 'error' ? 'text-red-400' :
+            <div className={`ml-4 whitespace-pre-wrap ${entry.type === 'error' ? 'text-red-400' :
               entry.type === 'success' ? 'text-green-400' :
                 entry.type === 'info' ? 'text-blue-400' :
                   'text-gray-400'

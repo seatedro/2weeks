@@ -28,6 +28,17 @@ const BootSequence = ({ setBootSequence }) => {
   const [interference, setInterference] = useState(false);
   const noiseCanvasRef = useRef(null);
 
+  useEffect(() => {
+    const handleSkip = (e) => {
+      if (e.key === 'Escape' || e.key === ' ') {
+        setBootSequence(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleSkip);
+    return () => window.removeEventListener('keydown', handleSkip);
+  }, [setBootSequence]);
+
   // Static noise effect
   useEffect(() => {
     const canvas = noiseCanvasRef.current;
@@ -173,6 +184,10 @@ const BootSequence = ({ setBootSequence }) => {
             {glitchLines[currentMessage] || text}<span className="animate-blink">_</span>
           </div>
         </div>
+      </div>
+      {/* Add skip instruction */}
+      <div className="fixed bottom-4 right-4 text-green-400 font-mono text-sm opacity-50">
+        Press ESC or SPACE to skip boot sequence
       </div>
 
       <style jsx global>{`

@@ -238,3 +238,26 @@
 .topic-module .animate-scan-line {
   display: none;
 }
+
+.hyperlearning-mode {
+  animation: hyperlearning-pulse 4s infinite;
+}
+
+@keyframes hyperlearning-pulse {
+  0%,
+  100% {
+    filter: none;
+  }
+  50% {
+    filter: hue-rotate(45deg) brightness(1.2);
+  }
+}
+
+body {
+  overflow: hidden; /* Prevent scrollbars during effects */
+}
+
+/* Debug mode styles */
+.debug-mode {
+  outline: 1px solid rgba(0, 255, 0, 0.2);
+}

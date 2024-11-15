@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import BootSequence from './boot';
 import { useSpring, animated } from 'react-spring';
 import MatrixRain from "./matrix";
 import { DebugMode, Defragmentation, HackMinigame } from './retro';
@@ -16,7 +15,6 @@ const HIDDEN_MESSAGES = [
 const GLITCH_CHARS = "!@#$%^&*()_+-=[]{}|;:,.<>?`~¡™£¢∞§¶•ªº–≠";
 
 const MLRetroDashboard = () => {
-  const [bootSequence, setBootSequence] = useState(true);
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [overloadIntensity, setOverloadIntensity] = useState(0);
   const [isDefragging, setIsDefragging] = useState(false);
@@ -138,10 +136,6 @@ const MLRetroDashboard = () => {
       </div>
     );
   };
-
-  if (bootSequence) {
-    return <BootSequence setBootSequence={setBootSequence} />;
-  }
 
   const topics = {
     foundations: {
