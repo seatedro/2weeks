@@ -7,8 +7,10 @@ const ResourcePanel = ({ resources }) => {
     <div className="space-y-4 font-vt323">
       {/* Official Docs */}
       {resources.official_docs?.length > 0 && (
-        <div className="border border-green-400/30 p-4">
-          <h3 className="text-green-400 mb-2">[OFFICIAL_DOCUMENTATION]</h3>
+        <div className="border border-green-400/30 p-2 md:p-4">
+          <h3 className="text-green-400 mb-2 text-sm md:text-base">
+            [OFFICIAL_DOCUMENTATION]
+          </h3>
           <div className="space-y-2">
             {resources.official_docs.map((doc, idx) => (
               <a
@@ -16,11 +18,11 @@ const ResourcePanel = ({ resources }) => {
                 href={doc.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-green-400/70 hover:text-green-400 hover:bg-green-400/10 p-2 transition-colors"
+                className="block text-green-400/70 hover:text-green-400 hover:bg-green-400/10 p-1 md:p-2 transition-colors text-xs md:text-base"
               >
                 <span className="mr-2"></span>
                 {doc.title}
-                <p className="text-green-400/50 text-sm ml-4">
+                <p className="text-green-400/50 text-xs md:text-sm ml-2 md:ml-4">
                   {doc.description}
                 </p>
               </a>
@@ -31,28 +33,38 @@ const ResourcePanel = ({ resources }) => {
 
       {/* Video Resources */}
       {resources.videos?.length > 0 && (
-        <div className="border border-green-400/30 p-4">
-          <h3 className="text-green-400 mb-2">[NEURAL_VIDEO_TRAINING]</h3>
+        <div className="border border-green-400/30 p-2 md:p-4">
+          <h3 className="text-green-400 mb-2 text-sm md:text-base">
+            [NEURAL_VIDEO_TRAINING]
+          </h3>
           <div className="space-y-2">
             {resources.videos.map((video, idx) => (
-              <div key={idx} className="border-l border-green-400/30 pl-4">
+              <div
+                key={idx}
+                className="border-l border-green-400/30 pl-2 md:pl-4"
+              >
                 <a
                   href={video.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-400/70 hover:text-green-400 block p-2"
+                  className="text-green-400/70 hover:text-green-400 block p-1 md:p-2 text-xs md:text-base"
                 >
                   {video.title}
                 </a>
-                <div className="text-green-400/50 text-sm ml-2">
+                <div className="text-green-400/50 text-xs md:text-sm ml-1 md:ml-2">
                   <div>DURATION: {video.duration}</div>
                   <div>CREATOR: {video.creator}</div>
                 </div>
                 {video.highlights && (
                   <div className="mt-2">
-                    <div className="text-green-400/50 text-sm">TIMESTAMPS:</div>
+                    <div className="text-green-400/50 text-xs md:text-sm">
+                      TIMESTAMPS:
+                    </div>
                     {video.highlights.map((highlight, i) => (
-                      <div key={i} className="text-green-400/40 text-sm ml-2">
+                      <div
+                        key={i}
+                        className="text-green-400/40 text-xs md:text-sm ml-1 md:ml-2"
+                      >
                         [{highlight.timestamp}] {highlight.topic}
                       </div>
                     ))}
@@ -66,20 +78,25 @@ const ResourcePanel = ({ resources }) => {
 
       {/* Blog Posts */}
       {resources.blog_posts?.length > 0 && (
-        <div className="border border-green-400/30 p-4">
-          <h3 className="text-green-400 mb-2">[KNOWLEDGE_DATABASE]</h3>
+        <div className="border border-green-400/30 p-2 md:p-4">
+          <h3 className="text-green-400 mb-2 text-sm md:text-base">
+            [KNOWLEDGE_DATABASE]
+          </h3>
           <div className="space-y-2">
             {resources.blog_posts.map((post, idx) => (
-              <div key={idx} className="border-l border-green-400/30 pl-4">
+              <div
+                key={idx}
+                className="border-l border-green-400/30 pl-2 md:pl-4"
+              >
                 <a
                   href={post.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-400/70 hover:text-green-400 block p-2"
+                  className="text-green-400/70 hover:text-green-400 block p-1 md:p-2 text-xs md:text-base"
                 >
                   {post.title}
                 </a>
-                <div className="grid grid-cols-2 gap-2 text-green-400/50 text-sm ml-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2 text-green-400/50 text-xs md:text-sm ml-1 md:ml-2">
                   <div>AUTHOR: {post.author}</div>
                   <div>READ_TIME: {post.readingTime}</div>
                   <div>DIFFICULTY: {post.difficulty}</div>
@@ -97,20 +114,27 @@ const CodeExample = ({ example }) => {
   const [showSolution, setShowSolution] = useState(false);
 
   return (
-    <div className="border border-green-400/30 p-4 font-vt323">
-      <div className="text-green-400 mb-2">
+    <div className="border border-green-400/30 p-2 md:p-4 font-vt323">
+      <div className="text-green-400 text-sm md:text-base mb-2">
         {example.title || "CODE_EXECUTION_EXAMPLE"}
       </div>
-      <pre className="bg-black/50 p-4 rounded text-green-400/90 overflow-x-auto">
+      <pre className="bg-black/50 p-2 md:p-4 rounded text-green-400/90 overflow-x-auto text-xs md:text-sm">
         <code>{example.code}</code>
       </pre>
       <div className="mt-2">
-        <div className="text-green-400/70 text-sm">{example.explanation}</div>
+        <div className="text-green-400/70 text-xs md:text-sm">
+          {example.explanation}
+        </div>
         {example.key_concepts && (
           <div className="mt-2">
-            <div className="text-green-400/50">KEY_CONCEPTS:</div>
+            <div className="text-green-400/50 text-xs md:text-sm">
+              KEY_CONCEPTS:
+            </div>
             {example.key_concepts.map((concept, idx) => (
-              <div key={idx} className="text-green-400/40 ml-2">
+              <div
+                key={idx}
+                className="text-green-400/40 ml-2 text-xs md:text-sm"
+              >
                 • {concept}
               </div>
             ))}
@@ -119,22 +143,29 @@ const CodeExample = ({ example }) => {
       </div>
       {example.exercises && (
         <div className="mt-4">
-          <div className="text-green-400">TRAINING_EXERCISES:</div>
+          <div className="text-green-400 text-xs md:text-sm">
+            TRAINING_EXERCISES:
+          </div>
           {example.exercises.map((exercise, idx) => (
-            <div key={idx} className="mt-2 border-l border-green-400/30 pl-4">
-              <div className="text-green-400/70">{exercise.task}</div>
+            <div
+              key={idx}
+              className="mt-2 border-l border-green-400/30 pl-2 md:pl-4"
+            >
+              <div className="text-green-400/70 text-xs md:text-sm">
+                {exercise.task}
+              </div>
               <button
                 onClick={() => setShowSolution(!showSolution)}
-                className="text-green-400/50 hover:text-green-400 mt-2"
+                className="text-green-400/50 hover:text-green-400 mt-2 text-xs md:text-sm"
               >
                 {showSolution ? "HIDE_SOLUTION" : "SHOW_SOLUTION"}
               </button>
               {showSolution && (
                 <div className="mt-2">
-                  <pre className="bg-black/50 p-2 rounded text-green-400/90">
+                  <pre className="bg-black/50 p-2 rounded text-green-400/90 text-xs md:text-sm">
                     <code>{exercise.solution}</code>
                   </pre>
-                  <div className="text-green-400/50 mt-1">
+                  <div className="text-green-400/50 mt-1 text-xs md:text-sm">
                     {exercise.explanation}
                   </div>
                 </div>
@@ -151,38 +182,47 @@ const MasteryProtocol = ({ protocol }) => {
   const [showSolution, setShowSolution] = useState(false);
 
   return (
-    <div className="border border-green-400/30 p-4 font-vt323">
-      <div className="flex justify-between items-start">
+    <div className="border border-green-400/30 p-2 md:p-4 font-vt323">
+      <div className="flex flex-col md:flex-row justify-between items-start">
         <div>
-          <div className="text-green-400">{protocol.task}</div>
-          <div className="text-green-400/50 text-sm">
+          <div className="text-green-400 text-sm md:text-base">
+            {protocol.task}
+          </div>
+          <div className="text-green-400/50 text-xs md:text-sm">
             DIFFICULTY: {protocol.difficulty}
           </div>
         </div>
       </div>
 
-      <div className="mt-4">
-        <div className="text-green-400/70">{protocol.example.problem}</div>
+      <div className="mt-2 md:mt-4">
+        <div className="text-green-400/70 text-sm md:text-base">
+          {protocol.example.problem}
+        </div>
         <button
           onClick={() => setShowSolution(!showSolution)}
-          className="mt-2 text-green-400/50 hover:text-green-400"
+          className="mt-2 text-green-400/50 hover:text-green-400 text-sm md:text-base"
         >
           {showSolution ? "HIDE_SOLUTION" : "SHOW_SOLUTION"}
         </button>
 
         {showSolution && (
           <div className="mt-2">
-            <pre className="bg-black/50 p-4 rounded text-green-400/90">
+            <pre className="bg-black/50 p-2 md:p-4 rounded text-green-400/90 text-xs md:text-sm overflow-x-auto">
               <code>{protocol.example.solution.code}</code>
             </pre>
-            <div className="text-green-400/70 mt-2">
+            <div className="text-green-400/70 mt-2 text-sm md:text-base">
               {protocol.example.solution.explanation}
             </div>
             {protocol.example.variations && (
               <div className="mt-2">
-                <div className="text-green-400/50">VARIATIONS:</div>
+                <div className="text-green-400/50 text-sm md:text-base">
+                  VARIATIONS:
+                </div>
                 {protocol.example.variations.map((variation, idx) => (
-                  <div key={idx} className="text-green-400/40 ml-2">
+                  <div
+                    key={idx}
+                    className="text-green-400/40 ml-2 text-xs md:text-sm"
+                  >
                     • {variation}
                   </div>
                 ))}
@@ -193,16 +233,28 @@ const MasteryProtocol = ({ protocol }) => {
       </div>
 
       {protocol.practice_exercises && (
-        <div className="mt-4">
-          <div className="text-green-400">PRACTICE_EXERCISES:</div>
+        <div className="mt-2 md:mt-4">
+          <div className="text-green-400 text-sm md:text-base">
+            PRACTICE_EXERCISES:
+          </div>
           {protocol.practice_exercises.map((exercise, idx) => (
-            <div key={idx} className="mt-2 border-l border-green-400/30 pl-4">
-              <div className="text-green-400/70">{exercise.task}</div>
+            <div
+              key={idx}
+              className="mt-2 border-l border-green-400/30 pl-2 md:pl-4"
+            >
+              <div className="text-green-400/70 text-sm md:text-base">
+                {exercise.task}
+              </div>
               {exercise.hints && (
                 <div className="mt-1">
-                  <div className="text-green-400/50">HINTS:</div>
+                  <div className="text-green-400/50 text-sm md:text-base">
+                    HINTS:
+                  </div>
                   {exercise.hints.map((hint, i) => (
-                    <div key={i} className="text-green-400/40 ml-2">
+                    <div
+                      key={i}
+                      className="text-green-400/40 ml-2 text-xs md:text-sm"
+                    >
                       • {hint}
                     </div>
                   ))}
@@ -218,20 +270,24 @@ const MasteryProtocol = ({ protocol }) => {
 
 const QuickReference = ({ reference }) => {
   return (
-    <div className="border border-green-400/30 p-4 font-vt323">
-      <h3 className="text-green-400 mb-4">[QUICK_REFERENCE_DATABASE]</h3>
+    <div className="border border-green-400/30 p-2 md:p-4 font-vt323">
+      <h3 className="text-green-400 mb-2 md:mb-4 text-sm md:text-base">
+        [QUICK_REFERENCE_DATABASE]
+      </h3>
 
       {/* Common Operations */}
       {reference.common_operations?.map((op, idx) => (
-        <div key={idx} className="mb-6">
-          <div className="text-green-400/90 font-bold mb-2">{op.operation}</div>
-          <div className="grid grid-cols-1 gap-2">
+        <div key={idx} className="mb-4 md:mb-6">
+          <div className="text-green-400/90 font-bold mb-1 md:mb-2 text-sm md:text-base">
+            {op.operation}
+          </div>
+          <div className="grid grid-cols-1 gap-1 md:gap-2">
             {op.examples.map((example, i) => (
-              <div key={i} className="bg-black/30 p-3 rounded">
-                <div className="text-green-400/70 mb-1">
+              <div key={i} className="bg-black/30 p-2 md:p-3 rounded">
+                <div className="text-green-400/70 mb-1 text-xs md:text-sm">
                   • {example.description}
                 </div>
-                <code className="text-green-400/90 block ml-4 font-mono">
+                <code className="text-green-400/90 block ml-2 md:ml-4 font-mono text-xs md:text-sm overflow-x-auto">
                   {example.code}
                 </code>
               </div>
@@ -242,15 +298,17 @@ const QuickReference = ({ reference }) => {
 
       {/* Code Patterns */}
       {reference.code_patterns?.length > 0 && (
-        <div className="mb-6">
-          <div className="text-green-400/90 font-bold mb-2">CODE_PATTERNS:</div>
-          <div className="grid grid-cols-1 gap-2">
+        <div className="mb-4 md:mb-6">
+          <div className="text-green-400/90 font-bold mb-1 md:mb-2 text-sm md:text-base">
+            CODE_PATTERNS:
+          </div>
+          <div className="grid grid-cols-1 gap-1 md:gap-2">
             {reference.code_patterns.map((pattern, idx) => (
-              <div key={idx} className="bg-black/30 p-3 rounded">
-                <div className="text-green-400/70 mb-1">
+              <div key={idx} className="bg-black/30 p-2 md:p-3 rounded">
+                <div className="text-green-400/70 mb-1 text-xs md:text-sm">
                   • {pattern.pattern}
                 </div>
-                <code className="text-green-400/90 block ml-4 font-mono whitespace-pre">
+                <code className="text-green-400/90 block ml-2 md:ml-4 font-mono whitespace-pre text-xs md:text-sm overflow-x-auto">
                   {pattern.template}
                 </code>
               </div>
@@ -261,13 +319,17 @@ const QuickReference = ({ reference }) => {
 
       {/* Common Errors */}
       {reference.common_errors?.length > 0 && (
-        <div className="mb-6">
-          <div className="text-green-400/90 font-bold mb-2">COMMON_ERRORS:</div>
-          <div className="grid grid-cols-1 gap-2">
+        <div className="mb-4 md:mb-6">
+          <div className="text-green-400/90 font-bold mb-1 md:mb-2 text-sm md:text-base">
+            COMMON_ERRORS:
+          </div>
+          <div className="grid grid-cols-1 gap-1 md:gap-2">
             {reference.common_errors.map((error, idx) => (
-              <div key={idx} className="bg-black/30 p-3 rounded">
-                <div className="text-green-400/70">• {error.error}</div>
-                <div className="text-green-400/50 ml-4">
+              <div key={idx} className="bg-black/30 p-2 md:p-3 rounded">
+                <div className="text-green-400/70 text-xs md:text-sm">
+                  • {error.error}
+                </div>
+                <div className="text-green-400/50 ml-2 md:ml-4 text-xs md:text-sm">
                   Solution: {error.solution}
                 </div>
               </div>
@@ -278,13 +340,16 @@ const QuickReference = ({ reference }) => {
 
       {/* Memory Management */}
       {reference.memory_management && (
-        <div className="mb-6">
-          <div className="text-green-400/90 font-bold mb-2">
+        <div className="mb-4 md:mb-6">
+          <div className="text-green-400/90 font-bold mb-1 md:mb-2 text-sm md:text-base">
             MEMORY_MANAGEMENT:
           </div>
-          <div className="grid grid-cols-1 gap-2">
+          <div className="grid grid-cols-1 gap-1 md:gap-2">
             {reference.memory_management.best_practices.map((practice, idx) => (
-              <div key={idx} className="text-green-400/70 ml-2">
+              <div
+                key={idx}
+                className="text-green-400/70 ml-2 text-xs md:text-sm"
+              >
                 • {practice}
               </div>
             ))}
@@ -299,28 +364,41 @@ const DebugScenario = ({ scenario }) => {
   const [showSolution, setShowSolution] = useState(false);
 
   return (
-    <div className="border border-green-400/30 p-4 font-vt323">
-      <div className="text-green-400">{scenario.title}</div>
-      <div className="text-green-400/70 mt-2">{scenario.scenario}</div>
-      <pre className="bg-black/50 p-2 mt-2 text-red-400/90 rounded">
+    <div className="border border-green-400/30 p-2 md:p-4 font-vt323">
+      <div className="text-green-400 text-sm md:text-base">
+        {scenario.title}
+      </div>
+      <div className="text-green-400/70 mt-2 text-sm md:text-base">
+        {scenario.scenario}
+      </div>
+      <pre className="bg-black/50 p-2 mt-2 text-red-400/90 rounded text-xs md:text-sm overflow-x-auto">
         {scenario.error_message}
       </pre>
 
       <button
         onClick={() => setShowSolution(!showSolution)}
-        className="mt-2 text-green-400/50 hover:text-green-400"
+        className="mt-2 text-green-400/50 hover:text-green-400 text-sm md:text-base"
       >
         {showSolution ? "HIDE_SOLUTION" : "SHOW_SOLUTION"}
       </button>
 
       {showSolution && (
         <div className="mt-2">
-          <div className="text-green-400/90">SOLUTION:</div>
-          <div className="text-green-400/70 ml-2">{scenario.solution}</div>
+          <div className="text-green-400/90 text-sm md:text-base">
+            SOLUTION:
+          </div>
+          <div className="text-green-400/70 ml-2 text-sm md:text-base">
+            {scenario.solution}
+          </div>
 
-          <div className="mt-2 text-green-400/90">PREVENTION:</div>
+          <div className="mt-2 text-green-400/90 text-sm md:text-base">
+            PREVENTION:
+          </div>
           {scenario.prevention_tips.map((tip, idx) => (
-            <div key={idx} className="text-green-400/70 ml-2">
+            <div
+              key={idx}
+              className="text-green-400/70 ml-2 text-sm md:text-base"
+            >
               • {tip}
             </div>
           ))}
@@ -410,30 +488,34 @@ export const SectionContent = ({
     );
   }
 
+  // Progress header with sticky positioning
+  const ProgressHeader = () => (
+    <div className="border border-green-400/20 bg-black/90 p-3 md:p-4 sticky top-0 z-10 backdrop-blur">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-green-400/80 mb-2">
+        <div className="text-sm md:text-base">
+          NEURAL_SYNC: {Math.round((progress.completed / progress.total) * 100)}
+          %
+        </div>
+        <div className="flex items-center gap-2 text-sm md:text-base">
+          <div className="animate-pulse">⚡</div>
+          <div>TIME_REMAINING: {currentConcept.timeEstimate}</div>
+        </div>
+      </div>
+      <div className="w-full h-1 bg-green-400/20">
+        <div
+          className="h-full bg-green-400/60 transition-all duration-300"
+          style={{
+            width: `${(progress.completed / progress.total) * 100}%`,
+          }}
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div className="space-y-8 font-vt323">
       {/* Progress Header */}
-      <div className="border border-green-400/20 bg-black/50 p-4 sticky top-0 z-10 backdrop-blur">
-        <div className="flex justify-between items-center text-green-400/80 mb-2">
-          <div>
-            NEURAL_SYNC:{" "}
-            {Math.round((progress.completed / progress.total) * 100)}%
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="animate-pulse">⚡</div>
-            <div>TIME_REMAINING: {currentConcept.timeEstimate}</div>
-          </div>
-        </div>
-        {/* Progress bar */}
-        <div className="w-full h-1 bg-green-400/20">
-          <div
-            className="h-full bg-green-400/60 transition-all duration-300"
-            style={{
-              width: `${(progress.completed / progress.total) * 100}%`,
-            }}
-          />
-        </div>
-      </div>
+      <ProgressHeader />
 
       {renderTabs()}
 
@@ -443,20 +525,21 @@ export const SectionContent = ({
           {currentConcept.sections.map((section, idx) => (
             <div
               key={idx}
-              className="border border-green-400/20 bg-black/50 p-6"
+              className="border border-green-400/20 bg-black/50 p-4 md:p-6"
             >
-              {/* Section Header */}
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-green-400/50">
+                <span className="text-green-400/50 text-sm md:text-base">
                   [{String(idx + 1).padStart(2, "0")}]
                 </span>
-                <h2 className="text-xl text-green-400">{section.title}</h2>
+                <h2 className="text-lg md:text-xl text-green-400">
+                  {section.title}
+                </h2>
               </div>
 
               {/* Neural Transmission Content */}
               {section.type === "section" && (
-                <div className="space-y-6">
-                  <div className="text-green-400/90 whitespace-pre-wrap">
+                <div className="space-y-6 w-full">
+                  <div className="text-green-400/90 whitespace-pre-wrap text-sm md:text-base">
                     {section.content}
                   </div>
 
@@ -469,24 +552,24 @@ export const SectionContent = ({
                   {section.checkpoints?.map((checkpoint) => (
                     <div
                       key={checkpoint.id}
-                      className="mt-6 border border-green-400/20 p-4"
+                      className="mt-6 border border-green-400/20 p-2 md:p-4"
                     >
-                      <h3 className="text-lg text-green-400 mb-4">
+                      <h3 className="text-base md:text-lg text-green-400 mb-2 md:mb-4">
                         {checkpoint.title}
                       </h3>
 
-                      <div className="space-y-4">
+                      <div className="space-y-2 md:space-y-4">
                         {checkpoint.items.map((item) => (
                           <div
                             key={item.id}
-                            className="border border-green-400/10 p-4"
+                            className="border border-green-400/10 p-2 md:p-4"
                           >
-                            <div className="flex items-start gap-4">
+                            <div className="flex items-start gap-2 md:gap-4">
                               <button
                                 onClick={() =>
                                   handleCheckpointComplete(item.id)
                                 }
-                                className={`mt-1 w-6 h-6 border flex-shrink-0 transition-all duration-300
+                                className={`mt-1 w-4 h-4 md:w-6 md:h-6 border flex-shrink-0 transition-all duration-300
                                         ${
                                           isItemCompleted(
                                             moduleId,
@@ -504,11 +587,11 @@ export const SectionContent = ({
                                 ) && <span className="text-green-400">×</span>}
                               </button>
 
-                              <div className="flex-1">
-                                <h4 className="text-green-400 mb-2">
+                              <div className="flex-1 min-w-0">
+                                <h4 className="text-green-400 text-sm md:text-base mb-1 md:mb-2">
                                   {item.title}
                                 </h4>
-                                <div className="text-green-400/70 whitespace-pre-wrap mb-4">
+                                <div className="text-green-400/70 whitespace-pre-wrap text-sm md:text-base mb-2 md:mb-4">
                                   {item.content}
                                 </div>
 
@@ -516,25 +599,25 @@ export const SectionContent = ({
                                 {item.api_references?.map((api, apiIdx) => (
                                   <div
                                     key={apiIdx}
-                                    className="mb-4 border-l-2 border-green-400/20 pl-4"
+                                    className="mb-2 md:mb-4 border-l-2 border-green-400/20 pl-2 md:pl-4"
                                   >
                                     <a
                                       href={api.url}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="text-green-400 hover:text-green-400/80"
+                                      className="text-green-400 hover:text-green-400/80 text-sm md:text-base"
                                     >
                                       {api.function}
                                     </a>
-                                    <div className="text-green-400/70 text-sm mt-1">
+                                    <div className="text-green-400/70 text-xs md:text-sm mt-1">
                                       {api.description}
                                     </div>
                                     {api.examples?.map((ex, exIdx) => (
                                       <div key={exIdx} className="mt-2">
-                                        <pre className="bg-black/30 p-2 text-green-400/90 rounded">
+                                        <pre className="bg-black/30 p-1 md:p-2 text-green-400/90 rounded text-xs md:text-sm overflow-x-auto">
                                           <code>{ex.code}</code>
                                         </pre>
-                                        <div className="text-green-400/50 text-sm mt-1">
+                                        <div className="text-green-400/50 text-xs md:text-sm mt-1">
                                           {ex.explanation}
                                         </div>
                                       </div>
@@ -580,25 +663,25 @@ export const SectionContent = ({
                         {section.api_references.map((api, idx) => (
                           <div
                             key={idx}
-                            className="border-l-2 border-green-400/20 pl-4"
+                            className="border-l-2 border-green-400/20 pl-2 md:pl-4"
                           >
                             <a
                               href={api.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-green-400 hover:text-green-400/80"
+                              className="text-green-400 hover:text-green-400/80 text-sm md:text-base"
                             >
                               {api.function}
                             </a>
-                            <div className="text-green-400/70 text-sm mt-1">
+                            <div className="text-green-400/70 text-xs md:text-sm mt-1">
                               {api.description}
                             </div>
                             {api.examples?.map((ex, exIdx) => (
                               <div key={exIdx} className="mt-2">
-                                <pre className="bg-black/30 p-2 text-green-400/90 rounded">
+                                <pre className="bg-black/30 p-1 md:p-2 text-green-400/90 rounded text-xs md:text-sm overflow-x-auto">
                                   <code>{ex.code}</code>
                                 </pre>
-                                <div className="text-green-400/50 text-sm mt-1">
+                                <div className="text-green-400/50 text-xs md:text-sm mt-1">
                                   {ex.explanation}
                                 </div>
                               </div>
@@ -613,27 +696,29 @@ export const SectionContent = ({
                   {section.training_simulations?.map((sim) => (
                     <div
                       key={sim.id}
-                      className="border border-green-400/20 p-4 mt-4 hover:bg-green-400/5 transition-colors duration-300"
+                      className="border border-green-400/20 p-2 md:p-4 mt-2 md:mt-4 hover:bg-green-400/5 transition-colors duration-300"
                     >
                       {/* Simulation Header */}
-                      <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-green-400">{sim.title}</h3>
-                        <div className="text-xs text-green-400/50">
+                      <div className="flex flex-col md:flex-row justify-between items-start mb-2 md:mb-4">
+                        <h3 className="text-green-400 text-sm md:text-base">
+                          {sim.title}
+                        </h3>
+                        <div className="text-xs md:text-sm text-green-400/50">
                           Difficulty: {sim.difficulty}
                         </div>
                       </div>
 
                       {/* Mission Description */}
-                      <div className="text-green-400/70 mb-4">
+                      <div className="text-green-400/70 mb-2 md:mb-4 text-sm md:text-base">
                         {sim.mission}
                       </div>
 
                       {/* Initial Code */}
-                      <div className="mb-4">
-                        <h4 className="text-green-400/70 mb-2">
+                      <div className="mb-2 md:mb-4">
+                        <h4 className="text-green-400/70 mb-1 md:mb-2 text-sm md:text-base">
                           Starting Code:
                         </h4>
-                        <pre className="bg-black border border-green-400/20 p-4 font-vt323 overflow-x-auto">
+                        <pre className="bg-black border border-green-400/20 p-2 md:p-4 font-vt323 overflow-x-auto text-xs md:text-sm">
                           <code className="text-green-400/90">
                             {sim.content}
                           </code>
@@ -641,25 +726,25 @@ export const SectionContent = ({
                       </div>
 
                       {/* Solution Section */}
-                      <div className="space-y-4">
+                      <div className="space-y-2 md:space-y-4">
                         {!revealedSolutions.has(sim.id) ? (
                           <button
                             onClick={() => handleSolutionReveal(sim.id)}
-                            className="w-full p-2 border border-green-400/30 text-green-400/70
+                            className="w-full p-1 md:p-2 border border-green-400/30 text-green-400/70 text-sm md:text-base
                               hover:border-green-400 hover:text-green-400 transition-all duration-300"
                           >
                             Show Solution
                           </button>
                         ) : (
-                          <div className="border border-green-400/20 p-4 bg-black/30">
-                            <h4 className="text-green-400/70 mb-2">
+                          <div className="border border-green-400/20 p-2 md:p-4 bg-black/30">
+                            <h4 className="text-green-400/70 mb-1 md:mb-2 text-sm md:text-base">
                               Solution:
                             </h4>
-                            <pre className="text-green-400/90 font-vt323 mb-4">
+                            <pre className="text-green-400/90 font-vt323 mb-2 md:mb-4 text-xs md:text-sm">
                               <code>{sim.solution_sequence}</code>
                             </pre>
                             {sim.solution_explanation && (
-                              <div className="text-green-400/70 text-sm">
+                              <div className="text-green-400/70 text-xs md:text-sm">
                                 {sim.solution_explanation}
                               </div>
                             )}
@@ -668,15 +753,17 @@ export const SectionContent = ({
 
                         {/* Hints */}
                         {sim.hints && (
-                          <div className="mt-4 space-y-2">
-                            <h4 className="text-green-400/70">Hints:</h4>
+                          <div className="mt-2 md:mt-4 space-y-1 md:space-y-2">
+                            <h4 className="text-green-400/70 text-sm md:text-base">
+                              Hints:
+                            </h4>
                             {sim.hints.map((hint, i) => (
-                              <div key={i} className="ml-4">
-                                <div className="text-green-400/60">
+                              <div key={i} className="ml-2 md:ml-4">
+                                <div className="text-green-400/60 text-xs md:text-sm">
                                   {hint.text}
                                 </div>
                                 {hint.example && (
-                                  <pre className="mt-1 bg-black/30 p-2 text-green-400/70 text-sm rounded">
+                                  <pre className="mt-1 bg-black/30 p-1 md:p-2 text-green-400/70 text-xs md:text-sm rounded overflow-x-auto">
                                     <code>{hint.example}</code>
                                   </pre>
                                 )}
@@ -689,7 +776,7 @@ export const SectionContent = ({
                         {revealedSolutions.has(sim.id) && (
                           <button
                             onClick={() => handleSimulationComplete(sim.id)}
-                            className={`w-full p-2 border transition-all duration-300
+                            className={`w-full p-1 md:p-2 border text-sm md:text-base transition-all duration-300
                               ${
                                 isItemCompleted(moduleId, conceptId, sim.id)
                                   ? "border-green-400 bg-green-400/20 text-green-400"
@@ -711,8 +798,10 @@ export const SectionContent = ({
                       key={project.id}
                       className="border border-green-400/20 p-4 mt-6"
                     >
-                      <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-green-400">{project.title}</h3>
+                      <div className="flex flex-col items-start mb-4">
+                        <h3 className="text-green-400 text-md md:text-base">
+                          {project.title}
+                        </h3>
                         <div className="text-xs text-green-400/50">
                           Difficulty: {project.difficulty}
                         </div>
@@ -770,15 +859,17 @@ export const SectionContent = ({
 
                       {/* Project Hints */}
                       {project.hints && (
-                        <div className="space-y-2">
-                          <h4 className="text-green-400/70">Hints:</h4>
+                        <div className="space-y-2 md:space-y-4">
+                          <h4 className="text-green-400/70 text-sm md:text-base">
+                            Hints:
+                          </h4>
                           {project.hints.map((hint, i) => (
-                            <div key={i} className="ml-4">
-                              <div className="text-green-400/60">
+                            <div key={i} className="ml-2 md:ml-4">
+                              <div className="text-green-400/60 text-sm md:text-base">
                                 {hint.text}
                               </div>
                               {hint.example && (
-                                <pre className="mt-1 bg-black/30 p-2 text-green-400/70 text-sm rounded">
+                                <pre className="mt-1 bg-black/30 p-2 md:p-4 text-green-400/70 text-xs md:text-sm rounded overflow-x-auto">
                                   <code>{hint.example}</code>
                                 </pre>
                               )}
@@ -793,19 +884,21 @@ export const SectionContent = ({
                   {section.debug_scenarios?.map((scenario, idx) => (
                     <div
                       key={idx}
-                      className="border border-green-400/20 p-4 mt-6"
+                      className="border border-green-400/20 p-2 md:p-4 mt-4 md:mt-6"
                     >
-                      <h3 className="text-green-400 mb-2">{scenario.title}</h3>
-                      <div className="text-green-400/70 mb-2">
+                      <h3 className="text-green-400 mb-2 text-sm md:text-base">
+                        {scenario.title}
+                      </h3>
+                      <div className="text-green-400/70 mb-2 text-sm md:text-base">
                         {scenario.scenario}
                       </div>
-                      <pre className="bg-black/30 p-2 text-red-400/90 rounded mb-4">
+                      <pre className="bg-black/30 p-2 md:p-4 text-red-400/90 rounded mb-2 md:mb-4 overflow-x-auto text-xs md:text-sm">
                         <code>{scenario.error_message}</code>
                       </pre>
 
                       <button
                         onClick={() => handleSolutionReveal(`debug_${idx}`)}
-                        className="text-green-400/50 hover:text-green-400"
+                        className="text-green-400/50 hover:text-green-400 text-sm md:text-base"
                       >
                         {revealedSolutions.has(`debug_${idx}`)
                           ? "Hide Solution"
@@ -813,19 +906,22 @@ export const SectionContent = ({
                       </button>
 
                       {revealedSolutions.has(`debug_${idx}`) && (
-                        <div className="mt-4">
-                          <div className="text-green-400/90 mb-2">
+                        <div className="mt-2 md:mt-4">
+                          <div className="text-green-400/90 mb-2 text-sm md:text-base">
                             Solution:
                           </div>
-                          <div className="text-green-400/70 ml-4">
+                          <div className="text-green-400/70 ml-2 md:ml-4 text-sm md:text-base">
                             {scenario.solution}
                           </div>
 
-                          <div className="text-green-400/90 mt-4 mb-2">
+                          <div className="text-green-400/90 mt-2 md:mt-4 mb-2 text-sm md:text-base">
                             Prevention:
                           </div>
                           {scenario.prevention_tips.map((tip, i) => (
-                            <div key={i} className="text-green-400/70 ml-4">
+                            <div
+                              key={i}
+                              className="text-green-400/70 ml-2 md:ml-4 text-sm md:text-base"
+                            >
                               • {tip}
                             </div>
                           ))}
