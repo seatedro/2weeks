@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import MatrixRain from "./matrix";
 import { Defragmentation } from "./retro";
 import { useContentManager } from "./hooks/useContentManager";
@@ -64,7 +64,7 @@ const MLRetroDashboard = ({ selectedPath }) => {
     </div>
   );
 
-  const ModulesList = () => {
+  const ModulesList = memo(() => {
     if (!modules) return null;
 
     return (
@@ -130,7 +130,8 @@ const MLRetroDashboard = ({ selectedPath }) => {
         ))}
       </div>
     );
-  };
+  });
+  ModulesList.displayName = "ModulesList";
 
   const WindowFrame = ({ title, children }) => (
     <div
@@ -208,7 +209,7 @@ const MLRetroDashboard = ({ selectedPath }) => {
               >
                 ML_MASTERY.exe
               </h1>
-              <p className="text-gray-400 text-sm md:text-base typewriter">
+              <p className="text-gray-400 text-sm md:text-base">
                 &gt; 2-week speedrun to machine learning mastery_
               </p>
             </div>
