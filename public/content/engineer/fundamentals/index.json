@@ -1,0 +1,45 @@
+{
+  "id": "fundamentals",
+  "title": "Fundamentals",
+  "description": "Master the core tensor operations and basic building blocks of PyTorch",
+  "timeToMaster": "24_HOURS",
+  "concepts": [
+    {
+      "id": "tensor_operations",
+      "title": "Tensor Mathematics",
+      "timeEstimate": "4_HOURS",
+      "prerequisites": [],
+      "order": 1,
+      "description": "Initialize your neural pathways with tensor operations - the fundamental building blocks of deep learning architectures"
+    },
+    {
+      "id": "loss_functions",
+      "title": "Loss Functions",
+      "timeEstimate": "4_HOURS",
+      "prerequisites": ["tensor_operations"],
+      "order": 2,
+      "description": "Understand how neural networks measure their performance through loss functions - the compass that guides learning"
+    },
+    {
+      "id": "autograd_mechanics",
+      "title": "Autograd",
+      "timeEstimate": "8_HOURS",
+      "prerequisites": ["loss_functions"],
+      "order": 3,
+      "description": "Unlock the secrets of automatic differentiation - your neural network's learning mechanism"
+    },
+    {
+      "id": "neural_architecture",
+      "title": "Network Architecture",
+      "timeEstimate": "8_HOURS",
+      "prerequisites": ["autograd_mechanics"],
+      "order": 4,
+      "description": "Construct neural pathways using PyTorch's building blocks - the foundation of deep learning"
+    }
+  ],
+  "systemRequirements": {
+    "NEURAL_CAPACITY": "2GB",
+    "PROCESSOR_THREADS": "QUANTUM_READY",
+    "TIME_DILATION": "ENABLED"
+  }
+}

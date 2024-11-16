@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build:content": "bun src/lib/build-content.js",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

@@ -1,0 +1,12 @@
+{
+  "modules": [
+    {
+      "id": "fundamentals",
+      "title": "Fundamentals",
+      "description": "NEURAL_TRANSMISSION: Master the core tensor operations and basic building blocks of PyTorch",
+      "order": 1,
+      "prerequisites": [],
+      "timeToCompletion": "24_HOURS"
+    }
+  ]
+}

@@ -1,0 +1,327 @@
+{
+  "id": "tensor_operations",
+  "title": "Tensor Mathematics",
+  "timeEstimate": "4 hours",
+  "sections": [
+    {
+      "type": "section",
+      "title": "Introduction to Tensors",
+      "content": "# Tensor Mathematics\n\nTensors are the fundamental building blocks of deep learning architectures. Think of them as n-dimensional arrays with superpowers.",
+      "checkpoints": [
+        {
+          "id": "tensor-basics",
+          "title": "Tensor Basics",
+          "items": [
+            {
+              "id": "tensor-creation",
+              "type": "concept",
+              "title": "Creating a Tensor",
+              "content": "Learn how to create tensors",
+              "api_references": [
+                {
+                  "function": "torch.tensor()",
+                  "url": "https://pytorch.org/docs/stable/generated/torch.tensor.html",
+                  "description": "Creates a tensor from data",
+                  "examples": [
+                    {
+                      "code": "x = torch.tensor([1, 2, 3])",
+                      "explanation": "Creates a 1D tensor from a list"
+                    },
+                    {
+                      "code": "x = torch.tensor([[1, 2], [3, 4]])",
+                      "explanation": "Creates a 2D tensor from nested lists"
+                    }
+                  ],
+                  "common_pitfalls": [
+                    "Not specifying dtype can lead to unexpected type inference",
+                    "Mixing data types in input list can cause errors"
+                  ]
+                }
+              ],
+              "mastery_protocols": [
+                {
+                  "task": "Create tensors of multiple dimensions",
+                  "difficulty": "beginner",
+                  "example": {
+                    "problem": "Create a 3x3 tensor of random numbers between 0 and 1",
+                    "solution": {
+                      "code": "torch.rand(3, 3)",
+                      "explanation": "Uses torch.rand() to create uniform random numbers",
+                      "expected_output": "tensor([[0.1234, 0.5678, 0.9012],\n        [0.3456, 0.7890, 0.1234],\n        [0.5678, 0.9012, 0.3456]])"
+                    },
+                    "variations": [
+                      "Try with different dimensions",
+                      "Use torch.randn() for normal distribution"
+                    ]
+                  },
+                  "practice_exercises": [
+                    {
+                      "task": "Create a 2x4 tensor of ones",
+                      "hints": [
+                        "Think about torch.ones()",
+                        "Consider the shape parameter"
+                      ],
+                      "solution": "torch.ones(2, 4)"
+                    }
+                  ]
+                }
+              ],
+              "debug_scenarios": [
+                {
+                  "title": "Wrong Tensor Shape",
+                  "scenario": "Matrix multiplication fails due to incompatible shapes",
+                  "error_message": "RuntimeError: mat1 and mat2 shapes cannot be multiplied (3x4 and 2x3)",
+                  "solution": "Transpose one of the matrices or reshape to compatible dimensions",
+                  "prevention_tips": [
+                    "Always check tensor shapes before operations",
+                    "Use tensor.shape to verify dimensions"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "title": "Image Processing with Tensors",
+      "content": "Learn how to process and manipulate images using PyTorch tensors",
+      "training_simulations": [
+        {
+          "id": "image_loading_sim",
+          "title": "Loading Images as Tensors",
+          "difficulty": "beginner",
+          "mission": "Create a basic pipeline to load and convert images to tensors",
+          "content": "import torchvision.transforms as transforms\nfrom PIL import Image\n\ntransform = transforms.ToTensor()\nimg = Image.open('image.jpg')\nimg_tensor = transform(img)",
+          "solution_sequence": "transform = transforms.ToTensor()\nimg = Image.open('image.jpg')\nimg_tensor = transform(img)\n\n# Verify shape and values\nprint(f'Tensor shape: {img_tensor.shape}')\nprint(f'Value range: [{img_tensor.min():.2f}, {img_tensor.max():.2f}]')",
+          "solution_explanation": "This converts image data into a normalized tensor format (range [0,1]) with shape [C, H, W]",
+          "hints": [
+            {
+              "text": "ToTensor() automatically scales pixel values from [0, 255] to [0, 1]",
+              "example": "# Before: pixel values [0, 255]\n# After: tensor values [0, 1]"
+            },
+            {
+              "text": "The output tensor shape will be [Channels, Height, Width]",
+              "example": "# RGB Image 100x100\n# Tensor shape: [3, 100, 100]"
+            }
+          ]
+        },
+        {
+          "id": "grayscale_conversion_sim",
+          "title": "RGB to Grayscale Conversion",
+          "difficulty": "beginner",
+          "mission": "Convert RGB images to grayscale tensors",
+          "content": "# Create a transformation pipeline for grayscale conversion\n# Output should be a single-channel tensor\n\ntransform = transforms.Compose([\n    # Add conversion steps here\n])",
+          "solution_sequence": "transform = transforms.Compose([\n    transforms.Grayscale(1),\n    transforms.ToTensor()\n])\n\n# Verify output\nimg_gray = transform(img)\nprint(f'Grayscale tensor shape: {img_gray.shape}')",
+          "solution_explanation": "Using Grayscale(1) ensures a single-channel output before converting to tensor",
+          "hints": [
+            {
+              "text": "The grayscale conversion must happen before tensor transformation",
+              "example": "# Correct order:\n1. Grayscale(1)\n2. ToTensor()"
+            }
+          ]
+        }
+      ],
+      "projects": [
+        {
+          "id": "image_filter_project",
+          "title": "Image Filter Implementation",
+          "difficulty": "intermediate",
+          "description": "Implement basic image filtering operations using PyTorch tensors",
+          "checkpoints": [
+            {
+              "id": "checkpoint_1",
+              "title": "Image Loading",
+              "task": "Set up image loading and preprocessing pipeline",
+              "verification": "Verify tensor shapes and normalization"
+            },
+            {
+              "id": "checkpoint_2",
+              "title": "Convolution Implementation",
+              "task": "Implement basic convolution operations",
+              "verification": "Test with standard kernels"
+            },
+            {
+              "id": "checkpoint_3",
+              "title": "Filter Implementation",
+              "task": "Implement various filter types",
+              "verification": "Visual verification of results"
+            }
+          ],
+          "starter_code_url": "https://github.com/...",
+          "hints": [
+            {
+              "text": "Use torch.nn.Conv2d for efficient filtering operations",
+              "example": "conv = torch.nn.Conv2d(1, 1, kernel_size=3, padding=1)"
+            },
+            {
+              "text": "Remember to add batch dimension for Conv2d operations",
+              "example": "img = img.unsqueeze(0)  # Add batch dimension"
+            }
+          ]
+        }
+      ],
+      "api_references": [
+        {
+          "function": "transforms.ToTensor()",
+          "url": "https://pytorch.org/vision/stable/transforms.html#torchvision.transforms.ToTensor",
+          "description": "Converts image data to normalized tensor format",
+          "examples": [
+            {
+              "code": "transform = transforms.ToTensor()\nimg_tensor = transform(pil_image)",
+              "explanation": "Converts PIL Image to tensor, normalizing to [0, 1]"
+            }
+          ]
+        },
+        {
+          "function": "transforms.Compose()",
+          "url": "https://pytorch.org/vision/stable/transforms.html#torchvision.transforms.Compose",
+          "description": "Combines multiple transform operations",
+          "examples": [
+            {
+              "code": "transform = transforms.Compose([\n    transforms.Grayscale(1),\n    transforms.ToTensor()\n])",
+              "explanation": "Creates pipeline of multiple transformations"
+            }
+          ]
+        }
+      ],
+      "debug_scenarios": [
+        {
+          "title": "Missing Batch Dimension",
+          "scenario": "Convolution operation fails due to incorrect tensor dimensions",
+          "error_message": "RuntimeError: Expected 4-dimensional input for 4-dimensional weight [1, 1, 3, 3], but got 3-dimensional input of size [1, 28, 28] instead",
+          "solution": "Add batch dimension using tensor.unsqueeze(0)",
+          "prevention_tips": [
+            "Check tensor dimensions before convolution operations",
+            "Remember CNN operations expect NCHW format"
+          ]
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "official_docs": [
+      {
+        "title": "PyTorch Tensor Documentation",
+        "url": "https://pytorch.org/docs/stable/tensors.html",
+        "description": "Official documentation for PyTorch tensors"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Understanding PyTorch Tensors",
+        "url": "https://youtube.com/...",
+        "duration": "15:30",
+        "creator": "PyTorch Official",
+        "description": "Comprehensive overview of tensor operations",
+        "highlights": [
+          { "timestamp": "2:30", "topic": "Tensor Creation" },
+          { "timestamp": "8:45", "topic": "Broadcasting Rules" }
+        ]
+      }
+    ],
+    "blog_posts": [
+      {
+        "title": "Deep Dive into PyTorch Tensors",
+        "url": "https://blog.pytorch.org/...",
+        "author": "PyTorch Team",
+        "readingTime": "15 mins",
+        "difficulty": "intermediate",
+        "tags": ["tensors", "basics", "memory-management"]
+      }
+    ],
+    "research_papers": [
+      {
+        "title": "Tensor Operations in Deep Learning",
+        "url": "https://arxiv.org/...",
+        "authors": ["A. Researcher", "B. Scientist"],
+        "year": 2023,
+        "relevantSections": ["3.1", "4.2"]
+      }
+    ],
+    "interactive_notebooks": [
+      {
+        "title": "Tensor Operations Playground",
+        "url": "https://colab.research.google.com/...",
+        "type": "Google Colab",
+        "description": "Interactive exercises for tensor manipulation"
+      }
+    ]
+  },
+  "quick_references": {
+    "common_operations": [
+      {
+        "operation": "Tensor Creation",
+        "examples": [
+          {
+            "description": "Create from list",
+            "code": "torch.tensor([1, 2, 3])"
+          },
+          {
+            "description": "Create with zeros",
+            "code": "torch.zeros(3, 2)"
+          },
+          {
+            "description": "Create with random values",
+            "code": "torch.rand(2, 3)"
+          }
+        ]
+      },
+      {
+        "operation": "Tensor Manipulation",
+        "examples": [
+          {
+            "description": "Reshape tensor",
+            "code": "x.view(2, -1)"
+          },
+          {
+            "description": "Transpose dimensions",
+            "code": "x.transpose(0, 1)"
+          },
+          {
+            "description": "Concatenate tensors",
+            "code": "torch.cat([tensor1, tensor2], dim=0)"
+          }
+        ]
+      }
+    ],
+    "code_patterns": [
+      {
+        "pattern": "Gradient Computation",
+        "template": "# Forward pass\noutput = model(input)\nloss = criterion(output, target)\n\n# Backward pass\nloss.backward()\noptimizer.step()"
+      },
+      {
+        "pattern": "Device Transfer",
+        "template": "# Move model and data to device\ndevice = torch.device('cuda' if torch.cuda.is_available() else 'cpu')\nmodel = model.to(device)\ndata = data.to(device)"
+      }
+    ],
+    "common_errors": [
+      {
+        "error": "Shape mismatch in operations",
+        "solution": "Check tensor shapes using tensor.shape before operations"
+      },
+      {
+        "error": "CUDA out of memory",
+        "solution": "Reduce batch size or clear cache using torch.cuda.empty_cache()"
+      },
+      {
+        "error": "Gradient computation on non-leaf tensor",
+        "solution": "Use retain_grad() or create tensor with requires_grad=True"
+      }
+    ],
+    "memory_management": {
+      "best_practices": [
+        "Use del to remove unnecessary tensors",
+        "Move tensors to CPU when not in active use",
+        "Clear CUDA cache between large operations",
+        "Use inplace operations when possible",
+        "Monitor memory usage with torch.cuda.memory_allocated()",
+        "Consider using gradient checkpointing for large models"
+      ]
+    }
+  },
+  "security_level": "1",
+  "compression": true,
+  "backup": true
+}

@@ -1,0 +1,347 @@
+{
+  "id": "autograd_mastery",
+  "title": "Understanding PyTorch Autograd",
+  "timeEstimate": "8 hours",
+  "resources": {
+    "official_docs": [
+      {
+        "title": "PyTorch Autograd Mechanics",
+        "url": "https://pytorch.org/docs/stable/notes/autograd.html",
+        "description": "Official documentation on PyTorch's automatic differentiation engine"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Building micrograd",
+        "url": "https://www.youtube.com/watch?v=VMj-3S1tku0",
+        "duration": "2:25 hours",
+        "creator": "Andrej Karpathy",
+        "description": "Deep dive into building autograd from first principles"
+      }
+    ],
+    "blog_posts": [
+      {
+        "title": "Understanding Autograd Internals",
+        "url": "https://pytorch.org/blog/autograd-internals/",
+        "author": "PyTorch Team",
+        "readingTime": "25 minutes",
+        "difficulty": "intermediate",
+        "tags": ["autograd", "backpropagation", "optimization"]
+      }
+    ],
+    "github_repos": [
+      {
+        "title": "micrograd",
+        "url": "https://github.com/karpathy/micrograd",
+        "description": "Minimal autograd engine implemented in Python",
+        "author": "Andrej Karpathy"
+      }
+    ]
+  },
+  "quick_references": {
+    "common_operations": [
+      {
+        "operation": "Basic Gradient Computation",
+        "examples": [
+          {
+            "description": "Computing gradients for scalar outputs",
+            "code": "loss.backward()"
+          },
+          {
+            "description": "Computing gradients for vector outputs",
+            "code": "output.backward(torch.ones_like(output))"
+          }
+        ]
+      }
+    ],
+    "common_errors": [
+      {
+        "error": "Gradient Explosion",
+        "solution": "Implement gradient clipping: torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)"
+      },
+      {
+        "error": "Missing Gradients",
+        "solution": "Ensure requires_grad=True is set on input tensors requiring gradients"
+      }
+    ]
+  },
+  "sections": [
+    {
+      "type": "section",
+      "title": "Understanding Computational Graphs",
+      "content": "Computational graphs are fundamental to understanding autograd. These directed acyclic graphs (DAGs) represent the flow of computations in your neural networks:\n\n- Nodes represent operations\n- Edges represent data flow\n- Leaf nodes are input tensors\n- Root nodes are output tensors\n\nUnderstanding this structure is crucial for efficient model development and debugging.",
+      "checkpoints": [
+        {
+          "id": "comp_graphs_basics",
+          "title": "Basic Graph Operations",
+          "items": [
+            {
+              "id": "graph_creation",
+              "type": "concept",
+              "title": "Building Computational Graphs",
+              "mastery_protocols": [
+                {
+                  "task": "Create a computational graph for a basic neural network",
+                  "difficulty": "intermediate",
+                  "example": {
+                    "problem": "Implement a 2-layer neural network and visualize its computational graph",
+                    "solution": {
+                      "code": "def build_computation_graph():\n    # Input layer\n    x = torch.randn(3, 2, requires_grad=True)\n    \n    # First layer\n    w1 = torch.randn(2, 4, requires_grad=True)\n    b1 = torch.randn(4, requires_grad=True)\n    h = torch.relu(x @ w1 + b1)\n    \n    # Second layer\n    w2 = torch.randn(4, 1, requires_grad=True)\n    b2 = torch.randn(1, requires_grad=True)\n    y = h @ w2 + b2\n    \n    # Print graph structure\n    def print_graph_structure(tensor):\n        print(f'Tensor: {tensor.size()}')\n        if tensor.grad_fn:\n            print(f'Operation: {tensor.grad_fn.__class__.__name__}')\n            for next_fn in tensor.grad_fn.next_functions:\n                if next_fn[0]:\n                    print(f'← {next_fn[0].__class__.__name__}')\n    \n    print_graph_structure(y)\n    return y",
+                      "explanation": "Creates a simple neural network and reveals its computational graph structure, showing how operations are connected through the grad_fn attribute",
+                      "expected_output": "Computational graph showing tensor operations: MatMul → ReLU → MatMul → Add"
+                    }
+                  }
+                },
+                {
+                  "task": "Analyze graph dependencies and leaf nodes",
+                  "difficulty": "intermediate",
+                  "example": {
+                    "problem": "Create a function to identify leaf nodes and operation dependencies in a computational graph",
+                    "solution": {
+                      "code": "def analyze_graph(tensor):\n    def traverse_graph(node, visited=None):\n        if visited is None:\n            visited = set()\n        \n        if node not in visited:\n            visited.add(node)\n            # Check if it's a leaf node\n            if not node.grad_fn:\n                print(f'Leaf node: {node.size()}')\n            else:\n                print(f'Operation node: {node.grad_fn.__class__.__name__}')\n                # Traverse inputs to this operation\n                if hasattr(node.grad_fn, 'next_functions'):\n                    for next_fn in node.grad_fn.next_functions:\n                        if next_fn[0]:\n                            traverse_graph(next_fn[0], visited)\n    \n    # Start traversal from the given tensor\n    traverse_graph(tensor)\n    return visited",
+                      "explanation": "Implements depth-first traversal of the computational graph, identifying leaf nodes (parameters and inputs) and operation nodes",
+                      "expected_output": "List of all nodes in the graph, classified as either leaf nodes or operation nodes"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "graph_manipulation",
+              "type": "concept",
+              "title": "Dynamic Graph Manipulation",
+              "mastery_protocols": [
+                {
+                  "task": "Implement graph detachment and reattachment",
+                  "difficulty": "advanced",
+                  "example": {
+                    "problem": "Create a function that selectively detaches parts of a computational graph and reattaches them",
+                    "solution": {
+                      "code": "def manipulate_graph(tensor, detach_points):\n    def clone_graph(x, detach_at=None):\n        if detach_at is None:\n            detach_at = set()\n            \n        # If this is a detach point, create new leaf node\n        if x in detach_at:\n            return x.detach().requires_grad_(True)\n            \n        # If no grad_fn, this is already a leaf\n        if not x.grad_fn:\n            return x\n            \n        # Clone the operation with new inputs\n        inputs = [clone_graph(t, detach_at) for t in x.grad_fn.next_functions]\n        reconstructed = x.grad_fn(*inputs)\n        return reconstructed\n    \n    # Clone graph with detachment points\n    new_graph = clone_graph(tensor, detach_points)\n    return new_graph",
+                      "explanation": "Creates a copy of the computational graph with selective detachment points, useful for gradient manipulation and transfer learning",
+                      "expected_output": "Modified computational graph with specified nodes detached"
+                    }
+                  }
+                },
+                {
+                  "task": "Create a graph visualization tool",
+                  "difficulty": "intermediate",
+                  "example": {
+                    "problem": "Implement a function to visualize computational graphs using ASCII art",
+                    "solution": {
+                      "code": "def visualize_graph(tensor, prefix=''):\n    def format_tensor(t):\n        return f'{t.__class__.__name__}({tuple(t.size())})'\n    \n    def draw_graph(node, visited=None, depth=0):\n        if visited is None:\n            visited = set()\n            \n        if node not in visited:\n            visited.add(node)\n            # Draw current node\n            print(f'{prefix}{\"  \" * depth}└─ {format_tensor(node)}')\n            \n            # Draw operation if exists\n            if node.grad_fn:\n                print(f'{prefix}{\"  \" * (depth+1)}└─ {node.grad_fn.__class__.__name__}')\n                # Draw inputs to operation\n                if hasattr(node.grad_fn, 'next_functions'):\n                    for next_fn in node.grad_fn.next_functions:\n                        if next_fn[0]:\n                            draw_graph(next_fn[0], visited, depth + 2)\n    \n    draw_graph(tensor)\n",
+                      "explanation": "Creates an ASCII visualization of the computational graph, showing tensor shapes and operations in a tree structure",
+                      "expected_output": "Tree-like ASCII representation of the computational graph structure"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "graph_optimization",
+              "type": "concept",
+              "title": "Graph Optimization Techniques",
+              "mastery_protocols": [
+                {
+                  "task": "Implement graph pruning for inference",
+                  "difficulty": "advanced",
+                  "example": {
+                    "problem": "Create a function that optimizes a computational graph for inference by removing unnecessary operations",
+                    "solution": {
+                      "code": "def optimize_graph_for_inference(model):\n    class GraphOptimizer:\n        @staticmethod\n        def forward(x):\n            with torch.no_grad():\n                # Store original state\n                training = model.training\n                model.eval()\n                \n                # Remove dropout and batch norm running stats\n                def optimize_module(module):\n                    for child in module.children():\n                        if isinstance(child, (nn.Dropout, nn.BatchNorm2d)):\n                            child.eval()\n                        optimize_module(child)\n                \n                optimize_module(model)\n                \n                # Trace and optimize\n                traced_model = torch.jit.trace(model, x)\n                optimized_model = torch.jit.optimize_for_inference(traced_model)\n                \n                # Restore original state\n                model.train(training)\n                return optimized_model\n    \n    return GraphOptimizer",
+                      "explanation": "Optimizes the computational graph by removing training-specific operations and using TorchScript for additional optimizations",
+                      "expected_output": "Optimized model with simplified computational graph for inference"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Autograd Foundations",
+      "content": "Before diving into PyTorch's autograd system, let's establish core concepts:\n\n1. Automatic Differentiation Basics:\n- Forward mode vs. reverse mode differentiation\n- Why deep learning frameworks prefer reverse mode\n- The chain rule and its application in neural networks\n\n2. Tensor Operations and Gradients:\n- Understanding in-place operations and their impact on gradients\n- Memory management in computational graphs\n- Leaf vs non-leaf tensors\n\n3. Performance Considerations:\n- Memory usage patterns during backward pass\n- Gradient checkpointing for memory efficiency\n- Trade-offs between computation speed and memory usage",
+      "checkpoints": [
+        {
+          "id": "autograd_foundations",
+          "items": [
+            {
+              "id": "diff_modes",
+              "type": "concept",
+              "title": "Differentiation Modes",
+              "mastery_protocols": [
+                {
+                  "task": "Implement reverse-mode autodiff for linear layer",
+                  "difficulty": "intermediate",
+                  "example": {
+                    "problem": "Create a custom Linear layer with manual backward pass",
+                    "solution": {
+                      "code": "class CustomLinear(torch.autograd.Function):\n    @staticmethod\n    def forward(ctx, input, weight, bias):\n        ctx.save_for_backward(input, weight)\n        output = input.mm(weight.t()) + bias\n        return output\n\n    @staticmethod\n    def backward(ctx, grad_output):\n        input, weight = ctx.saved_tensors\n        grad_input = grad_output.mm(weight)\n        grad_weight = grad_output.t().mm(input)\n        grad_bias = grad_output.sum(0)\n        return grad_input, grad_weight, grad_bias",
+                      "explanation": "Implements forward and backward passes for a linear layer, demonstrating reverse-mode differentiation by computing gradients for input, weight, and bias",
+                      "expected_output": "Gradients computed for all inputs: input tensor, weight matrix, and bias vector"
+                    }
+                  }
+                },
+                {
+                  "task": "Profile computational complexity of forward vs reverse mode",
+                  "difficulty": "advanced",
+                  "example": {
+                    "problem": "Compare operation counts for forward and reverse mode autodiff",
+                    "solution": {
+                      "code": "def profile_modes(model, input_size, output_size):\n    # Forward mode operations\n    forward_ops = input_size * model.num_parameters()\n    \n    # Reverse mode operations\n    reverse_ops = output_size * model.num_parameters()\n    \n    print(f'Forward mode ops: {forward_ops}')\n    print(f'Reverse mode ops: {reverse_ops}')\n    return forward_ops, reverse_ops",
+                      "explanation": "Calculates and compares operation counts for both differentiation modes, showing why reverse mode is more efficient for neural networks",
+                      "expected_output": "Operation counts showing reverse mode requires fewer computations for typical neural networks"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "memory_management",
+              "type": "concept",
+              "title": "Memory Management Deep Dive",
+              "mastery_protocols": [
+                {
+                  "task": "Implement gradient checkpointing",
+                  "difficulty": "advanced",
+                  "example": {
+                    "problem": "Create a memory-efficient training loop using gradient checkpointing",
+                    "solution": {
+                      "code": "from torch.utils.checkpoint import checkpoint\n\ndef efficient_forward(model, input):\n    segments = model.split_into_segments(2)\n    \n    def run_segment(segment, input):\n        return checkpoint(segment, input)\n    \n    x = input\n    for segment in segments:\n        x = run_segment(segment, x)\n    return x",
+                      "explanation": "Uses gradient checkpointing to trade computation time for memory efficiency by recomputing intermediate activations during backward pass",
+                      "expected_output": "Model training with significantly reduced memory usage at cost of increased computation time"
+                    }
+                  }
+                },
+                {
+                  "task": "Implement smart gradient accumulation",
+                  "difficulty": "intermediate",
+                  "example": {
+                    "problem": "Create a training loop with gradient accumulation for large batch training",
+                    "solution": {
+                      "code": "def train_with_accumulation(model, dataloader, accumulation_steps=4):\n    model.zero_grad()\n    for i, (inputs, labels) in enumerate(dataloader):\n        # Forward pass\n        outputs = model(inputs)\n        loss = criterion(outputs, labels) / accumulation_steps\n        \n        # Backward pass\n        loss.backward()\n        \n        # Update weights after accumulation_steps\n        if (i + 1) % accumulation_steps == 0:\n            optimizer.step()\n            model.zero_grad()",
+                      "explanation": "Accumulates gradients over multiple forward-backward passes to simulate larger batch sizes without increasing memory usage",
+                      "expected_output": "Effective training with large batch sizes on limited memory"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "title": "Advanced Autograd Features",
+      "content": "Let's explore advanced features of PyTorch's autograd system:\n\n1. Higher Order Derivatives:\n- Computing second-order derivatives\n- Applications in optimization algorithms\n- Hessian computation and approximations\n\n2. Custom Gradient Manipulation:\n- Gradient scaling and accumulation\n- Gradient clipping strategies\n- Custom backward hooks\n\n3. Vectorized Jacobian Products:\n- Understanding vmap and functorch\n- Efficient Jacobian computation\n- Parallelizing gradient computation",
+      "advanced": true,
+      "checkpoints": [
+        {
+          "id": "advanced_features",
+          "items": [
+            {
+              "id": "higher_order",
+              "type": "concept",
+              "title": "Higher Order Derivatives",
+              "mastery_protocols": [
+                {
+                  "task": "Implement Newton's method optimization",
+                  "difficulty": "advanced",
+                  "example": {
+                    "problem": "Create an optimizer using second-order derivatives",
+                    "solution": {
+                      "code": "def newton_step(func, x, epsilon=1e-6):\n    # First derivative\n    grad_1 = torch.autograd.grad(func(x), x, create_graph=True)[0]\n    \n    # Second derivative (Hessian)\n    grad_2 = torch.autograd.grad(grad_1.sum(), x)[0]\n    \n    # Newton update\n    with torch.no_grad():\n        x = x - grad_1 / (grad_2 + epsilon)\n    \n    return x",
+                      "explanation": "Implements Newton's method using autograd to compute both first and second derivatives for faster convergence",
+                      "expected_output": "Updated parameters using Newton's method optimization step"
+                    }
+                  }
+                },
+                {
+                  "task": "Create a Hessian-free optimization routine",
+                  "difficulty": "advanced",
+                  "example": {
+                    "problem": "Implement Hessian-vector product without explicitly computing the Hessian",
+                    "solution": {
+                      "code": "def hessian_vector_product(loss, params, vector):\n    # Compute grad of loss w.r.t params\n    grad = torch.autograd.grad(loss, params, create_graph=True)[0]\n    \n    # Compute product of Hessian with vector\n    grad_vector_prod = (grad * vector).sum()\n    hvp = torch.autograd.grad(grad_vector_prod, params)[0]\n    \n    return hvp",
+                      "explanation": "Efficiently computes Hessian-vector product without materializing full Hessian matrix, useful for second-order optimization methods",
+                      "expected_output": "Computed Hessian-vector product for optimization"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "id": "custom_backward",
+              "type": "concept",
+              "title": "Custom Gradient Manipulation",
+              "mastery_protocols": [
+                {
+                  "task": "Implement gradient noise injection",
+                  "difficulty": "intermediate",
+                  "example": {
+                    "problem": "Create a custom backward hook that adds Gaussian noise to gradients",
+                    "solution": {
+                      "code": "def noisy_gradient_hook(gamma=0.01):\n    def hook(grad):\n        noise = torch.randn_like(grad) * gamma * torch.std(grad)\n        return grad + noise\n    \n    return hook\n\ndef apply_gradient_noise(model):\n    for param in model.parameters():\n        if param.requires_grad:\n            param.register_hook(noisy_gradient_hook())",
+                      "explanation": "Adds Gaussian noise to gradients during backward pass to help escape local minima and improve generalization",
+                      "expected_output": "Gradients modified with controlled noise during backward pass"
+                    }
+                  }
+                },
+                {
+                  "task": "Create custom gradient clipping function",
+                  "difficulty": "intermediate",
+                  "example": {
+                    "problem": "Implement a custom gradient clipper with layer-wise thresholds",
+                    "solution": {
+                      "code": "def adaptive_gradient_clip(parameters, max_norm, norm_type=2.0):\n    parameters = list(parameters)\n    device = parameters[0].grad.device\n    norms = [p.grad.detach().abs().max().to(device) for p in parameters]\n    max_norm = torch.tensor(max_norm, device=device)\n    \n    clip_coef = max_norm / (torch.max(torch.stack(norms)) + 1e-6)\n    clip_coef_clamped = torch.clamp(clip_coef, max=1.0)\n    \n    for p in parameters:\n        p.grad.detach().mul_(clip_coef_clamped)",
+                      "explanation": "Implements adaptive gradient clipping that accounts for different gradient scales across layers",
+                      "expected_output": "Gradients clipped layer-wise based on maximum absolute values"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "title": "Implementing Gradient Tracking",
+      "content": "Learn to implement custom gradient computation and tracking",
+      "training_simulations": [
+        {
+          "id": "grad_tracking_01",
+          "title": "Custom Autograd Function",
+          "difficulty": "intermediate",
+          "mission": "Implement a custom autograd function with forward and backward passes",
+          "content": "class CustomFunction(torch.autograd.Function):\n    @staticmethod\n    def forward(ctx, x):\n        # TODO: Implement forward pass\n        pass\n\n    @staticmethod\n    def backward(ctx, grad_output):\n        # TODO: Implement backward pass\n        pass",
+          "solution_sequence": "class CustomFunction(torch.autograd.Function):\n    @staticmethod\n    def forward(ctx, x):\n        ctx.save_for_backward(x)\n        return x * x\n\n    @staticmethod\n    def backward(ctx, grad_output):\n        x, = ctx.saved_tensors\n        return 2 * x * grad_output"
+        }
+      ],
+      "projects": [
+        {
+          "id": "custom_autograd",
+          "title": "Custom Activation Function",
+          "difficulty": "advanced",
+          "description": "Develop a custom autograd function implementing a novel activation function",
+          "checkpoints": [
+            {
+              "id": "checkpoint_1",
+              "title": "Forward Pass Implementation",
+              "task": "Implement the forward pass with proper context saving",
+              "verification": "Verify output matches expected shape and values"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "security_level": "2",
+  "compression": true,
+  "backup": true
+}

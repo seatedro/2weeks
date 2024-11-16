@@ -1,0 +1,110 @@
+{
+  "type": "code",
+  "title": "Neural Network Fundamentals",
+  "content": "Understanding the building blocks of neural networks including forward propagation, activation functions, and basic architectures.",
+  "api_references": [
+    {
+      "function": "torch.nn.Linear",
+      "url": "https://pytorch.org/docs/stable/generated/torch.nn.Linear.html",
+      "description": "Applies linear transformation to incoming data",
+      "examples": [
+        {
+          "code": "layer = nn.Linear(in_features=784, out_features=128)\noutput = layer(input_tensor)",
+          "explanation": "Creates a linear layer transforming 784-dimensional input to 128-dimensional output"
+        }
+      ]
+    },
+    {
+      "function": "torch.nn.ReLU",
+      "url": "https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html",
+      "description": "Applies the rectified linear unit function element-wise",
+      "examples": [
+        {
+          "code": "activation = nn.ReLU()\noutput = activation(layer_output)",
+          "explanation": "Applies ReLU activation to layer outputs, setting negative values to zero"
+        }
+      ]
+    }
+  ],
+  "training_simulations": [
+    {
+      "id": "simple_nn_sim",
+      "title": "Building Your First Neural Network",
+      "difficulty": "beginner",
+      "mission": "Create a simple feedforward neural network for binary classification",
+      "content": "import torch\nimport torch.nn as nn\n\nclass SimpleNN(nn.Module):\n    def init(self):\n        super().init()\n        # Define layers here\n",
+      "solution_sequence": "class SimpleNN(nn.Module):\n    def init(self):\n        super().init()\n        self.layer1 = nn.Linear(10, 8)\n        self.relu = nn.ReLU()\n        self.layer2 = nn.Linear(8, 1)\n        self.sigmoid = nn.Sigmoid()\n    \n    def forward(self, x):\n        x = self.layer1(x)\n        x = self.relu(x)\n        x = self.layer2(x)\n        return self.sigmoid(x)",
+      "solution_explanation": "Creates a 2-layer neural network with ReLU activation and sigmoid output for binary classification",
+      "hints": [
+        {
+          "text": "Remember to initialize parent class using super().init()",
+          "example": "super(SimpleNN, self).init()"
+        },
+        {
+          "text": "Each linear layer needs input and output dimensions",
+          "example": "nn.Linear(input_dim, output_dim)"
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "mnist_classifier",
+      "title": "MNIST Digit Classifier",
+      "difficulty": "intermediate",
+      "description": "Build a neural network to classify handwritten digits from the MNIST dataset",
+      "checkpoints": [
+        {
+          "id": "data_prep",
+          "title": "Data Preparation",
+          "task": "Load and preprocess MNIST dataset",
+          "verification": "Confirm data shapes and normalization"
+        },
+        {
+          "id": "model_arch",
+          "title": "Model Architecture",
+          "task": "Design neural network architecture",
+          "verification": "Test forward pass with sample data"
+        },
+        {
+          "id": "training",
+          "title": "Training Loop",
+          "task": "Implement training loop with backpropagation",
+          "verification": "Monitor loss decrease and accuracy improvement"
+        }
+      ],
+      "starter_code_url": "https://github.com/example/mnist-starter",
+      "hints": [
+        {
+          "text": "Use CrossEntropyLoss for multi-class classification",
+          "example": "criterion = nn.CrossEntropyLoss()"
+        }
+      ]
+    }
+  ],
+  "debug_scenarios": [
+    {
+      "title": "Vanishing Gradients",
+      "scenario": "Model training stalls with very small gradient updates",
+      "error_message": "Model accuracy stuck at 45% after many epochs",
+      "solution": "Use ReLU activation instead of sigmoid in hidden layers, initialize weights properly, and consider batch normalization",
+      "prevention_tips": [
+        "Use ReLU or LeakyReLU for hidden layers",
+        "Apply proper weight initialization",
+        "Monitor gradient norms during training",
+        "Consider adding batch normalization layers"
+      ]
+    },
+    {
+      "title": "Dimension Mismatch",
+      "scenario": "Forward pass fails due to incorrect layer dimensions",
+      "error_message": "RuntimeError: size mismatch, got [64, 128] [256, 10]",
+      "solution": "Ensure consecutive layer dimensions match: output_features of one layer should equal input_features of the next",
+      "prevention_tips": [
+        "Draw network architecture before coding",
+        "Print tensor shapes during forward pass",
+        "Use sequential model to catch dimension errors early"
+      ]
+    }
+  ]
+}
