@@ -6,7 +6,7 @@ import { SectionContent } from "./content";
 
 // Constants for glitch messages and easter eggs
 
-const MLRetroDashboard = ({ selectedPath }) => {
+const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
   const [isDefragging, setIsDefragging] = useState(false);
   const [unlockedContent, setUnlockedContent] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -153,12 +153,6 @@ const MLRetroDashboard = ({ selectedPath }) => {
     </div>
   );
 
-  // New Neural Network Visualization component
-
-  // Progress Indicator Component
-
-  // Section Content Component
-
   return (
     <div className="min-h-screen bg-black p-4 md:p-8 relative overflow-hidden font-vt323">
       {/* Mobile Menu Button */}
@@ -252,6 +246,7 @@ const MLRetroDashboard = ({ selectedPath }) => {
                       conceptId={currentConcept.id}
                       markItemCompleted={markItemCompleted}
                       isItemCompleted={isItemCompleted}
+                      hyperLearningMode={hyperLearningMode}
                     />
                   </WindowFrame>
                 ) : (
