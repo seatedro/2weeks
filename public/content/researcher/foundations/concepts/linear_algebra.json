@@ -46,7 +46,7 @@
             ],
             "show_parallelogram": true,
             "interactive": true,
-            "description": "Drag vectors to see vector addition geometrically"
+            "description": "v1=[2,1] and v2=[1,2]"
           }
         }
       ],

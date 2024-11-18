@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import "katex/dist/katex.min.css";
 import { InlineMath, BlockMath } from "react-katex";
+import MathVisualization from "./mathviz";
 
 // Mathematical content block with retro styling
 const MathBlock = ({ block }) => {
@@ -311,83 +312,6 @@ const PracticeProblem = ({ problem, onComplete }) => {
   );
 };
 
-// Visualization component
-const MathVisualization = ({ type, config }) => {
-  // Helper function to generate sample data based on visualization type
-  const generateData = (type) => {
-    let points = [];
-    switch (type) {
-      case "distribution_plot":
-        return Array.from({ length: 100 }, (_, i) => ({
-          x: i / 10,
-          y:
-            Math.exp((-(i / 10 - 5) * (i / 10 - 5)) / 2) /
-            Math.sqrt(2 * Math.PI),
-        }));
-      case "vector_field":
-        for (let x = -5; x <= 5; x += 1) {
-          for (let y = -5; y <= 5; y += 1) {
-            points.push({
-              x,
-              y,
-              dx: Math.cos(x) * Math.sin(y),
-              dy: Math.sin(x) * Math.cos(y),
-            });
-          }
-        }
-        return points;
-      default:
-        return [];
-    }
-  };
-
-  const renderVisualization = () => {
-    const data = generateData(type, config.parameters);
-
-    switch (type) {
-      case "distribution_plot":
-        return (
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1f4a25" />
-              <XAxis dataKey="x" stroke="#4ade80" tick={{ fill: "#4ade80" }} />
-              <YAxis stroke="#4ade80" tick={{ fill: "#4ade80" }} />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "#000",
-                  border: "1px solid #4ade80",
-                  color: "#4ade80",
-                }}
-              />
-              <Line
-                type="monotone"
-                dataKey="y"
-                stroke="#4ade80"
-                dot={false}
-                strokeWidth={2}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        );
-      // Add more visualization types here
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <div className="border border-green-400/30 bg-black/50 p-4 my-4">
-      <div className="text-green-400 mb-4">
-        VISUALIZATION: {type.toUpperCase()}
-      </div>
-      <div className="mb-4">{renderVisualization()}</div>
-      {config.description && (
-        <div className="text-green-400/70 text-sm">{config.description}</div>
-      )}
-    </div>
-  );
-};
-
 // Main section renderer for PhD track
 const PhDContent = ({ currentConcept, onComplete }) => {
   return (
@@ -433,6 +357,11 @@ const PhDContent = ({ currentConcept, onComplete }) => {
               problem={problem}
               onComplete={() => onComplete?.(problem.id)}
             />
+          ))}
+
+          {/* Visualizations */}
+          {section.visualizations?.map((vis, i) => (
+            <MathVisualization key={i} type={vis.type} config={vis.config} />
           ))}
         </div>
       ))}
