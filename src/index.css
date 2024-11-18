@@ -273,3 +273,39 @@ body {
     height: 100%;
     overflow: auto;
 }
+
+.shiki {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.shiki::-webkit-scrollbar {
+    height: 4px;
+}
+
+.shiki::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.shiki::-webkit-scrollbar-thumb {
+    background: rgba(74, 222, 128, 0.2);
+    border-radius: 2px;
+}
+
+.shiki::-webkit-scrollbar-thumb:hover {
+    background: rgba(74, 222, 128, 0.4);
+}
+
+@keyframes scan {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(100%);
+    }
+}
+
+.animate-scan {
+    animation: scan 4s linear infinite;
+}

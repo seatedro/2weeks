@@ -1,0 +1,426 @@
+{
+  "id": "linear_algebra",
+  "title": "NEURAL_MODULE: Linear Algebra Foundations",
+  "path": "foundations",
+  "timeEstimate": "14_DAYS",
+  "sections": [
+    {
+      "type": "theoretical",
+      "title": "VECTOR_SPACES",
+      "content": "# NEURAL_TRANSMISSION: Vector Spaces\n\nBefore diving into complex topics, let's build strong geometric intuition about vector spaces - the foundation of modern machine learning.",
+      "math_blocks": [
+        {
+          "type": "definition",
+          "title": "Vector Space Axioms",
+          "content": "A vector space V over a field F must satisfy:",
+          "equations": [
+            {
+              "latex": "\\vec{u} + \\vec{v} \\in V",
+              "explanation": "Closure under addition"
+            },
+            {
+              "latex": "c\\vec{v} \\in V",
+              "explanation": "Closure under scalar multiplication"
+            }
+          ]
+        },
+        {
+          "type": "example",
+          "title": "R² as a Vector Space",
+          "content": "The 2D plane is a vector space where:",
+          "equations": [
+            {
+              "latex": "\\vec{v} = \\begin{pmatrix} x \\\\ y \\end{pmatrix}",
+              "explanation": "Any point (x,y) is a vector"
+            }
+          ]
+        }
+      ],
+      "visualizations": [
+        {
+          "type": "vector_addition",
+          "config": {
+            "initial_vectors": [
+              [2, 1],
+              [1, 2]
+            ],
+            "show_parallelogram": true,
+            "interactive": true,
+            "description": "Drag vectors to see vector addition geometrically"
+          }
+        }
+      ],
+      "practice": [
+        {
+          "type": "concept_check",
+          "question": "Why is R² closed under addition?",
+          "solution": "Adding any two points in the plane always gives another point in the plane, satisfying closure property"
+        }
+      ]
+    },
+    {
+      "type": "theoretical",
+      "title": "LINEAR_TRANSFORMATIONS",
+      "content": "# NEURAL_TRANSMISSION: Linear Transformations\n\nLinear transformations are the heart of machine learning. They're how we transform data while preserving vector space structure.",
+      "math_blocks": [
+        {
+          "type": "definition",
+          "title": "Linear Transformation Properties",
+          "equations": [
+            {
+              "latex": "T(\\vec{u} + \\vec{v}) = T(\\vec{u}) + T(\\vec{v})",
+              "explanation": "Preserves addition"
+            },
+            {
+              "latex": "T(c\\vec{v}) = cT(\\vec{v})",
+              "explanation": "Preserves scalar multiplication"
+            }
+          ]
+        },
+        {
+          "type": "derivation",
+          "title": "Matrix Representation",
+          "steps": [
+            {
+              "equation": "T(\\vec{x}) = A\\vec{x}",
+              "explanation": "Every linear transformation has a matrix representation"
+            },
+            {
+              "equation": "A = \\begin{bmatrix} T(\\vec{e_1}) & T(\\vec{e_2}) \\end{bmatrix}",
+              "explanation": "Columns are transformed basis vectors"
+            }
+          ]
+        }
+      ],
+      "visualizations": [
+        {
+          "type": "matrix_transform",
+          "config": {
+            "initial_matrix": [
+              [2, 0],
+              [0, 2]
+            ],
+            "show_grid": true,
+            "show_basis_vectors": true,
+            "interactive_matrix": true,
+            "description": "Modify matrix entries to see how transformations affect space"
+          }
+        }
+      ]
+    },
+    {
+      "type": "theoretical",
+      "title": "EIGENSPACES",
+      "content": "# NEURAL_TRANSMISSION: Eigenvalues and Eigenvectors\n\nSome vectors maintain their direction under transformation. This simple idea unlocks dimensionality reduction, PCA, and more.",
+      "math_blocks": [
+        {
+          "type": "derivation",
+          "title": "Finding Eigenvalues",
+          "steps": [
+            {
+              "equation": "A\\vec{v} = λ\\vec{v}",
+              "explanation": "Definition of eigenvector"
+            },
+            {
+              "equation": "(A - λI)\\vec{v} = \\vec{0}",
+              "explanation": "Rearrange to standard form"
+            },
+            {
+              "equation": "det(A - λI) = 0",
+              "explanation": "Characteristic equation"
+            }
+          ]
+        }
+      ],
+      "visualizations": [
+        {
+          "type": "eigen_demo",
+          "config": {
+            "initial_matrix": [
+              [2, 1],
+              [1, 2]
+            ],
+            "show_eigenvectors": true,
+            "show_unit_circle": true,
+            "animation_speed": 1,
+            "description": "Watch how vectors change under transformation. Eigenvectors maintain direction!"
+          }
+        }
+      ],
+      "practice": [
+        {
+          "type": "derivation",
+          "problem": "Find eigenvalues and eigenvectors of [[2,1],[1,2]]",
+          "solution": {
+            "steps": [
+              {
+                "equation": "det([[2-λ,1],[1,2-λ]]) = 0",
+                "explanation": "Set up characteristic equation"
+              },
+              {
+                "equation": "(2-λ)^2 - 1 = 0",
+                "explanation": "Expand determinant"
+              },
+              {
+                "equation": "λ = 3 or λ = 1",
+                "explanation": "Solve quadratic"
+              }
+            ],
+            "eigenvectors": [
+              {
+                "value": 3,
+                "vector": "[1,1]",
+                "explanation": "Symmetric eigenvector"
+              },
+              {
+                "value": 1,
+                "vector": "[-1,1]",
+                "explanation": "Anti-symmetric eigenvector"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "application",
+      "title": "ML_APPLICATIONS",
+      "content": "# NEURAL_TRANSMISSION: Linear Algebra in ML\n\nLet's connect these concepts to machine learning applications.",
+      "theoretical_foundations": [
+        {
+          "concept": "Principal Component Analysis",
+          "prerequisites": ["Eigendecomposition", "Covariance Matrices"],
+          "key_insights": [
+            {
+              "title": "Geometric Interpretation",
+              "content": "Eigenvectors of covariance matrix point in directions of maximum variance",
+              "visualization_ref": "pca_demo"
+            },
+            {
+              "title": "Dimensionality Reduction",
+              "content": "Project onto top k eigenvectors to preserve maximum variance"
+            }
+          ]
+        },
+        {
+          "concept": "Neural Networks",
+          "key_insights": [
+            {
+              "title": "Weight Matrices",
+              "content": "Each layer performs a linear transformation followed by nonlinearity"
+            },
+            {
+              "title": "Gradient Flow",
+              "content": "Eigenvalues affect how gradients propagate during training"
+            }
+          ]
+        }
+      ],
+      "visualizations": [
+        {
+          "type": "pca_demo",
+          "config": {
+            "data_type": "gaussian_mixture",
+            "n_components": 2,
+            "interactive": true,
+            "show_explained_variance": true,
+            "description": "Visualize how PCA finds directions of maximum variance"
+          }
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "official_docs": [
+      {
+        "title": "The Matrix Cookbook",
+        "url": "https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf",
+        "description": "Quick reference for matrix derivatives, properties, and identities",
+        "highlights": [
+          "Matrix calculus rules",
+          "Eigenvalue properties",
+          "Matrix decompositions"
+        ]
+      }
+    ],
+    "blog_posts": [
+      {
+        "title": "Understanding the Geometric Meaning of Eigenvectors",
+        "author": "3Blue1Brown",
+        "url": "https://www.3blue1brown.com/lessons/eigenvalues",
+        "readingTime": "15 minutes",
+        "difficulty": "beginner",
+        "summary": "Visual guide to eigenvalues/eigenvectors",
+        "key_takeaways": [
+          "Eigenvectors as 'stretch-only' directions",
+          "Why determinant = 0 matters",
+          "Connection to dynamical systems"
+        ],
+        "tags": ["linear algebra", "visualization", "geometry"]
+      },
+      {
+        "title": "PCA as Optimization",
+        "author": "Distill.pub",
+        "url": "https://distill.pub/2016/eigenvectors",
+        "readingTime": "25 minutes",
+        "difficulty": "intermediate",
+        "summary": "Deep dive into PCA's mathematical foundations",
+        "key_takeaways": [
+          "PCA as variance maximization",
+          "Connection to SVD",
+          "Interactive visualizations"
+        ],
+        "tags": ["PCA", "optimization", "machine learning"]
+      }
+    ],
+    "research_papers": [
+      {
+        "title": "Random Matrices in Statistical Physics",
+        "authors": ["Eugene Wigner"],
+        "year": 1967,
+        "url": "https://doi.org/10.1137/1009005",
+        "relevance": "Foundational paper on eigenvalue distributions",
+        "key_sections": [
+          {
+            "section": "2. Semi-Circle Law",
+            "why_important": "Describes behavior of neural network initialization"
+          }
+        ],
+        "difficulty": "advanced"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Essence of Linear Algebra",
+        "creator": "3Blue1Brown",
+        "url": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
+        "duration": "4 hours total",
+        "why_watch": "Best geometric intuition for linear algebra concepts",
+        "highlights": [
+          {
+            "chapter": "Eigenvectors",
+            "timestamp": "1:23:45",
+            "key_insight": "Visual meaning of eigendecomposition"
+          },
+          {
+            "chapter": "Change of Basis",
+            "timestamp": "2:15:30",
+            "key_insight": "Why basis matters in ML"
+          }
+        ]
+      }
+    ]
+  },
+  "quick_references": {
+    "common_operations": [
+      {
+        "operation": "Matrix Multiplication",
+        "key_points": [
+          "Not commutative: AB ≠ BA generally",
+          "Associative: (AB)C = A(BC)",
+          "Distributive: A(B+C) = AB + AC"
+        ],
+        "common_mistakes": {
+          "mistake": "Forgetting dimension compatibility",
+          "prevention": "Always check: (m×n)(n×p) = (m×p)"
+        },
+        "examples": [
+          {
+            "description": "2×2 multiplication",
+            "latex": "\\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix} \\begin{bmatrix} w & x \\\\ y & z \\end{bmatrix} = \\begin{bmatrix} aw+by & ax+bz \\\\ cw+dy & cx+dz \\end{bmatrix}"
+          }
+        ]
+      },
+      {
+        "operation": "Eigendecomposition",
+        "key_points": [
+          "A = PDP⁻¹ where D is diagonal",
+          "Columns of P are eigenvectors",
+          "D contains eigenvalues"
+        ],
+        "when_to_use": [
+          "Diagonalizing matrices",
+          "Finding principal components",
+          "Solving differential equations"
+        ],
+        "code_snippet": {
+          "language": "python",
+          "code": "eigenvals, eigenvecs = np.linalg.eig(A)"
+        }
+      }
+    ],
+    "key_theorems": [
+      {
+        "name": "Spectral Theorem",
+        "statement": "Every symmetric matrix has orthogonal eigenvectors",
+        "why_important": "Guarantees nice properties for covariance matrices",
+        "applications": [
+          "PCA works because covariance matrices are symmetric",
+          "Makes optimization easier in deep learning"
+        ]
+      }
+    ],
+    "visual_aids": [
+      {
+        "concept": "Singular Value Decomposition",
+        "visualization_type": "interactive",
+        "description": "See how matrix transforms unit circle",
+        "key_steps": [
+          "V: Initial rotation",
+          "Σ: Scaling along axes",
+          "U: Final rotation"
+        ]
+      }
+    ],
+    "common_pitfalls": [
+      {
+        "issue": "Matrix non-commutativity",
+        "example": "Rotation matrices in 3D",
+        "why_it_matters": "Order of operations affects result",
+        "how_to_avoid": "Always maintain consistent operation order"
+      },
+      {
+        "issue": "Degenerate eigenvalues",
+        "what_happens": "Multiple eigenvalues are equal",
+        "why_it_matters": "Eigenvectors not uniquely determined",
+        "solution": "Use numerical methods carefully"
+      }
+    ],
+    "memory_aids": [
+      {
+        "concept": "Matrix multiplication",
+        "trick": "Dot product of row with column",
+        "visual": "Sliding row across columns"
+      },
+      {
+        "concept": "Determinant",
+        "trick": "Area/volume scaling factor",
+        "visual": "How unit square/cube transforms"
+      }
+    ],
+    "notation_guide": {
+      "matrices": {
+        "A": "Usually denotes a matrix",
+        "AT": "Transpose",
+        "A⁻¹": "Inverse",
+        "tr(A)": "Trace",
+        "det(A)": "Determinant"
+      },
+      "vectors": {
+        "v": "Column vector by default",
+        "v^T": "Row vector",
+        "||v||": "Vector norm",
+        "⟨u,v⟩": "Inner product"
+      }
+    }
+  },
+  "completion_criteria": {
+    "required_concepts": [
+      "vector_spaces",
+      "linear_transforms",
+      "eigendecomposition"
+    ],
+    "minimum_practice_score": 80,
+    "time_compression": "ENABLED"
+  }
+}

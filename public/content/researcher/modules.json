@@ -1,0 +1,12 @@
+{
+  "modules": [
+    {
+      "id": "foundations",
+      "title": "Foundations",
+      "description": "LINEAR_ALGEBRA: Master the essential matrix operations and fundamental concepts of linear algebra",
+      "order": 1,
+      "prerequisites": [],
+      "timeToCompletion": "24_HOURS"
+    }
+  ]
+}

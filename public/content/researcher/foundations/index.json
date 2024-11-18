@@ -1,0 +1,21 @@
+{
+  "id": "foundations",
+  "title": "Foundations",
+  "description": "Master the essential matrix operations and fundamental concepts of linear algebra",
+  "timeToMaster": "24_HOURS",
+  "concepts": [
+    {
+      "id": "linear_algebra",
+      "title": "Linear Algebra",
+      "timeEstimate": "4_HOURS",
+      "prerequisites": [],
+      "order": 1,
+      "description": "Initialize your neural pathways with tensor operations - the fundamental building blocks of deep learning architectures"
+    }
+  ],
+  "systemRequirements": {
+    "NEURAL_CAPACITY": "2GB",
+    "PROCESSOR_THREADS": "QUANTUM_READY",
+    "TIME_DILATION": "ENABLED"
+  }
+}

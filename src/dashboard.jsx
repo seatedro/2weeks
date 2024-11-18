@@ -241,6 +241,7 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
                     title={`> ${currentConcept.title.toUpperCase()}`}
                   >
                     <SectionContent
+                      selectedPath={selectedPath}
                       currentConcept={currentConcept}
                       moduleId={currentModule.id}
                       conceptId={currentConcept.id}

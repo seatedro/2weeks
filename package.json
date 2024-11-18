@@ -16,7 +16,10 @@
     "lucide-react": "^0.456.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-katex": "^3.0.1",
     "react-spring": "^9.7.4",
+    "recharts": "^2.13.3",
+    "shiki": "^1.23.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -24,6 +27,7 @@
     "@eslint/js": "^9.13.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@types/react-katex": "^3.0.4",
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.13.0",
