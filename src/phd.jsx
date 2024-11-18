@@ -16,83 +16,112 @@ import { InlineMath, BlockMath } from "react-katex";
 const MathBlock = ({ block }) => {
   const [expanded, setExpanded] = useState(false);
 
+  const retroMathStyle = {
+    ".katex": {
+      fontFamily: "VT323, monospace",
+      color: "#4ade80",
+      textShadow: "0 0 5px rgba(74, 222, 128, 0.5)",
+    },
+    ".katex-html": {
+      background: "rgba(0, 0, 0, 0.3)",
+      padding: "0.5rem",
+      borderRadius: "4px",
+    },
+  };
+
   return (
-    <div className="border border-green-400/30 bg-black/50 p-4 my-4 font-vt323">
+    <div className="border border-green-400/30 bg-black/50 p-4 my-4 font-vt323 w-full max-w-full overflow-x-hidden">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-green-400">
-          [{block.type.toUpperCase()}]: {block.title}
-        </div>
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="text-green-400/70 hover:text-green-400"
-        >
-          {expanded ? "[COLLAPSE]" : "[EXPAND]"}
-        </button>
+      <div className="flex justify-between items-center mb-4 text-green-400 text-md md:text-lg lg:text-xl">
+        {block.title}
+        <span className="text-green-300 text-sm md:text-md">
+          [{block.type.toUpperCase()}]
+        </span>
       </div>
 
       {/* Optional context/setup */}
       {block.content && (
-        <div className="text-green-400/70 mb-4">{block.content}</div>
+        <div className="text-green-400/70 mb-4 text-base md:text-lg">
+          {block.content}
+        </div>
       )}
 
       {/* Equations with explanations */}
-      {expanded &&
-        block.equations?.map((eq, i) => (
-          <div
-            key={i}
-            className="mb-6 border-l-2 border-green-400/30 pl-2 md:pl-4"
-          >
-            {/* LaTeX equation */}
-            <div className="bg-black/30 p-2 md:p-4 mb-2 overflow-x-auto">
-              <div className="min-w-fit">
-                <BlockMath
-                  math={eq.latex}
-                  renderError={() => (
-                    <div className="text-red-400 text-sm">
-                      Error rendering equation
-                    </div>
-                  )}
-                />
-              </div>
-            </div>
-
-            {/* Explanation */}
-            <div className="text-green-400/70 text-sm">{eq.explanation}</div>
-
-            {/* Geometric interpretation */}
-            {eq.geometric_meaning && (
-              <div className="mt-2 text-green-400/50 text-sm">
-                GEOMETRIC_INSIGHT: {eq.geometric_meaning}
-              </div>
-            )}
+      {block.equations?.map((eq, i) => (
+        <div
+          key={i}
+          className="mb-6 border-l-2 border-green-400/30 pl-2 md:pl-4"
+        >
+          {/* Explanation */}
+          <div className="text-green-400/70 text-base md:text-lg">
+            {eq.explanation}
           </div>
-        ))}
-
-      {/* Derivation steps */}
-      {expanded &&
-        block.steps?.map((step, i) => (
-          <div key={i} className="mb-4">
-            <div className="flex items-start gap-4">
-              <div className="text-green-400/50 w-8">
-                [{String(i + 1).padStart(2, "0")}]
-              </div>
-              <div className="flex-1">
-                <div className="bg-black/30 p-2 font-mono text-green-400/90 mb-2">
-                  $${step.equation}$$
-                </div>
-                <div className="text-green-400/70 text-sm mb-1">
-                  {step.explanation}
-                </div>
-                {step.insight && (
-                  <div className="text-yellow-400/70 text-sm">
-                    KEY_INSIGHT: {step.insight}
+          {/* LaTeX equation */}
+          <div className="bg-black/30 p-2 md:p-4 mb-2 overflow-x-auto">
+            <div className="min-w-fit">
+              <style>
+                {Object.entries(retroMathStyle)
+                  .map(
+                    ([selector, styles]) =>
+                      `${selector} { ${Object.entries(styles)
+                        .map(([prop, value]) => `${prop}: ${value};`)
+                        .join(" ")} }`,
+                  )
+                  .join("\n")}
+              </style>
+              <BlockMath
+                math={eq.latex}
+                renderError={() => (
+                  <div className="text-red-400 text-base">
+                    Error rendering equation
                   </div>
                 )}
-              </div>
+              />
             </div>
           </div>
-        ))}
+
+          {/* Geometric interpretation */}
+          {eq.geometric_meaning && (
+            <div className="mt-2 text-green-400/50 text-base md:text-lg">
+              GEOMETRIC_INSIGHT: {eq.geometric_meaning}
+            </div>
+          )}
+        </div>
+      ))}
+
+      {/* Derivation steps */}
+      {block.steps?.map((step, i) => (
+        <div key={i} className="mb-4">
+          <div className="flex items-start gap-4">
+            <div className="text-green-400/50 w-8 text-base md:text-lg">
+              [{String(i + 1).padStart(2, "0")}]
+            </div>
+            <div className="flex-1 overflow-x-auto">
+              <div className="text-green-400/70 text-base md:text-lg mb-1">
+                {step.explanation}
+              </div>
+              <div className="bg-black/30 p-2 font-mono text-green-400/90 mb-2 min-w-fit">
+                <style>
+                  {Object.entries(retroMathStyle)
+                    .map(
+                      ([selector, styles]) =>
+                        `${selector} { ${Object.entries(styles)
+                          .map(([prop, value]) => `${prop}: ${value};`)
+                          .join(" ")} }`,
+                    )
+                    .join("\n")}
+                </style>
+                <BlockMath math={step.equation} />
+              </div>
+              {step.insight && (
+                <div className="text-yellow-400/70 text-base md:text-lg">
+                  KEY_INSIGHT: {step.insight}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
@@ -185,15 +214,15 @@ const PracticeProblem = ({ problem, onComplete }) => {
   return (
     <div className="border border-green-400/30 bg-black/50 p-4 my-4 font-vt323">
       <div className="flex justify-between items-center mb-4">
-        <div className="text-green-400">
-          NEURAL_TRAINING_SEQUENCE: {problem.type.toUpperCase()}
-        </div>
+        <div className="text-green-400">{problem.type.toUpperCase()}</div>
         <div className="text-green-400/50 text-sm">
           STATUS: {showSolution ? "COMPLETED" : "IN_PROGRESS"}
         </div>
       </div>
 
-      <div className="text-green-400/90 mb-4">{problem.problem}</div>
+      <div className="text-green-400/90 mb-4 text-md md:text-lg">
+        {problem.question}
+      </div>
 
       {/* Hints */}
       {problem.hints?.length > 0 && (
@@ -369,13 +398,13 @@ const PhDContent = ({ currentConcept, onComplete }) => {
           className="border border-green-400/20 bg-black/50 p-4 md:p-6"
         >
           <div className="flex items-center gap-2 mb-4">
-            <span className="text-green-400/50 text-sm md:text-base">
+            <span className="text-green-400/50 text-base md:text-lg lg:text-xl">
               [{String(idx + 1).padStart(2, "0")}]
             </span>
-            <h2 className="text-lg md:text-xl text-green-400">
+            <h2 className="text-lg md:text-xl lg:text-2xl text-green-400">
               {section.title}
               {section.advanced && (
-                <span className="ml-2 text-xs md:text-sm text-yellow-400 animate-pulse">
+                <span className="ml-2 text-sm md:text-base lg:text-lg text-yellow-400 animate-pulse">
                   [HYPERMODE_CONTENT]
                 </span>
               )}
@@ -383,7 +412,7 @@ const PhDContent = ({ currentConcept, onComplete }) => {
           </div>
 
           {/* Main content */}
-          <div className="text-green-400/90 whitespace-pre-wrap font-vt323">
+          <div className="text-green-400/90 whitespace-pre-wrap font-vt323 text-md md:text-lg lg:text-xl">
             {section.content}
           </div>
 

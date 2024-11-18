@@ -7,7 +7,7 @@
     {
       "type": "theoretical",
       "title": "VECTOR_SPACES",
-      "content": "# NEURAL_TRANSMISSION: Vector Spaces\n\nBefore diving into complex topics, let's build strong geometric intuition about vector spaces - the foundation of modern machine learning.",
+      "content": "# Vector Spaces\n\nBefore diving into complex topics, let's build strong geometric intuition about vector spaces - the foundation of modern machine learning.",
       "math_blocks": [
         {
           "type": "definition",
@@ -53,15 +53,21 @@
       "practice": [
         {
           "type": "concept_check",
-          "question": "Why is R² closed under addition?",
-          "solution": "Adding any two points in the plane always gives another point in the plane, satisfying closure property"
+          "problem": "Why is R² closed under addition?",
+          "solution": {
+            "steps": [
+              {
+                "explanation": "Adding any two points in the plane always gives another point in the plane, satisfying closure property"
+              }
+            ]
+          }
         }
       ]
     },
     {
       "type": "theoretical",
       "title": "LINEAR_TRANSFORMATIONS",
-      "content": "# NEURAL_TRANSMISSION: Linear Transformations\n\nLinear transformations are the heart of machine learning. They're how we transform data while preserving vector space structure.",
+      "content": "# Linear Transformations\n\nLinear transformations are the heart of machine learning. They're how we transform data while preserving vector space structure.",
       "math_blocks": [
         {
           "type": "definition",
@@ -111,7 +117,7 @@
     {
       "type": "theoretical",
       "title": "EIGENSPACES",
-      "content": "# NEURAL_TRANSMISSION: Eigenvalues and Eigenvectors\n\nSome vectors maintain their direction under transformation. This simple idea unlocks dimensionality reduction, PCA, and more.",
+      "content": "# Eigenvalues and Eigenvectors\n\nSome vectors maintain their direction under transformation. This simple idea unlocks dimensionality reduction, PCA, and more.",
       "math_blocks": [
         {
           "type": "derivation",
@@ -185,7 +191,7 @@
     {
       "type": "application",
       "title": "ML_APPLICATIONS",
-      "content": "# NEURAL_TRANSMISSION: Linear Algebra in ML\n\nLet's connect these concepts to machine learning applications.",
+      "content": "# Linear Algebra in ML\n\nLet's connect these concepts to machine learning applications.",
       "theoretical_foundations": [
         {
           "concept": "Principal Component Analysis",
