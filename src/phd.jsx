@@ -29,7 +29,7 @@ const MathBlock = ({ block }) => {
   };
 
   return (
-    <div className="border border-green-400/30 bg-black/50 p-4 my-4 font-vt323 w-full max-w-full overflow-x-hidden">
+    <div className="border border-green-400/30 bg-black/50 p-4 my-4  w-full max-w-full overflow-x-hidden">
       {/* Header */}
       <div className="flex justify-between items-center mb-4 text-green-400 text-md md:text-lg lg:text-xl">
         {block.title}
@@ -99,7 +99,7 @@ const MathBlock = ({ block }) => {
               <div className="text-green-400/70 text-base md:text-lg mb-1">
                 {step.explanation}
               </div>
-              <div className="bg-black/30 p-2 font-mono text-green-400/90 mb-2 min-w-fit">
+              <div className="bg-black/30 p-2  text-green-400/90 mb-2 min-w-fit">
                 <style>
                   {Object.entries(retroMathStyle)
                     .map(
@@ -130,7 +130,7 @@ const TheoreticalFoundation = ({ foundation }) => {
   const [activeInsight, setActiveInsight] = useState(null);
 
   return (
-    <div className="border border-green-400/30 bg-black/50 p-4 my-4 font-vt323">
+    <div className="border border-green-400/30 bg-black/50 p-4 my-4 ">
       <div className="text-green-400 mb-4">
         THEORETICAL_FOUNDATION: {foundation.concept}
       </div>
@@ -210,7 +210,7 @@ const PracticeProblem = ({ problem, onComplete }) => {
   const [showHints, setShowHints] = useState(false);
 
   return (
-    <div className="border border-green-400/30 bg-black/50 p-4 my-4 font-vt323">
+    <div className="border border-green-400/30 bg-black/50 p-4 my-4 ">
       <div className="flex justify-between items-center mb-4">
         <div className="text-green-400">{problem.type.toUpperCase()}</div>
       </div>
@@ -320,7 +320,7 @@ export const PhDContent = ({ currentConcept, onComplete }) => {
           </div>
 
           {/* Main content */}
-          <div className="text-green-400/90 whitespace-pre-wrap font-vt323 text-md md:text-lg lg:text-xl">
+          <div className="text-green-400/90 whitespace-pre-wrap  text-md md:text-lg lg:text-xl">
             {section.content}
           </div>
 
@@ -362,7 +362,7 @@ export const PhDQuickReference = ({ reference }) => {
         onClick={() => setExpandedSection(expandedSection === id ? null : id)}
         className="w-full text-left"
       >
-        <div className="flex items-center justify-between text-green-400 font-mono">
+        <div className="flex items-center justify-between text-green-400 ">
           <span>[{title}]</span>
           <span className="text-green-400/50">
             {expandedSection === id ? "[-]" : "[+]"}
@@ -376,7 +376,7 @@ export const PhDQuickReference = ({ reference }) => {
   );
 
   return (
-    <div className="font-vt323 text-green-400 p-4 border border-green-400/30 bg-black/20">
+    <div className=" text-green-400 p-4 border border-green-400/30 bg-black/20">
       {/* Common Operations */}
       <Section title="COMMON_OPERATIONS" id="operations">
         {reference.common_operations?.map((op, idx) => (
@@ -418,7 +418,7 @@ export const PhDQuickReference = ({ reference }) => {
 
             {/* Code Snippets */}
             {op.code_snippet && (
-              <div className="mt-4 font-mono">
+              <div className="mt-4 ">
                 <div className="text-green-400/70 mb-1">IMPLEMENTATION:</div>
                 <pre className="bg-black/40 p-2 overflow-x-auto text-green-400/90">
                   <code>{op.code_snippet.code}</code>

@@ -48,7 +48,7 @@ const PowerUpEffect = ({ onComplete }) => {
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-90">
       <div className="text-center">
         <div className="relative">
-          <div className="text-green-400 font-mono text-2xl font-bold mb-4 animate-pulse glitch-text border-4 border-green-400 p-8 rounded-lg relative">
+          <div className="text-green-400  text-2xl font-bold mb-4 animate-pulse glitch-text border-4 border-green-400 p-8 rounded-lg relative">
             {POWER_UP_MESSAGES[currentMessage]}
             <div className="absolute inset-0 border-4 border-green-400 rounded-lg animate-border-glow"></div>
             <style jsx>{`
@@ -185,7 +185,7 @@ const KonamiHandler = ({ hyperLearningMode }) => {
         <PowerUpEffect onComplete={handlePowerUpComplete} />
       )}
       {hyperLearningMode && (
-        <div className="fixed bottom-4 left-4 text-green-400 font-mono text-sm animate-pulse">
+        <div className="fixed bottom-4 left-4 text-green-400  text-sm animate-pulse">
           HYPERLEARNING MODE: ACTIVE
         </div>
       )}

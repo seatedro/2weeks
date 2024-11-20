@@ -79,7 +79,7 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
                   setExpandedModule(module.id);
                 }
               }}
-              className="w-full text-left p-4 font-vt323 hover:bg-green-400/10 transition-colors"
+              className="w-full text-left p-4  hover:bg-green-400/10 transition-colors"
             >
               <div className="flex items-center text-green-400">
                 <span className="mr-2">
@@ -105,7 +105,7 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
                     <button
                       key={concept.id}
                       onClick={() => handleConceptSelect(module.id, concept.id)}
-                      className={`w-full text-left p-4 pl-8 font-vt323 border-b border-green-400/10
+                      className={`w-full text-left p-4 pl-8  border-b border-green-400/10
                           ${isSelected ? "bg-green-400/20" : "hover:bg-green-400/10"}
                           transition-colors`}
                     >
@@ -140,7 +140,7 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
           <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-yellow-500 animate-pulse delay-75"></div>
           <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-green-500 animate-pulse delay-150"></div>
         </div>
-        <span className="text-green-400 font-vt323 tracking-wider text-sm md:text-base">
+        <span className="text-green-400  tracking-wider text-sm md:text-base">
           {title}
         </span>
       </div>
@@ -149,7 +149,7 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
   );
 
   return (
-    <div className="min-h-screen bg-black p-4 md:p-8 relative overflow-hidden font-vt323">
+    <div className="min-h-screen bg-black p-4 md:p-8 relative overflow-hidden ">
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}

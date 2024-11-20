@@ -52,11 +52,9 @@ const MessageBox = ({ message, onClose }) => {
       <div className="bg-black border border-green-400 p-4 rounded-lg shadow-lg max-w-md">
         <div className="flex items-center gap-2 mb-2">
           <AlertTriangle className="text-yellow-400" size={20} />
-          <h3 className="text-green-400 font-bold font-mono">
-            {message.title}
-          </h3>
+          <h3 className="text-green-400 font-bold ">{message.title}</h3>
         </div>
-        <pre className="text-green-400 font-mono text-sm whitespace-pre-wrap">
+        <pre className="text-green-400  text-sm whitespace-pre-wrap">
           {message.message}
         </pre>
       </div>

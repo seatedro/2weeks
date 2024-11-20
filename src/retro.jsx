@@ -1,23 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Terminal, Brain, Activity } from 'lucide-react';
+import React, { useState, useRef, useEffect } from "react";
+import { Terminal, Brain, Activity } from "lucide-react";
 
 // Hack minigame component
 const HackMinigame = ({ onComplete }) => {
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState("");
   const [level, setLevel] = useState(0);
-  const [hint, setHint] = useState('');
+  const [hint, setHint] = useState("");
 
   const LEVELS = [
     {
-      puzzle: 'Complete the gradient descent formula: w = w - η * ...',
-      answer: '∇w',
-      hint: 'Think about the derivative with respect to weights'
+      puzzle: "Complete the gradient descent formula: w = w - η * ...",
+      answer: "∇w",
+      hint: "Think about the derivative with respect to weights",
     },
     {
-      puzzle: 'What activation function looks like σ(x) = max(0,x)?',
-      answer: 'relu',
-      hint: 'Rectified Linear Unit'
-    }
+      puzzle: "What activation function looks like σ(x) = max(0,x)?",
+      answer: "relu",
+      hint: "Rectified Linear Unit",
+    },
   ];
 
   const checkAnswer = (input) => {
@@ -25,21 +25,21 @@ const HackMinigame = ({ onComplete }) => {
       if (level === LEVELS.length - 1) {
         onComplete();
       } else {
-        setLevel(l => l + 1);
-        setCode('');
+        setLevel((l) => l + 1);
+        setCode("");
       }
     }
   };
 
   return (
-    <div className="border border-green-400 p-4 font-mono">
+    <div className="border border-green-400 p-4 ">
       <div className="text-green-400 mb-4">HACK_LEVEL_{level + 1}</div>
       <div className="mb-4">{LEVELS[level].puzzle}</div>
       <input
         type="text"
         value={code}
         onChange={(e) => setCode(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && checkAnswer(code)}
+        onKeyDown={(e) => e.key === "Enter" && checkAnswer(code)}
         className="bg-black text-green-400 border border-green-400 p-2 w-full"
         placeholder="Enter solution..."
       />
@@ -65,12 +65,12 @@ const DebugMode = ({ algorithm }) => {
 
     // Simulate algorithm execution
     switch (algorithm) {
-      case 'backprop':
+      case "backprop":
         debugSteps.push(
-          'Forward pass: computing activations...',
-          'Computing loss: MSE = 0.342...',
-          'Backward pass: computing gradients...',
-          'Updating weights: w = w - 0.01 * ∇w...'
+          "Forward pass: computing activations...",
+          "Computing loss: MSE = 0.342...",
+          "Backward pass: computing gradients...",
+          "Updating weights: w = w - 0.01 * ∇w...",
         );
         break;
       // Add more algorithms
@@ -79,7 +79,7 @@ const DebugMode = ({ algorithm }) => {
     let step = 0;
     const interval = setInterval(() => {
       if (step < debugSteps.length) {
-        setSteps(s => [...s, debugSteps[step]]);
+        setSteps((s) => [...s, debugSteps[step]]);
         step++;
       } else {
         clearInterval(interval);
@@ -89,7 +89,7 @@ const DebugMode = ({ algorithm }) => {
   };
 
   return (
-    <div className="font-mono">
+    <div className="">
       <div className="flex items-center gap-2 mb-4">
         <Terminal size={18} />
         <span>DEBUG_MODE: {algorithm.toUpperCase()}</span>
@@ -122,12 +122,12 @@ const SystemOverload = ({ intensity }) => {
         id: Date.now(),
         x: Math.random() * 100,
         y: Math.random() * 100,
-        duration: Math.random() * 500
+        duration: Math.random() * 500,
       };
 
-      setGlitches(g => [...g, glitch]);
+      setGlitches((g) => [...g, glitch]);
       setTimeout(() => {
-        setGlitches(g => g.filter(g => g.id !== glitch.id));
+        setGlitches((g) => g.filter((g) => g.id !== glitch.id));
       }, glitch.duration);
     };
 
@@ -137,16 +137,16 @@ const SystemOverload = ({ intensity }) => {
 
   return (
     <div className="fixed inset-0 pointer-events-none">
-      {glitches.map(glitch => (
+      {glitches.map((glitch) => (
         <div
           key={glitch.id}
           className="absolute bg-green-400 opacity-50"
           style={{
             left: `${glitch.x}%`,
             top: `${glitch.y}%`,
-            width: '50px',
-            height: '2px',
-            animation: `glitch-animation ${glitch.duration}ms linear`
+            width: "50px",
+            height: "2px",
+            animation: `glitch-animation ${glitch.duration}ms linear`,
           }}
         />
       ))}
@@ -163,13 +163,13 @@ const Defragmentation = ({ onComplete }) => {
     // Generate random sectors
     const newSectors = Array.from({ length: 50 }, () => ({
       size: Math.random() * 100,
-      fragmented: Math.random() > 0.5
+      fragmented: Math.random() > 0.5,
     }));
     setSectors(newSectors);
 
     // Simulate defragmentation
     const interval = setInterval(() => {
-      setProgress(p => {
+      setProgress((p) => {
         if (p >= 100) {
           clearInterval(interval);
           onComplete();
@@ -185,7 +185,7 @@ const Defragmentation = ({ onComplete }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center">
       <div className="max-w-md w-full p-8">
-        <h2 className="text-green-400 font-mono text-xl mb-4">
+        <h2 className="text-green-400  text-xl mb-4">
           MEMORY_DEFRAGMENTATION_IN_PROGRESS
         </h2>
         <div className="mb-4 h-2 bg-gray-800 rounded">
@@ -198,16 +198,17 @@ const Defragmentation = ({ onComplete }) => {
           {sectors.map((sector, i) => (
             <div
               key={i}
-              className={`h-2 rounded transition-all duration-500 ${progress > (i / sectors.length) * 100
-                  ? 'bg-green-400'
+              className={`h-2 rounded transition-all duration-500 ${
+                progress > (i / sectors.length) * 100
+                  ? "bg-green-400"
                   : sector.fragmented
-                    ? 'bg-red-400'
-                    : 'bg-yellow-400'
-                }`}
+                    ? "bg-red-400"
+                    : "bg-yellow-400"
+              }`}
             />
           ))}
         </div>
-        <div className="text-green-400 font-mono mt-4">
+        <div className="text-green-400  mt-4">
           Optimizing neural pathways: {progress}%
         </div>
       </div>

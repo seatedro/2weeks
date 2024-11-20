@@ -112,7 +112,7 @@ export const EngineerContent = ({
     const [showSolution, setShowSolution] = useState(false);
 
     return (
-      <div className="border border-green-400/30 p-2 md:p-4 font-vt323">
+      <div className="border border-green-400/30 p-2 md:p-4 ">
         <div className="text-green-400 text-sm md:text-base mb-2">
           {example.title || "CODE_EXECUTION_EXAMPLE"}
         </div>
@@ -176,7 +176,7 @@ export const EngineerContent = ({
     const [showSolution, setShowSolution] = useState(false);
 
     return (
-      <div className="border border-green-400/30 p-2 md:p-4 font-vt323">
+      <div className="border border-green-400/30 p-2 md:p-4 ">
         <div className="flex flex-col md:flex-row justify-between items-start">
           <div>
             <div className="text-green-400 text-sm md:text-base">
@@ -640,7 +640,7 @@ export const EngineerContent = ({
     const [showSolution, setShowSolution] = useState(false);
 
     return (
-      <div className="border border-green-400/30 p-2 md:p-4 font-vt323">
+      <div className="border border-green-400/30 p-2 md:p-4 ">
         <div className="text-green-400 text-sm md:text-base">
           {scenario.title}
         </div>
@@ -725,7 +725,7 @@ export const EngineerContent = ({
 
 export const EngQuickReference = ({ reference }) => {
   return (
-    <div className="border border-green-400/30 p-2 md:p-4 font-vt323">
+    <div className="border border-green-400/30 p-2 md:p-4 ">
       <h3 className="text-green-400 mb-2 md:mb-4 text-sm md:text-base">
         [QUICK_REFERENCE_DATABASE]
       </h3>
@@ -742,7 +742,7 @@ export const EngQuickReference = ({ reference }) => {
                 <div className="text-green-400/70 mb-1 text-xs md:text-sm">
                   • {example.description}
                 </div>
-                <code className="text-green-400/90 block ml-2 md:ml-4 font-mono text-xs md:text-sm overflow-x-auto">
+                <code className="text-green-400/90 block ml-2 md:ml-4  text-xs md:text-sm overflow-x-auto">
                   {example.code}
                 </code>
               </div>
@@ -763,7 +763,7 @@ export const EngQuickReference = ({ reference }) => {
                 <div className="text-green-400/70 mb-1 text-xs md:text-sm">
                   • {pattern.pattern}
                 </div>
-                <code className="text-green-400/90 block ml-2 md:ml-4 font-mono whitespace-pre text-xs md:text-sm overflow-x-auto">
+                <code className="text-green-400/90 block ml-2 md:ml-4  whitespace-pre text-xs md:text-sm overflow-x-auto">
                   {pattern.template}
                 </code>
               </div>

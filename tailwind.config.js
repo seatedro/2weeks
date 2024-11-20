@@ -54,8 +54,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["VT323", ...defaultTheme.fontFamily.sans],
-        vt323: ["VT323"],
+        sans: ["Geist Mono", ...defaultTheme.fontFamily.sans],
       },
     },
   },

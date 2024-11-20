@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 
-const GLITCH_CHARS = '!@#$%^&*()_+-=[]{}|;:,.<>?`~¡™£¢∞§¶•ªº–≠åß∂ƒ©˙∆˚¬…æ';
+const GLITCH_CHARS = "!@#$%^&*()_+-=[]{}|;:,.<>?`~¡™£¢∞§¶•ªº–≠åß∂ƒ©˙∆˚¬…æ";
 const ASCII_BRAIN = String.raw`
- ____                      _          _             _ _                                           _ 
+ ____                      _          _             _ _                                           _
 |___ \  __      _____  ___| | _____  (_)___    __ _| | |  _   _  ___  _   _   _ __   ___  ___  __| |
   __) | \ \ /\ / / _ \/ _ \ |/ / __| | / __|  / _' | | | | | | |/ _ \| | | | | '_ \ / _ \/ _ \/ _' |
  / __/   \ V  V /  __/  __/   <\__ \ | \__ \ | (_| | | | | |_| | (_) | |_| | | | | |  __/  __/ (_| |
 |_____|   \_/\_/ \___|\___|_|\_\___/ |_|___/  \__,_|_|_|  \__, |\___/ \__,_| |_| |_|\___|\___|\__,_|
-                                                          |___/                                     
+                                                          |___/
 `;
 const BOOT_MESSAGES = [
   "INITIATING NEURAL PATHWAYS...",
@@ -15,14 +15,15 @@ const BOOT_MESSAGES = [
   "CALIBRATING SYNAPTIC CONNECTIONS...",
   "REMEMBER: YOU CAN LEARN ANYTHING IN TWO WEEKS",
   "PREPARING TO BREAK CONVENTIONAL LEARNING BARRIERS...",
-  "SYSTEM READY"
+  "SYSTEM READY",
 ];
-
 
 const BootSequence = ({ setBootSequence }) => {
   const [currentMessage, setCurrentMessage] = useState(0);
-  const [text, setText] = useState('');
-  const [glitchLines, setGlitchLines] = useState(new Array(BOOT_MESSAGES.length).fill(''));
+  const [text, setText] = useState("");
+  const [glitchLines, setGlitchLines] = useState(
+    new Array(BOOT_MESSAGES.length).fill(""),
+  );
   const [glitchActive, setGlitchActive] = useState(false);
   const [powerFlicker, setPowerFlicker] = useState(false);
   const [interference, setInterference] = useState(false);
@@ -30,13 +31,13 @@ const BootSequence = ({ setBootSequence }) => {
 
   useEffect(() => {
     const handleSkip = (e) => {
-      if (e.key === 'Escape' || e.key === ' ') {
+      if (e.key === "Escape" || e.key === " ") {
         setBootSequence(false);
       }
     };
 
-    window.addEventListener('keydown', handleSkip);
-    return () => window.removeEventListener('keydown', handleSkip);
+    window.addEventListener("keydown", handleSkip);
+    return () => window.removeEventListener("keydown", handleSkip);
   }, [setBootSequence]);
 
   // Static noise effect
@@ -44,7 +45,7 @@ const BootSequence = ({ setBootSequence }) => {
     const canvas = noiseCanvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     const width = canvas.width;
     const height = canvas.height;
 
@@ -71,20 +72,22 @@ const BootSequence = ({ setBootSequence }) => {
       if (Math.random() < 0.15) {
         const lineToGlitch = Math.floor(Math.random() * (currentMessage + 1));
 
-        setGlitchLines(prevLines =>
+        setGlitchLines((prevLines) =>
           prevLines.map((line, index) => {
             if (index === lineToGlitch) {
               return BOOT_MESSAGES[index]
-                .split('')
-                .map(char =>
-                  Math.random() < 0.2 ?
-                    GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)] :
-                    char
+                .split("")
+                .map((char) =>
+                  Math.random() < 0.2
+                    ? GLITCH_CHARS[
+                        Math.floor(Math.random() * GLITCH_CHARS.length)
+                      ]
+                    : char,
                 )
-                .join('');
+                .join("");
             }
             return line;
-          })
+          }),
         );
 
         // Random power flicker chance
@@ -100,10 +103,10 @@ const BootSequence = ({ setBootSequence }) => {
         }
 
         setTimeout(() => {
-          setGlitchLines(prevLines =>
+          setGlitchLines((prevLines) =>
             prevLines.map((line, index) =>
-              index === lineToGlitch ? '' : line
-            )
+              index === lineToGlitch ? "" : line,
+            ),
           );
         }, 50);
       }
@@ -127,7 +130,7 @@ const BootSequence = ({ setBootSequence }) => {
       if (i > message.length) {
         clearInterval(interval);
         setTimeout(() => {
-          setCurrentMessage(prev => prev + 1);
+          setCurrentMessage((prev) => prev + 1);
         }, 400); // Reduced from 800
       }
     }, 20); // Reduced from 50
@@ -135,9 +138,10 @@ const BootSequence = ({ setBootSequence }) => {
   }, [currentMessage]);
 
   return (
-    <div className={`fixed inset-0 bg-black flex items-center justify-center overflow-hidden 
-      ${powerFlicker ? 'power-flicker' : ''}`}>
-
+    <div
+      className={`fixed inset-0 bg-black flex items-center justify-center overflow-hidden
+      ${powerFlicker ? "power-flicker" : ""}`}
+    >
       {/* Static noise canvas */}
       <canvas
         ref={noiseCanvasRef}
@@ -157,16 +161,16 @@ const BootSequence = ({ setBootSequence }) => {
 
       <div className="max-w-2xl w-full space-y-4 flex flex-col items-center justify-center crt-content">
         {/* ASCII art with glitch effect */}
-        <div className={`relative ${glitchActive ? 'glitch-container' : ''}`}>
-          <pre className="text-green-400 font-mono text-center opacity-70 text-[0.4rem] sm:text-[0.6rem] md:text-[0.7rem] whitespace-pre max-w-full">
+        <div className={`relative ${glitchActive ? "glitch-container" : ""}`}>
+          <pre className="text-green-400  text-center opacity-70 text-[0.4rem] sm:text-[0.6rem] md:text-[0.7rem] whitespace-pre max-w-full">
             {ASCII_BRAIN}
           </pre>
           {glitchActive && (
             <>
-              <pre className="text-red-400 font-mono text-center opacity-70 text-[0.4rem] sm:text-[0.6rem] md:text-[0.7rem] whitespace-pre max-w-full absolute top-0 left-0 glitch-offset-1">
+              <pre className="text-red-400  text-center opacity-70 text-[0.4rem] sm:text-[0.6rem] md:text-[0.7rem] whitespace-pre max-w-full absolute top-0 left-0 glitch-offset-1">
                 {ASCII_BRAIN}
               </pre>
-              <pre className="text-blue-400 font-mono text-center opacity-70 text-[0.4rem] sm:text-[0.6rem] md:text-[0.7rem] whitespace-pre max-w-full absolute top-0 left-0 glitch-offset-2">
+              <pre className="text-blue-400  text-center opacity-70 text-[0.4rem] sm:text-[0.6rem] md:text-[0.7rem] whitespace-pre max-w-full absolute top-0 left-0 glitch-offset-2">
                 {ASCII_BRAIN}
               </pre>
             </>
@@ -176,17 +180,18 @@ const BootSequence = ({ setBootSequence }) => {
         {/* Boot messages */}
         <div className="h-32 text-left w-full relative">
           {BOOT_MESSAGES.slice(0, currentMessage).map((msg, i) => (
-            <div key={i} className="text-green-400 font-mono opacity-50 phosphor">
+            <div key={i} className="text-green-400  opacity-50 phosphor">
               {glitchLines[i] || msg}
             </div>
           ))}
-          <div className="text-green-400 font-mono typewriter phosphor">
-            {glitchLines[currentMessage] || text}<span className="animate-blink">_</span>
+          <div className="text-green-400  typewriter phosphor">
+            {glitchLines[currentMessage] || text}
+            <span className="animate-blink">_</span>
           </div>
         </div>
       </div>
       {/* Add skip instruction */}
-      <div className="fixed bottom-4 right-4 text-green-400 font-mono text-sm opacity-50">
+      <div className="fixed bottom-4 right-4 text-green-400  text-sm opacity-50">
         Press ESC or SPACE to skip boot sequence
       </div>
 
@@ -251,19 +256,35 @@ const BootSequence = ({ setBootSequence }) => {
         }
 
         @keyframes screen-warp {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(0.995); }
+          0%,
+          100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(0.995);
+          }
         }
 
         @keyframes subtle-warp {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          25% { transform: translate(1px, 0) scale(0.998); }
-          75% { transform: translate(-1px, 0) scale(1.002); }
+          0%,
+          100% {
+            transform: translate(0, 0) scale(1);
+          }
+          25% {
+            transform: translate(1px, 0) scale(0.998);
+          }
+          75% {
+            transform: translate(-1px, 0) scale(1.002);
+          }
         }
 
         @keyframes phosphor-fade {
-          from { opacity: 0.5; }
-          to { opacity: 0; }
+          from {
+            opacity: 0.5;
+          }
+          to {
+            opacity: 0;
+          }
         }
 
         .power-flicker {
@@ -271,9 +292,19 @@ const BootSequence = ({ setBootSequence }) => {
         }
 
         @keyframes power-flicker {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.8; transform: scale(0.998); }
-          75% { opacity: 0.9; transform: scale(1.002); }
+          0%,
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.8;
+            transform: scale(0.998);
+          }
+          75% {
+            opacity: 0.9;
+            transform: scale(1.002);
+          }
         }
 
         .crt-vignette {
@@ -286,8 +317,12 @@ const BootSequence = ({ setBootSequence }) => {
         }
 
         @keyframes vertical-scan {
-          from { transform: translateX(-100%); }
-          to { transform: translateX(100%); }
+          from {
+            transform: translateX(-100%);
+          }
+          to {
+            transform: translateX(100%);
+          }
         }
 
         .scan-lines {
@@ -310,7 +345,7 @@ const BootSequence = ({ setBootSequence }) => {
 
         .crt-rgb-split::before,
         .crt-rgb-split::after {
-          content: '';
+          content: "";
           position: absolute;
           inset: 0;
           pointer-events: none;
@@ -329,8 +364,12 @@ const BootSequence = ({ setBootSequence }) => {
         }
 
         @keyframes rgb-split {
-          0% { transform: translate(-1.5px, 0); }
-          100% { transform: translate(-2.5px, 0.5px); }
+          0% {
+            transform: translate(-1.5px, 0);
+          }
+          100% {
+            transform: translate(-2.5px, 0.5px);
+          }
         }
 
         .vertical-sync {
@@ -363,17 +402,33 @@ const BootSequence = ({ setBootSequence }) => {
         }
 
         @keyframes glitch {
-          0% { transform: translate(0); }
-          20% { transform: translate(-2px, 2px); }
-          40% { transform: translate(-2px, -2px); }
-          60% { transform: translate(2px, 2px); }
-          80% { transform: translate(2px, -2px); }
-          100% { transform: translate(0); }
+          0% {
+            transform: translate(0);
+          }
+          20% {
+            transform: translate(-2px, 2px);
+          }
+          40% {
+            transform: translate(-2px, -2px);
+          }
+          60% {
+            transform: translate(2px, 2px);
+          }
+          80% {
+            transform: translate(2px, -2px);
+          }
+          100% {
+            transform: translate(0);
+          }
         }
 
         @keyframes vertical-sync {
-          0% { transform: translateY(-100%); }
-          100% { transform: translateY(100vh); }
+          0% {
+            transform: translateY(-100%);
+          }
+          100% {
+            transform: translateY(100vh);
+          }
         }
 
         .typewriter {
@@ -381,7 +436,7 @@ const BootSequence = ({ setBootSequence }) => {
         }
 
         .typewriter::after {
-          content: '';
+          content: "";
           position: absolute;
           inset: 0;
           background: linear-gradient(
@@ -394,8 +449,12 @@ const BootSequence = ({ setBootSequence }) => {
         }
 
         @keyframes typewriter-highlight {
-          from { transform: translateX(-100%); }
-          to { transform: translateX(100%); }
+          from {
+            transform: translateX(-100%);
+          }
+          to {
+            transform: translateX(100%);
+          }
         }
 
         .animate-blink {
@@ -403,8 +462,13 @@ const BootSequence = ({ setBootSequence }) => {
         }
 
         @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0;
+          }
         }
       `}</style>
     </div>

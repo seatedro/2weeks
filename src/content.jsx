@@ -7,7 +7,7 @@ const ResourcePanel = ({ resources }) => {
   if (!resources) return null;
 
   return (
-    <div className="space-y-4 font-vt323">
+    <div className="space-y-4 ">
       {/* Official Docs */}
       {resources.official_docs?.length > 0 && (
         <div className="border border-green-400/30 p-2 md:p-4">
@@ -223,7 +223,7 @@ export const SectionContent = ({
   // );
 
   return (
-    <div className="space-y-8 font-vt323">
+    <div className="space-y-8 ">
       {/* Progress Header */}
       {/* <ProgressHeader /> */}
 
