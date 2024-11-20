@@ -11,6 +11,14 @@
       "prerequisites": [],
       "order": 1,
       "description": "Initialize your neural pathways with tensor operations - the fundamental building blocks of deep learning architectures"
+    },
+    {
+      "id": "calculus_geometry",
+      "title": "Calculus",
+      "timeEstimate": "24_HOURS",
+      "prerequisites": [],
+      "order": 1,
+      "description": "Initialize your neural pathways with tensor operations - the fundamental building blocks of deep learning architectures"
     }
   ],
   "systemRequirements": {

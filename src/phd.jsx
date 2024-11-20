@@ -15,8 +15,6 @@ import MathVisualization from "./mathviz";
 
 // Mathematical content block with retro styling
 const MathBlock = ({ block }) => {
-  const [expanded, setExpanded] = useState(false);
-
   const retroMathStyle = {
     ".katex": {
       fontFamily: "VT323, monospace",
@@ -210,19 +208,15 @@ const TheoreticalFoundation = ({ foundation }) => {
 // Practice problem component
 const PracticeProblem = ({ problem, onComplete }) => {
   const [showHints, setShowHints] = useState(false);
-  const [showSolution, setShowSolution] = useState(false);
 
   return (
     <div className="border border-green-400/30 bg-black/50 p-4 my-4 font-vt323">
       <div className="flex justify-between items-center mb-4">
         <div className="text-green-400">{problem.type.toUpperCase()}</div>
-        <div className="text-green-400/50 text-sm">
-          STATUS: {showSolution ? "COMPLETED" : "IN_PROGRESS"}
-        </div>
       </div>
 
       <div className="text-green-400/90 mb-4 text-md md:text-lg">
-        {problem.question}
+        {problem.problem}
       </div>
 
       {/* Hints */}
@@ -249,20 +243,13 @@ const PracticeProblem = ({ problem, onComplete }) => {
 
       {/* Solution */}
       <div className="mt-4">
-        <button
-          onClick={() => {
-            setShowSolution(!showSolution);
-            if (!showSolution) onComplete?.();
-          }}
-          className="text-green-400/70 hover:text-green-400"
-        >
-          {showSolution ? "HIDE_SOLUTION" : "REVEAL_SOLUTION"}
-        </button>
-
-        {showSolution && problem.solution && (
+        {problem.solution && (
           <div className="mt-4">
             {problem.solution.steps?.map((step, i) => (
               <div key={i} className="mb-4">
+                <div className="text-green-400/70 text-sm mb-1">
+                  {step.explanation}
+                </div>
                 <div className="bg-black/30 p-2 md:p-4 mb-2 overflow-x-auto">
                   <div className="min-w-fit">
                     <BlockMath
@@ -274,9 +261,6 @@ const PracticeProblem = ({ problem, onComplete }) => {
                       )}
                     />
                   </div>
-                </div>
-                <div className="text-green-400/70 text-sm mb-1">
-                  {step.explanation}
                 </div>
                 {step.key_insight && (
                   <div className="text-yellow-400/70 text-sm">
@@ -313,7 +297,7 @@ const PracticeProblem = ({ problem, onComplete }) => {
 };
 
 // Main section renderer for PhD track
-const PhDContent = ({ currentConcept, onComplete }) => {
+export const PhDContent = ({ currentConcept, onComplete }) => {
   return (
     <>
       {currentConcept.sections.map((section, idx) => (
@@ -369,4 +353,177 @@ const PhDContent = ({ currentConcept, onComplete }) => {
   );
 };
 
-export default PhDContent;
+export const PhDQuickReference = ({ reference }) => {
+  const [expandedSection, setExpandedSection] = useState(null);
+
+  const Section = ({ title, children, id }) => (
+    <div className="border border-green-400/20 p-4 mb-4 bg-black/30">
+      <button
+        onClick={() => setExpandedSection(expandedSection === id ? null : id)}
+        className="w-full text-left"
+      >
+        <div className="flex items-center justify-between text-green-400 font-mono">
+          <span>[{title}]</span>
+          <span className="text-green-400/50">
+            {expandedSection === id ? "[-]" : "[+]"}
+          </span>
+        </div>
+      </button>
+      {expandedSection === id && (
+        <div className="mt-4 space-y-4">{children}</div>
+      )}
+    </div>
+  );
+
+  return (
+    <div className="font-vt323 text-green-400 p-4 border border-green-400/30 bg-black/20">
+      {/* Common Operations */}
+      <Section title="COMMON_OPERATIONS" id="operations">
+        {reference.common_operations?.map((op, idx) => (
+          <div key={idx} className="border-l-2 border-green-400/20 pl-4 mb-6">
+            <div className="text-green-400 font-bold mb-2">{op.operation}</div>
+
+            {/* Key Points */}
+            <div className="mb-4">
+              <div className="text-green-400/70 mb-1">KEY_POINTS:</div>
+              {op.key_points?.map((point, i) => (
+                <div key={i} className="text-green-400/60 ml-4">
+                  λ {point}
+                </div>
+              ))}
+            </div>
+
+            {/* Common Mistakes */}
+            {op.common_mistakes && (
+              <div className="mb-4 bg-red-900/10 border border-red-400/20 p-2">
+                <div className="text-red-400/70">COMMON_ERROR:</div>
+                <div className="text-red-400/60 ml-4">
+                  ! {op.common_mistakes.mistake}
+                </div>
+                <div className="text-green-400/60 ml-4">
+                  √ {op.common_mistakes.prevention}
+                </div>
+              </div>
+            )}
+
+            {/* Examples with LaTeX */}
+            {op.examples?.map((example, i) => (
+              <div key={i} className="mt-4">
+                <div className="text-green-400/70 mb-1">
+                  {example.description}
+                </div>
+                <BlockMath math={example.latex} />
+              </div>
+            ))}
+
+            {/* Code Snippets */}
+            {op.code_snippet && (
+              <div className="mt-4 font-mono">
+                <div className="text-green-400/70 mb-1">IMPLEMENTATION:</div>
+                <pre className="bg-black/40 p-2 overflow-x-auto text-green-400/90">
+                  <code>{op.code_snippet.code}</code>
+                </pre>
+              </div>
+            )}
+          </div>
+        ))}
+      </Section>
+
+      {/* Key Theorems */}
+      <Section title="THEOREMS" id="theorems">
+        {reference.key_theorems?.map((theorem, idx) => (
+          <div key={idx} className="border-l-2 border-green-400/20 pl-4 mb-6">
+            <div className="text-green-400 font-bold mb-2">{theorem.name}</div>
+            <div className="text-green-400/80 mb-2">
+              STATEMENT: {theorem.statement}
+            </div>
+            <div className="text-green-400/70 mb-2">
+              SIGNIFICANCE: {theorem.why_important}
+            </div>
+            <div className="text-green-400/60">
+              <div className="mb-1">APPLICATIONS:</div>
+              {theorem.applications.map((app, i) => (
+                <div key={i} className="ml-4">
+                  → {app}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </Section>
+
+      {/* Visual Aids */}
+      {/* <Section title="VISUALIZATIONS" id="visuals">
+        {reference.visual_aids?.map((aid, idx) => (
+          <div key={idx} className="border-l-2 border-green-400/20 pl-4 mb-6">
+            <div className="text-green-400 font-bold mb-2">{aid.concept}</div>
+            <div className="text-green-400/70 mb-2">{aid.description}</div>
+            <div className="text-green-400/60">
+              <div className="mb-1">KEY_STEPS:</div>
+              {aid.key_steps.map((step, i) => (
+                <div key={i} className="ml-4">
+                  {String(i + 1).padStart(2, "0")} {step}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </Section> */}
+
+      {/* Common Pitfalls */}
+      <Section title="CRITICAL_WARNINGS" id="pitfalls">
+        {reference.common_pitfalls?.map((pitfall, idx) => (
+          <div key={idx} className="border-l-2 border-red-400/20 pl-4 mb-6">
+            <div className="text-red-400 font-bold mb-2">{pitfall.issue}</div>
+            <div className="space-y-2">
+              <div className="text-red-400/70">EXAMPLE: {pitfall.example}</div>
+              <div className="text-red-400/70">
+                IMPACT: {pitfall.why_it_matters}
+              </div>
+              <div className="text-green-400/70">
+                MITIGATION: {pitfall.how_to_avoid}
+              </div>
+            </div>
+          </div>
+        ))}
+      </Section>
+
+      {/* Memory Aids */}
+      <Section title="MEMORY_ENHANCEMENT" id="memory">
+        {reference.memory_aids?.map((aid, idx) => (
+          <div key={idx} className="border-l-2 border-green-400/20 pl-4 mb-4">
+            <div className="text-green-400 font-bold mb-1">{aid.concept}</div>
+            <div className="text-green-400/70">MNEMONIC: {aid.trick}</div>
+            <div className="text-green-400/60">VISUAL: {aid.visual}</div>
+          </div>
+        ))}
+      </Section>
+
+      {/* Notation Guide */}
+      <Section title="NOTATION_CODEX" id="notation">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            {Object.entries(reference.notation_guide || {}).map(
+              ([category, symbols]) => (
+                <div key={category}>
+                  <div className="text-green-400 mb-2">
+                    {category.toUpperCase()}
+                  </div>
+                  {Object.entries(symbols).map(([symbol, meaning], idx) => (
+                    <div key={idx} className="text-green-400/70 ml-4">
+                      {symbol} → {meaning}
+                    </div>
+                  ))}
+                </div>
+              ),
+            )}
+          </div>
+        </div>
+      </Section>
+
+      <div className="text-center text-green-400/30 mt-6">
+        <pre className="text-xs">{"<END_REFERENCE_TRANSMISSION/>"}</pre>
+      </div>
+    </div>
+  );
+};

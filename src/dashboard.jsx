@@ -8,7 +8,7 @@ import { SectionContent } from "./content";
 
 const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
   const [isDefragging, setIsDefragging] = useState(false);
-  const [unlockedContent, setUnlockedContent] = useState({});
+  // const [unlockedContent, setUnlockedContent] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [expandedModule, setExpandedModule] = useState(null);
   const {
@@ -22,7 +22,6 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
     navigateToConcept, // Function to navigate to a concept
     markItemCompleted, // Function to mark checkpoints complete
     isItemCompleted, // Function to check if item is completed
-    checkPrerequisites, // Function to check if concept is unlocked
   } = useContentManager(selectedPath);
 
   // Load module metadata when expanding
@@ -97,7 +96,7 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
             {expandedModule === module.id && moduleMetadata?.concepts && (
               <div className="border-t border-green-400/30">
                 {moduleMetadata.concepts.map((concept) => {
-                  const isLocked = !checkPrerequisites(module.id, concept.id);
+                  // const isLocked = !checkPrerequisites(module.id, concept.id);
                   const isSelected =
                     currentModule?.id === module.id &&
                     currentConcept?.id === concept.id;
@@ -105,17 +104,13 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
                   return (
                     <button
                       key={concept.id}
-                      onClick={() =>
-                        !isLocked && handleConceptSelect(module.id, concept.id)
-                      }
-                      disabled={isLocked}
+                      onClick={() => handleConceptSelect(module.id, concept.id)}
                       className={`w-full text-left p-4 pl-8 font-vt323 border-b border-green-400/10
                           ${isSelected ? "bg-green-400/20" : "hover:bg-green-400/10"}
-                          ${isLocked ? "opacity-50 cursor-not-allowed" : ""}
                           transition-colors`}
                     >
                       <div className="flex items-center text-green-400">
-                        <span className="mr-2">{isLocked ? "🔒" : ">"}</span>
+                        <span className="mr-2">{">"}</span>
                         {concept.title}
                       </div>
                       <div className="text-green-400/50 text-sm ml-6">

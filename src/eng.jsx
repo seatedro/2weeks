@@ -97,7 +97,7 @@ const CodeBlock = ({ code, language = "python", isError = false }) => {
   );
 };
 
-export default function EngineerContent({
+export const EngineerContent = ({
   currentConcept,
   hyperLearningMode,
   handleSolutionReveal,
@@ -107,7 +107,7 @@ export default function EngineerContent({
   // moduleId,
   // conceptId,
   revealedSolutions,
-}) {
+}) => {
   const CodeExample = ({ example }) => {
     const [showSolution, setShowSolution] = useState(false);
 
@@ -721,4 +721,96 @@ export default function EngineerContent({
       ))}
     </>
   );
-}
+};
+
+export const EngQuickReference = ({ reference }) => {
+  return (
+    <div className="border border-green-400/30 p-2 md:p-4 font-vt323">
+      <h3 className="text-green-400 mb-2 md:mb-4 text-sm md:text-base">
+        [QUICK_REFERENCE_DATABASE]
+      </h3>
+
+      {/* Common Operations */}
+      {reference.common_operations?.map((op, idx) => (
+        <div key={idx} className="mb-4 md:mb-6">
+          <div className="text-green-400/90 font-bold mb-1 md:mb-2 text-sm md:text-base">
+            {op.operation}
+          </div>
+          <div className="grid grid-cols-1 gap-1 md:gap-2">
+            {op.examples.map((example, i) => (
+              <div key={i} className="bg-black/30 p-2 md:p-3 rounded">
+                <div className="text-green-400/70 mb-1 text-xs md:text-sm">
+                  • {example.description}
+                </div>
+                <code className="text-green-400/90 block ml-2 md:ml-4 font-mono text-xs md:text-sm overflow-x-auto">
+                  {example.code}
+                </code>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      {/* Code Patterns */}
+      {reference.code_patterns?.length > 0 && (
+        <div className="mb-4 md:mb-6">
+          <div className="text-green-400/90 font-bold mb-1 md:mb-2 text-sm md:text-base">
+            CODE_PATTERNS:
+          </div>
+          <div className="grid grid-cols-1 gap-1 md:gap-2">
+            {reference.code_patterns.map((pattern, idx) => (
+              <div key={idx} className="bg-black/30 p-2 md:p-3 rounded">
+                <div className="text-green-400/70 mb-1 text-xs md:text-sm">
+                  • {pattern.pattern}
+                </div>
+                <code className="text-green-400/90 block ml-2 md:ml-4 font-mono whitespace-pre text-xs md:text-sm overflow-x-auto">
+                  {pattern.template}
+                </code>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Common Errors */}
+      {reference.common_errors?.length > 0 && (
+        <div className="mb-4 md:mb-6">
+          <div className="text-green-400/90 font-bold mb-1 md:mb-2 text-sm md:text-base">
+            COMMON_ERRORS:
+          </div>
+          <div className="grid grid-cols-1 gap-1 md:gap-2">
+            {reference.common_errors.map((error, idx) => (
+              <div key={idx} className="bg-black/30 p-2 md:p-3 rounded">
+                <div className="text-green-400/70 text-xs md:text-sm">
+                  • {error.error}
+                </div>
+                <div className="text-green-400/50 ml-2 md:ml-4 text-xs md:text-sm">
+                  Solution: {error.solution}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Memory Management */}
+      {reference.memory_management && (
+        <div className="mb-4 md:mb-6">
+          <div className="text-green-400/90 font-bold mb-1 md:mb-2 text-sm md:text-base">
+            MEMORY_MANAGEMENT:
+          </div>
+          <div className="grid grid-cols-1 gap-1 md:gap-2">
+            {reference.memory_management.best_practices.map((practice, idx) => (
+              <div
+                key={idx}
+                className="text-green-400/70 ml-2 text-xs md:text-sm"
+              >
+                • {practice}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};

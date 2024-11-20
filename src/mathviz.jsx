@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Line, Html } from "@react-three/drei";
 
@@ -295,6 +296,181 @@ const MatrixTransformVis = ({ config }) => {
   );
 };
 
+const EigenDemoVis = ({ config }) => {
+  const [matrix, setMatrix] = useState(config.initial_matrix);
+  const [time, setTime] = useState(0);
+  const [eigenvectors, setEigenvectors] = useState(null);
+  const [eigenvalues, setEigenvalues] = useState(null);
+
+  const MatrixControl = () => {
+    return (
+      <Html position={[-6, 4, 0]}>
+        <div className="bg-black/90 p-4 border border-green-400/30">
+          <div className="text-green-400 mb-2">Matrix:</div>
+          <div>
+            {matrix.map((row, i) => (
+              <div key={`row-${i}`} className="flex gap-2 mb-2">
+                {row.map((val, j) => (
+                  <input
+                    key={`${i}-${j}`}
+                    type="number"
+                    value={val}
+                    onChange={(e) => {
+                      const newMatrix = [...matrix];
+                      newMatrix[i][j] = parseFloat(e.target.value) || 0;
+                      setMatrix(newMatrix);
+                    }}
+                    className="w-16 min-w-0 bg-black border border-green-400/30 text-green-400 p-1"
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </Html>
+    );
+  };
+
+  // Calculate eigenvectors and eigenvalues
+  useEffect(() => {
+    // For a 2x2 matrix [[a, b], [c, d]]
+    const [[a, b], [c, d]] = matrix;
+
+    // Characteristic equation coefficients: λ² - (a+d)λ + (ad-bc)
+    const trace = a + d;
+    const det = a * d - b * c;
+
+    // Quadratic formula to find eigenvalues
+    const discriminant = Math.sqrt(trace * trace - 4 * det);
+    const lambda1 = (trace + discriminant) / 2;
+    const lambda2 = (trace - discriminant) / 2;
+
+    // Find eigenvectors
+    const ev1 = normalizeVector([b, lambda1 - a]);
+    const ev2 = normalizeVector([b, lambda2 - a]);
+
+    setEigenvectors([ev1, ev2]);
+    setEigenvalues([lambda1, lambda2]);
+  }, [matrix]);
+
+  // Helper functions
+  const normalizeVector = (v) => {
+    const magnitude = Math.sqrt(v[0] * v[0] + v[1] * v[1]);
+    return [v[0] / magnitude, v[1] / magnitude];
+  };
+
+  const transformPoint = (point) => {
+    const [x, y] = point;
+    return [
+      matrix[0][0] * x + matrix[0][1] * y,
+      matrix[1][0] * x + matrix[1][1] * y,
+    ];
+  };
+
+  // Unit Circle with transforming vectors
+  const UnitCircle = () => {
+    const points = [];
+    const numPoints = 50;
+    const transformedPoints = [];
+
+    // Generate points on unit circle
+    for (let i = 0; i <= numPoints; i++) {
+      const angle = (i / numPoints) * Math.PI * 2;
+      const x = Math.cos(angle);
+      const y = Math.sin(angle);
+      points.push([x, y]);
+      transformedPoints.push(transformPoint([x, y]));
+    }
+
+    return (
+      <>
+        {/* Original unit circle */}
+        <Line points={points} color="#4ade80" opacity={0.3} lineWidth={1} />
+        {/* Transformed ellipse */}
+        <Line
+          points={transformedPoints}
+          color="#4ade80"
+          opacity={0.7}
+          lineWidth={1}
+        />
+      </>
+    );
+  };
+
+  // Animated vector under transformation
+  const AnimatedVector = ({ start, direction, color }) => {
+    const [currentPos, setCurrentPos] = useState(direction);
+
+    useFrame(() => {
+      if (config.animation_speed) {
+        const t = Math.sin(time) * 0.5 + 0.5; // Oscillate between 0 and 1
+        const transformed = transformPoint(direction);
+        setCurrentPos([
+          direction[0] * (1 - t) + transformed[0] * t,
+          direction[1] * (1 - t) + transformed[1] * t,
+        ]);
+      }
+    });
+
+    return <Line points={[[0, 0], currentPos]} color={color} lineWidth={2} />;
+  };
+
+  // Eigenvectors visualization
+  const Eigenvectors = () => {
+    if (!eigenvectors || !eigenvalues) return null;
+
+    return eigenvectors.map((ev, i) => (
+      <group key={i}>
+        {/* Eigenvector */}
+        <Line
+          points={[
+            [0, 0],
+            [ev[0] * 3, ev[1] * 3],
+          ]}
+          color={i === 0 ? "#ef4444" : "#3b82f6"}
+          lineWidth={3}
+        />
+        {/* Label */}
+        <Html position={[ev[0] * 3.2, ev[1] * 3.2, 0]}>
+          <div className="text-green-400 text-sm">
+            λ₍{i + 1}₎ = {eigenvalues[i].toFixed(2)}
+          </div>
+        </Html>
+      </group>
+    ));
+  };
+
+  return (
+    <div className="h-96 w-full border border-green-400/30">
+      <Canvas
+        camera={{ position: [0, 0, 15], fov: 50 }}
+        style={{ background: "black" }}
+      >
+        <OrbitControls enableRotate={false} />
+        <Grid />
+        {config.show_unit_circle && <UnitCircle />}
+        {config.show_eigenvectors && <Eigenvectors />}
+
+        {/* Demo vectors */}
+        {[0, 45, 90, 135].map((angle) => {
+          const rad = (angle * Math.PI) / 180;
+          const direction = [Math.cos(rad), Math.sin(rad)];
+          return (
+            <AnimatedVector
+              key={angle}
+              start={[0, 0]}
+              direction={direction}
+              color="#ff69b4"
+            />
+          );
+        })}
+
+        <MatrixControl />
+      </Canvas>
+    </div>
+  );
+};
+
 const MathVisualization = ({ type, config }) => {
   const renderVisualization = () => {
     switch (type) {
@@ -302,6 +478,8 @@ const MathVisualization = ({ type, config }) => {
         return <VectorAdditionVis config={config} />;
       case "matrix_transform":
         return <MatrixTransformVis config={config} />;
+      case "eigen_demo":
+        return <EigenDemoVis config={config} />;
       default:
         return (
           <div className="text-red-400">Unsupported visualization type</div>

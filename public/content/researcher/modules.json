@@ -3,7 +3,7 @@
     {
       "id": "foundations",
       "title": "Foundations",
-      "description": "LINEAR_ALGEBRA: Master the essential matrix operations and fundamental concepts of linear algebra",
+      "description": "Basic concepts and tools for learning ML from a theoretical perspective.",
       "order": 1,
       "prerequisites": [],
       "timeToCompletion": "24_HOURS"

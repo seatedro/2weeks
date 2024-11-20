@@ -221,23 +221,11 @@
             }
           ]
         }
-      ],
-      "visualizations": [
-        {
-          "type": "pca_demo",
-          "config": {
-            "data_type": "gaussian_mixture",
-            "n_components": 2,
-            "interactive": true,
-            "show_explained_variance": true,
-            "description": "Visualize how PCA finds directions of maximum variance"
-          }
-        }
       ]
     }
   ],
   "resources": {
-    "official_docs": [
+    "blog_posts": [
       {
         "title": "The Matrix Cookbook",
         "url": "https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf",
@@ -247,9 +235,7 @@
           "Eigenvalue properties",
           "Matrix decompositions"
         ]
-      }
-    ],
-    "blog_posts": [
+      },
       {
         "title": "Understanding the Geometric Meaning of Eigenvectors",
         "author": "3Blue1Brown",
@@ -301,19 +287,7 @@
         "creator": "3Blue1Brown",
         "url": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
         "duration": "4 hours total",
-        "why_watch": "Best geometric intuition for linear algebra concepts",
-        "highlights": [
-          {
-            "chapter": "Eigenvectors",
-            "timestamp": "1:23:45",
-            "key_insight": "Visual meaning of eigendecomposition"
-          },
-          {
-            "chapter": "Change of Basis",
-            "timestamp": "2:15:30",
-            "key_insight": "Why basis matters in ML"
-          }
-        ]
+        "why_watch": "Best geometric intuition for linear algebra concepts"
       }
     ]
   },
@@ -389,7 +363,7 @@
         "issue": "Degenerate eigenvalues",
         "what_happens": "Multiple eigenvalues are equal",
         "why_it_matters": "Eigenvectors not uniquely determined",
-        "solution": "Use numerical methods carefully"
+        "how_to_avoid": "Use numerical methods carefully"
       }
     ],
     "memory_aids": [
