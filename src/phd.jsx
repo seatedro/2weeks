@@ -250,18 +250,20 @@ const PracticeProblem = ({ problem, onComplete }) => {
                 <div className="text-green-400/70 text-sm mb-1">
                   {step.explanation}
                 </div>
-                <div className="bg-black/30 p-2 md:p-4 mb-2 overflow-x-auto">
-                  <div className="min-w-fit">
-                    <BlockMath
-                      math={step.equation}
-                      renderError={() => (
-                        <div className="text-red-400 text-sm">
-                          Error rendering equation
-                        </div>
-                      )}
-                    />
+                {step.equation && (
+                  <div className="bg-black/30 p-2 md:p-4 mb-2 overflow-x-auto">
+                    <div className="min-w-fit">
+                      <BlockMath
+                        math={step.equation}
+                        renderError={() => (
+                          <div className="text-red-400 text-sm">
+                            Error rendering equation
+                          </div>
+                        )}
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
                 {step.key_insight && (
                   <div className="text-yellow-400/70 text-sm">
                     KEY_INSIGHT: {step.key_insight}
