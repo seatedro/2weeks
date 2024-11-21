@@ -3,6 +3,30 @@ import { useState, useEffect } from "react";
 import { EngineerContent, EngQuickReference } from "./eng";
 import { PhDContent, PhDQuickReference } from "./phd";
 
+const ResearchPaperCard = ({ paper }) => {
+  return (
+    <div className="border border-green-400/30 mb-4">
+      <a
+        href={paper.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className=""
+      >
+        <div className="p-4 cursor-pointer hover:bg-green-400/10 transition-colors">
+          <div className="flex justify-between items-start">
+            <div className="flex-1">
+              <h3 className="text-green-400 font-bold mb-2">{paper.title}</h3>
+              <div className="text-green-400/70 text-sm">
+                {paper.authors.join(", ")} • {paper.year}
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  );
+};
+
 const ResourcePanel = ({ resources }) => {
   if (!resources) return null;
 
@@ -34,6 +58,28 @@ const ResourcePanel = ({ resources }) => {
         </div>
       )}
 
+      {/* Research Papers */}
+      {resources.research_papers?.length > 0 && (
+        <div className="text-green-400 mb-2 text-sm md:text-base font-bold">
+          [RESEARCH_DATA]
+        </div>
+      )}
+      {resources.research_papers &&
+        resources.research_papers.map((paper, idx) => (
+          <ResearchPaperCard key={idx} paper={paper} />
+        ))}
+
+      {/* Textbooks */}
+      {resources.textbooks?.length > 0 && (
+        <div className="text-green-400 mb-2 text-sm md:text-base font-bold">
+          [BOOKS]
+        </div>
+      )}
+      {resources.textbooks &&
+        resources.textbooks.map((paper, idx) => (
+          <ResearchPaperCard key={idx} paper={paper} />
+        ))}
+
       {/* Video Resources */}
       {resources.videos?.length > 0 && (
         <div className="border border-green-400/30 p-2 md:p-4">
@@ -44,13 +90,13 @@ const ResourcePanel = ({ resources }) => {
             {resources.videos.map((video, idx) => (
               <div
                 key={idx}
-                className="border-l border-green-400/30 pl-2 md:pl-4"
+                className="block text-green-400/70 hover:text-green-400 hover:bg-green-400/10 p-1 md:p-2 transition-colors text-xs md:text-base"
               >
                 <a
                   href={video.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-400/70 hover:text-green-400 block p-1 md:p-2 text-xs md:text-base"
+                  className="block text-decoration-underline underline decoration-dotted decoration-2 hover:decoration-solid"
                 >
                   {video.title}
                 </a>
@@ -89,20 +135,18 @@ const ResourcePanel = ({ resources }) => {
             {resources.blog_posts.map((post, idx) => (
               <div
                 key={idx}
-                className="border-l border-green-400/30 pl-2 md:pl-4"
+                className="block text-green-400/70 hover:text-green-400 hover:bg-green-400/10 p-1 md:p-2 transition-colors text-xs md:text-base"
               >
                 <a
                   href={post.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-400/70 hover:text-green-400 block p-1 md:p-2 text-xs md:text-base"
+                  className="block text-decoration-underline underline decoration-dotted decoration-2 hover:decoration-solid"
                 >
                   {post.title}
                 </a>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2 text-green-400/50 text-xs md:text-sm ml-1 md:ml-2">
+                <div className="text-green-400/50 text-xs md:text-sm ml-1 md:ml-2">
                   <div>AUTHOR: {post.author}</div>
-                  {/* <div>READ_TIME: {post.readingTime}</div> */}
-                  {/* <div>DIFFICULTY: {post.difficulty}</div> */}
                 </div>
               </div>
             ))}

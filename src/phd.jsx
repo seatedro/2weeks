@@ -29,7 +29,7 @@ const MathBlock = ({ block }) => {
   };
 
   return (
-    <div className="border border-green-400/30 bg-black/50 p-4 my-4  w-full max-w-full overflow-x-hidden">
+    <div className="border border-green-400/30 bg-black/50 p-4 my-4 font-vt323 w-full max-w-full overflow-x-hidden">
       {/* Header */}
       <div className="flex justify-between items-center mb-4 text-green-400 text-md md:text-lg lg:text-xl">
         {block.title}
@@ -99,7 +99,7 @@ const MathBlock = ({ block }) => {
               <div className="text-green-400/70 text-base md:text-lg mb-1">
                 {step.explanation}
               </div>
-              <div className="bg-black/30 p-2  text-green-400/90 mb-2 min-w-fit">
+              <div className="bg-black/30 p-2 font-mono text-green-400/90 mb-2 min-w-fit">
                 <style>
                   {Object.entries(retroMathStyle)
                     .map(
@@ -130,7 +130,7 @@ const TheoreticalFoundation = ({ foundation }) => {
   const [activeInsight, setActiveInsight] = useState(null);
 
   return (
-    <div className="border border-green-400/30 bg-black/50 p-4 my-4 ">
+    <div className="border border-green-400/30 bg-black/50 p-4 my-4 font-vt323">
       <div className="text-green-400 mb-4">
         THEORETICAL_FOUNDATION: {foundation.concept}
       </div>
@@ -210,7 +210,7 @@ const PracticeProblem = ({ problem, onComplete }) => {
   const [showHints, setShowHints] = useState(false);
 
   return (
-    <div className="border border-green-400/30 bg-black/50 p-4 my-4 ">
+    <div className="border border-green-400/30 bg-black/50 p-4 my-4 font-vt323">
       <div className="flex justify-between items-center mb-4">
         <div className="text-green-400">{problem.type.toUpperCase()}</div>
       </div>
@@ -277,6 +277,21 @@ const PracticeProblem = ({ problem, onComplete }) => {
               </div>
             )}
 
+            {problem.solution.key_points && (
+              <div className="mb-4 bg-green-900/10 border border-green-400/20 p-2">
+                <div className="text-green-400/70">KEY POINTS:</div>
+                {problem.solution.key_points?.map((keyPoint, i) => (
+                  <div
+                    key={i}
+                    className="text-green-400/60 ml-4 mt-2 border-green-400/20 p-2 border-[1px]"
+                  >
+                    &gt;{keyPoint.point}
+                    <div className="italic">{keyPoint.explanation}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
             {problem.solution.common_pitfalls?.length > 0 && (
               <div className="mt-4">
                 <div className="text-red-400/70 mb-2">COMMON_PITFALLS:</div>
@@ -320,7 +335,7 @@ export const PhDContent = ({ currentConcept, onComplete }) => {
           </div>
 
           {/* Main content */}
-          <div className="text-green-400/90 whitespace-pre-wrap  text-md md:text-lg lg:text-xl">
+          <div className="text-green-400/90 whitespace-pre-wrap font-vt323 text-md md:text-lg lg:text-xl">
             {section.content}
           </div>
 
@@ -362,7 +377,7 @@ export const PhDQuickReference = ({ reference }) => {
         onClick={() => setExpandedSection(expandedSection === id ? null : id)}
         className="w-full text-left"
       >
-        <div className="flex items-center justify-between text-green-400 ">
+        <div className="flex items-center justify-between text-green-400 font-mono">
           <span>[{title}]</span>
           <span className="text-green-400/50">
             {expandedSection === id ? "[-]" : "[+]"}
@@ -376,7 +391,7 @@ export const PhDQuickReference = ({ reference }) => {
   );
 
   return (
-    <div className=" text-green-400 p-4 border border-green-400/30 bg-black/20">
+    <div className="font-vt323 text-green-400 p-4 border border-green-400/30 bg-black/20">
       {/* Common Operations */}
       <Section title="COMMON_OPERATIONS" id="operations">
         {reference.common_operations?.map((op, idx) => (
@@ -384,14 +399,18 @@ export const PhDQuickReference = ({ reference }) => {
             <div className="text-green-400 font-bold mb-2">{op.operation}</div>
 
             {/* Key Points */}
-            <div className="mb-4">
-              <div className="text-green-400/70 mb-1">KEY_POINTS:</div>
-              {op.key_points?.map((point, i) => (
-                <div key={i} className="text-green-400/60 ml-4">
-                  λ {point}
+            {op.key_points && (
+              <>
+                <div className="mb-4">
+                  <div className="text-green-400/70 mb-1">KEY_POINTS:</div>
+                  {op.key_points?.map((point, i) => (
+                    <div key={i} className="text-green-400/60 ml-4">
+                      λ {point}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            )}
 
             {/* Common Mistakes */}
             {op.common_mistakes && (
@@ -418,7 +437,7 @@ export const PhDQuickReference = ({ reference }) => {
 
             {/* Code Snippets */}
             {op.code_snippet && (
-              <div className="mt-4 ">
+              <div className="mt-4 font-mono">
                 <div className="text-green-400/70 mb-1">IMPLEMENTATION:</div>
                 <pre className="bg-black/40 p-2 overflow-x-auto text-green-400/90">
                   <code>{op.code_snippet.code}</code>
@@ -435,11 +454,38 @@ export const PhDQuickReference = ({ reference }) => {
           <div key={idx} className="border-l-2 border-green-400/20 pl-4 mb-6">
             <div className="text-green-400 font-bold mb-2">{theorem.name}</div>
             <div className="text-green-400/80 mb-2">
-              STATEMENT: {theorem.statement}
+              <BlockMath math={theorem.statement} />
             </div>
-            <div className="text-green-400/70 mb-2">
-              SIGNIFICANCE: {theorem.why_important}
-            </div>
+
+            {/* Conditions */}
+            {theorem.conditions?.length > 0 && (
+              <div className="text-green-400/70 mb-2">
+                <div className="mb-1">CONDITIONS:</div>
+                {theorem.conditions.map((condition, i) => (
+                  <div key={i} className="ml-4">
+                    → {condition}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Implications */}
+            {theorem.implications && (
+              <div className="text-green-400/70 mb-2">
+                <div className="mb-1">IMPLICATIONS:</div>
+                <div className="ml-4">→ {theorem.implications}</div>
+              </div>
+            )}
+
+            {/* Why Important */}
+            {theorem.why_important && (
+              <div className="text-green-400/70 mb-2">
+                <div className="mb-1">SIGNIFICANCE:</div>
+                <div className="ml-4">→ {theorem.why_important}</div>
+              </div>
+            )}
+
+            {/* Applications */}
             <div className="text-green-400/60">
               <div className="mb-1">APPLICATIONS:</div>
               {theorem.applications.map((app, i) => (
@@ -471,33 +517,48 @@ export const PhDQuickReference = ({ reference }) => {
       </Section> */}
 
       {/* Common Pitfalls */}
-      <Section title="CRITICAL_WARNINGS" id="pitfalls">
-        {reference.common_pitfalls?.map((pitfall, idx) => (
-          <div key={idx} className="border-l-2 border-red-400/20 pl-4 mb-6">
-            <div className="text-red-400 font-bold mb-2">{pitfall.issue}</div>
-            <div className="space-y-2">
-              <div className="text-red-400/70">EXAMPLE: {pitfall.example}</div>
-              <div className="text-red-400/70">
-                IMPACT: {pitfall.why_it_matters}
-              </div>
-              <div className="text-green-400/70">
-                MITIGATION: {pitfall.how_to_avoid}
+      {reference.common_pitfalls?.length > 0 && (
+        <Section title="CRITICAL_WARNINGS" id="pitfalls">
+          {reference.common_pitfalls?.map((pitfall, idx) => (
+            <div key={idx} className="border-l-2 border-red-400/20 pl-4 mb-6">
+              <div className="text-red-400 font-bold mb-2">{pitfall.issue}</div>
+              <div className="space-y-2">
+                {pitfall.example && (
+                  <div className="text-red-400/70">
+                    EXAMPLE: {pitfall.example}
+                  </div>
+                )}
+                {pitfall.why_it_matters && (
+                  <div className="text-red-400/70">
+                    IMPACT: {pitfall.why_it_matters}
+                  </div>
+                )}
+                {pitfall.error && (
+                  <div className="text-red-400/70">CAUSE: {pitfall.error}</div>
+                )}
+                {pitfall.how_to_avoid && (
+                  <div className="text-green-400/70">
+                    MITIGATION: {pitfall.how_to_avoid}
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        ))}
-      </Section>
+          ))}
+        </Section>
+      )}
 
       {/* Memory Aids */}
-      <Section title="MEMORY_ENHANCEMENT" id="memory">
-        {reference.memory_aids?.map((aid, idx) => (
-          <div key={idx} className="border-l-2 border-green-400/20 pl-4 mb-4">
-            <div className="text-green-400 font-bold mb-1">{aid.concept}</div>
-            <div className="text-green-400/70">MNEMONIC: {aid.trick}</div>
-            <div className="text-green-400/60">VISUAL: {aid.visual}</div>
-          </div>
-        ))}
-      </Section>
+      {reference.memory_aids && (
+        <Section title="MEMORY_ENHANCEMENT" id="memory">
+          {reference.memory_aids?.map((aid, idx) => (
+            <div key={idx} className="border-l-2 border-green-400/20 pl-4 mb-4">
+              <div className="text-green-400 font-bold mb-1">{aid.concept}</div>
+              <div className="text-green-400/70">MNEMONIC: {aid.trick}</div>
+              <div className="text-green-400/60">VISUAL: {aid.visual}</div>
+            </div>
+          ))}
+        </Section>
+      )}
 
       {/* Notation Guide */}
       <Section title="NOTATION_CODEX" id="notation">
@@ -511,7 +572,7 @@ export const PhDQuickReference = ({ reference }) => {
                   </div>
                   {Object.entries(symbols).map(([symbol, meaning], idx) => (
                     <div key={idx} className="text-green-400/70 ml-4">
-                      {symbol} → {meaning}
+                      <InlineMath math={symbol} /> → {meaning}
                     </div>
                   ))}
                 </div>

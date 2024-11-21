@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Line, Html } from "@react-three/drei";
+import { DistributionPlot, GeometricTransform } from "./components/charts";
 
 const Vector = ({ start, end, color, label, onDrag, config }) => {
   const handleDrag = (e) => {
@@ -480,6 +481,10 @@ const MathVisualization = ({ type, config }) => {
         return <MatrixTransformVis config={config} />;
       case "eigen_demo":
         return <EigenDemoVis config={config} />;
+      case "geometric_transform":
+        return <GeometricTransform config={config} />;
+      case "distribution_plot":
+        return <DistributionPlot config={config} />;
       default:
         return (
           <div className="text-red-400">Unsupported visualization type</div>

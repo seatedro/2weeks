@@ -41,8 +41,14 @@
           "type": "vector_addition",
           "config": {
             "initial_vectors": [
-              [2, 1],
-              [1, 2]
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                2
+              ]
             ],
             "show_parallelogram": true,
             "interactive": true,
@@ -103,8 +109,14 @@
           "type": "matrix_transform",
           "config": {
             "initial_matrix": [
-              [2, 0],
-              [0, 2]
+              [
+                2,
+                0
+              ],
+              [
+                0,
+                2
+              ]
             ],
             "show_grid": true,
             "show_basis_vectors": true,
@@ -143,8 +155,14 @@
           "type": "eigen_demo",
           "config": {
             "initial_matrix": [
-              [2, 1],
-              [1, 2]
+              [
+                2,
+                1
+              ],
+              [
+                1,
+                2
+              ]
             ],
             "show_eigenvectors": true,
             "show_unit_circle": true,
@@ -195,7 +213,10 @@
       "theoretical_foundations": [
         {
           "concept": "Principal Component Analysis",
-          "prerequisites": ["Eigendecomposition", "Covariance Matrices"],
+          "prerequisites": [
+            "Eigendecomposition",
+            "Covariance Matrices"
+          ],
           "key_insights": [
             {
               "title": "Geometric Interpretation",
@@ -230,6 +251,7 @@
         "title": "The Matrix Cookbook",
         "url": "https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf",
         "description": "Quick reference for matrix derivatives, properties, and identities",
+        "author": "Kaare Brandt Petersen, Michael Syskind Pedersen",
         "highlights": [
           "Matrix calculus rules",
           "Eigenvalue properties",
@@ -248,37 +270,49 @@
           "Why determinant = 0 matters",
           "Connection to dynamical systems"
         ],
-        "tags": ["linear algebra", "visualization", "geometry"]
-      },
-      {
-        "title": "PCA as Optimization",
-        "author": "Distill.pub",
-        "url": "https://distill.pub/2016/eigenvectors",
-        "readingTime": "25 minutes",
-        "difficulty": "intermediate",
-        "summary": "Deep dive into PCA's mathematical foundations",
-        "key_takeaways": [
-          "PCA as variance maximization",
-          "Connection to SVD",
-          "Interactive visualizations"
-        ],
-        "tags": ["PCA", "optimization", "machine learning"]
+        "tags": [
+          "linear algebra",
+          "visualization",
+          "geometry"
+        ]
       }
     ],
     "research_papers": [
       {
-        "title": "Random Matrices in Statistical Physics",
-        "authors": ["Eugene Wigner"],
-        "year": 1967,
-        "url": "https://doi.org/10.1137/1009005",
-        "relevance": "Foundational paper on eigenvalue distributions",
-        "key_sections": [
-          {
-            "section": "2. Semi-Circle Law",
-            "why_important": "Describes behavior of neural network initialization"
-          }
+        "title": "Learning from Linear Algebra: A Graph Neural Network Approach to Preconditioner Design for Conjugate Gradient Solvers",
+        "authors": [
+          "Vladislav Trifonov",
+          "Alexander Rudikov",
+          "Oleg Iliev",
+          "Ivan Oseledets",
+          "Ekaterina Muravleva"
         ],
+        "url": "https://arxiv.org/abs/2405.15557",
+        "relevance": "Novel application of GNNs to linear algebra preconditioner design",
         "difficulty": "advanced"
+      },
+      {
+        "title": "A simple linear algebra identity to optimize Large-Scale Neural Network Quantum States",
+        "authors": [
+          "Riccardo Rende",
+          "Luciano Loris Viteritti",
+          "Lorenzo Bardone",
+          "Federico Becca",
+          "Sebastian Goldt"
+        ],
+        "url": "https://arxiv.org/abs/2310.05715",
+        "relevance": "Novel optimization approach for scaling neural network quantum state architectures through linear algebra",
+        "difficulty": "advanced",
+        "institutions": [
+          "International School for Advanced Studies (SISSA)",
+          "Università di Trieste"
+        ],
+        "key_contributions": [
+          "Linear algebra identity for optimizing large neural networks",
+          "State-of-the-art results on J1-J2 Heisenberg model",
+          "Improved scalability of Stochastic Reconfiguration method"
+        ],
+        "publication_date": "2024-08-02"
       }
     ],
     "videos": [
@@ -331,8 +365,8 @@
     ],
     "key_theorems": [
       {
-        "name": "Spectral Theorem",
-        "statement": "Every symmetric matrix has orthogonal eigenvectors",
+        "name": "Spectral Theorem: Every symmetric matrix has orthogonal eigenvectors",
+        "statement": "",
         "why_important": "Guarantees nice properties for covariance matrices",
         "applications": [
           "PCA works because covariance matrices are symmetric",
@@ -361,7 +395,7 @@
       },
       {
         "issue": "Degenerate eigenvalues",
-        "what_happens": "Multiple eigenvalues are equal",
+        "error": "Multiple eigenvalues are equal",
         "why_it_matters": "Eigenvectors not uniquely determined",
         "how_to_avoid": "Use numerical methods carefully"
       }

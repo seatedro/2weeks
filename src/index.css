@@ -197,7 +197,7 @@
 
 .power-saving {
     opacity: 0.3;
-    transition: opacity 0.3s ease-in-out;
+    /* transition: opacity 0.3s ease-in-out; */
 }
 
 .power-saving:hover {
@@ -211,15 +211,6 @@
     100% {
         transform: translateX(100%);
     }
-}
-
-.power-saving {
-    opacity: 0.3;
-    transition: opacity 0.3s ease-in-out;
-}
-
-.power-saving:hover {
-    opacity: 1;
 }
 
 .debug-line {

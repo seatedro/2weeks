@@ -17,8 +17,41 @@
       "title": "Calculus",
       "timeEstimate": "24_HOURS",
       "prerequisites": [],
-      "order": 1,
+      "order": 2,
       "description": "Initialize your neural pathways with tensor operations - the fundamental building blocks of deep learning architectures"
+    },
+    {
+      "id": "continuity",
+      "title": "Limits in Multiple Dimensions",
+      "timeEstimate": "8_HOURS",
+      "prerequisites": [],
+      "order": 3,
+      "description": "Learn how functions approach limits in multiple dimensions and how continuity extends beyond single variables - essential for understanding higher-dimensional calculus concepts"
+    },
+    {
+      "id": "mapping_spaces",
+      "title": "Mapping Between Spaces",
+      "timeEstimate": "8_HOURS",
+      "prerequisites": [
+        "linear_algebra",
+        "calculus_geometry",
+        "continuity"
+      ],
+      "order": 4,
+      "description": "Master the theory of transformations between spaces - crucial for understanding neural architectures, embeddings, and manifold learning. Explore homeomorphisms, embeddings, and the geometric foundations of deep learning."
+    },
+    {
+      "id": "taylor_series",
+      "title": "Taylor Series in Multiple Variables",
+      "timeEstimate": "10_HOURS",
+      "prerequisites": [
+        "multivar_calculus",
+        "matrix_calculus",
+        "optimization_basics",
+        "gradient_theory"
+      ],
+      "order": 5,
+      "description": "Master multivariable Taylor series - the cornerstone of local approximation theory and optimization. Essential for understanding loss landscapes, Newton's method, and convergence analysis in deep learning. Explore how local polynomial approximations power modern machine learning algorithms and optimization techniques."
     }
   ],
   "systemRequirements": {

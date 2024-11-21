@@ -106,128 +106,115 @@
   "resources": {
     "blog_posts": [
       {
-        "title": "Visual Information Geometry",
-        "url": "https://distill.pub/2017/momentum/",
-        "author": "Chris Olah",
-        "readingTime": "30 minutes",
-        "difficulty": "intermediate",
-        "summary": "Beautiful visual exploration of how geometry affects optimization",
-        "key_takeaways": [
-          "Geometric interpretation of momentum",
-          "Why curved spaces matter in optimization",
-          "Interactive demos of different optimizers"
-        ],
-        "tags": ["optimization", "geometry", "visualization"]
-      },
-      {
         "title": "Why Momentum Really Works",
         "url": "https://distill.pub/2017/momentum/",
         "author": "Gabriel Goh",
         "readingTime": "25 minutes",
-        "difficulty": "intermediate",
-        "summary": "Deep dive into the geometry of momentum optimization",
-        "key_takeaways": [
-          "Acceleration via geometry",
-          "Continuous time analysis",
-          "Practical optimization insights"
-        ],
-        "tags": ["optimization", "differential equations", "dynamics"]
+        "difficulty": "intermediate"
       },
       {
-        "title": "Understanding the Geometric Foundations of Deep Learning",
-        "url": "https://bronstein.mit.edu/geometric-deep-learning/",
-        "author": "Michael Bronstein",
-        "readingTime": "45 minutes",
-        "difficulty": "advanced",
-        "summary": "Blueprint for geometric deep learning",
-        "key_takeaways": [
-          "Symmetries in neural networks",
-          "Manifold structure of data",
-          "Geometric inductive biases"
-        ],
-        "tags": ["geometric-dl", "manifolds", "symmetry"]
+        "title": "Understanding the Beauty of Calculus",
+        "url": "https://guruathome.org/blog/understanding-the-beauty-of-calculus/",
+        "author": "Guru At Home",
+        "readingTime": "20 minutes",
+        "difficulty": "beginner"
+      },
+      {
+        "title": "The Elegance of Calculus",
+        "url": "https://immsrini.github.io/blog/2023/BeautyofCalc/",
+        "author": "Mukundhan Srinivasan",
+        "readingTime": "15 minutes",
+        "difficulty": "intermediate"
+      },
+      {
+        "title": "Differential Calculus and the Geometry of Derivatives",
+        "url": "http://www.science4all.org/article/differential-calculus/",
+        "author": "Lê Nguyên Hoang",
+        "readingTime": "30 minutes",
+        "difficulty": "intermediate"
       },
       {
         "title": "PyTorch Geometric",
         "url": "https://pytorch-geometric.readthedocs.io/",
         "author": "PyTorch Team",
         "readingTime": "60 minutes",
-        "difficulty": "intermediate",
-        "summary": "Comprehensive library for geometric deep learning",
-        "key_takeaways": [
-          "Manifold operations",
-          "Graph neural networks",
-          "Differential geometry utilities"
-        ],
-        "tags": ["libraries", "geometric-dl", "pytorch"]
+        "difficulty": "intermediate"
       },
       {
         "title": "Geomstats: Computations on Manifolds",
         "url": "https://geomstats.github.io",
         "author": "Geomstats Team",
         "readingTime": "45 minutes",
-        "difficulty": "advanced",
-        "summary": "Library for computations and statistics on manifolds",
-        "key_takeaways": [
-          "Riemannian geometry",
-          "Optimization on manifolds",
-          "Statistical manifolds"
-        ],
-        "tags": ["libraries", "geometry", "statistics"]
+        "difficulty": "advanced"
       }
     ],
     "research_papers": [
       {
-        "title": "Natural Gradient Works Efficiently in Learning",
-        "authors": ["Shun-ichi Amari"],
-        "year": 1998,
-        "url": "https://www.mitpressjournals.org/doi/abs/10.1162/089976698300017746",
-        "relevantSections": [
-          "2. Information Geometry",
-          "4. Natural Gradient",
-          "5. Fisher Information Matrix"
-        ],
-        "why_important": "Foundational paper connecting differential geometry to neural network optimization",
-        "key_insights": [
-          "Statistical manifold structure",
-          "Efficient second-order optimization",
-          "Invariance principles"
-        ]
-      },
-      {
-        "title": "A Differential Geometric Approach to the Geometric Mean of Symmetric Positive-Definite Matrices",
-        "authors": ["Xavier Pennec", "Pierre Fillard", "Nicholas Ayache"],
-        "year": 2006,
-        "url": "https://doi.org/10.1137/040616929",
-        "relevantSections": ["2. Riemannian Geometry", "3. Matrix Manifolds"],
-        "why_important": "Rigorous treatment of matrix manifolds used in modern deep learning",
-        "key_insights": [
-          "Riemannian metrics on matrix spaces",
-          "Geometric means on manifolds",
-          "Practical computational aspects"
-        ]
-      },
-      {
-        "title": "Geometric deep learning: going beyond Euclidean data",
+        "title": "On the Convergence of Gradient Descent for Deep Linear Neural Networks",
         "authors": [
-          "Michael M. Bronstein",
-          "Joan Bruna",
-          "Yann LeCun",
-          "Arthur Szlam",
-          "Pierre Vandergheynst"
+          "Sanjeev Arora",
+          "Nadav Cohen",
+          "Wei Hu",
+          "Yuping Luo"
+        ],
+        "year": 2018,
+        "url": "https://arxiv.org/abs/1810.02281",
+        "why_important": "Fundamental analysis of gradient descent through calculus lens",
+        "key_insights": [
+          "Gradient flow dynamics",
+          "Convergence guarantees",
+          "Role of initialization"
+        ]
+      },
+      {
+        "title": "Understanding Deep Learning Requires Rethinking Generalization",
+        "authors": [
+          "Chiyuan Zhang",
+          "Samy Bengio",
+          "Moritz Hardt",
+          "Benjamin Recht",
+          "Oriol Vinyals"
         ],
         "year": 2017,
-        "url": "https://doi.org/10.1109/MSP.2017.2693418",
-        "relevantSections": [
-          "II. Geometry Meets Deep Learning",
-          "III. Manifold-Valued Data",
-          "IV. Graph-Structured Data"
-        ],
-        "why_important": "Unified geometric framework for deep learning beyond regular grids",
+        "url": "https://arxiv.org/abs/1611.03530",
+        "why_important": "Connects optimization dynamics with generalization through calculus",
         "key_insights": [
-          "Non-Euclidean data analysis",
-          "Geometric structure exploitation",
-          "Symmetry in neural architectures"
+          "Optimization landscape analysis",
+          "Gradient descent behavior",
+          "Critical points characterization"
+        ]
+      },
+      {
+        "title": "The Loss Surfaces of Multilayer Networks",
+        "authors": [
+          "Anna Choromanska",
+          "Mikael Henaff",
+          "Michael Mathieu",
+          "Gerard Ben Arous",
+          "Yann LeCun"
+        ],
+        "year": 2015,
+        "url": "https://arxiv.org/abs/1412.0233",
+        "why_important": "Analyzes optimization landscape through differential calculus",
+        "key_insights": [
+          "Loss surface geometry",
+          "Critical point distribution",
+          "Optimization trajectories"
+        ]
+      },
+      {
+        "title": "The Matrix Calculus You Need For Deep Learning",
+        "authors": [
+          "Terence Parr",
+          "Jeremy Howard"
+        ],
+        "year": 2018,
+        "url": "https://arxiv.org/abs/1802.01528",
+        "why_important": "Fundamental matrix calculus concepts explained for deep learning context",
+        "key_insights": [
+          "Matrix calculus principles for neural networks",
+          "Chain rule applications in backpropagation",
+          "Accessible explanations of complex concepts"
         ]
       }
     ],
@@ -238,7 +225,10 @@
         "url": "https://www.youtube.com/geometricdeeplearning",
         "duration": "6 hours",
         "difficulty": "advanced",
-        "prerequisites": ["Multivariable Calculus", "Linear Algebra"]
+        "prerequisites": [
+          "Multivariable Calculus",
+          "Linear Algebra"
+        ]
       },
       {
         "title": "Geometry of Deep Learning",
@@ -246,7 +236,10 @@
         "url": "https://www.youtube.com/deepmind_lectures",
         "duration": "4 hours",
         "difficulty": "intermediate",
-        "prerequisites": ["Basic Deep Learning", "Calculus"]
+        "prerequisites": [
+          "Basic Deep Learning",
+          "Calculus"
+        ]
       },
       {
         "title": "Information Geometry Masterclass",
@@ -254,7 +247,10 @@
         "url": "https://www.youtube.com/mpi_lectures",
         "duration": "8 hours",
         "difficulty": "advanced",
-        "prerequisites": ["Differential Geometry", "Probability Theory"],
+        "prerequisites": [
+          "Differential Geometry",
+          "Probability Theory"
+        ],
         "supplementary_materials": {
           "lecture_notes": "https://mpi.info/lectures/notes",
           "code_examples": "https://github.com/mpi/info-geo"
@@ -265,37 +261,53 @@
     "textbooks": [
       {
         "title": "Differential Geometry and Statistics",
-        "authors": ["Murray and Rice"],
+        "authors": [
+          "Murray and Rice"
+        ],
         "publisher": "Chapman and Hall",
         "year": 1993,
         "chapters": [
           {
             "number": 1,
             "title": "Statistical Manifolds",
-            "key_topics": ["Fisher metric", "Statistical distance"]
+            "key_topics": [
+              "Fisher metric",
+              "Statistical distance"
+            ]
           },
           {
             "number": 2,
             "title": "Information Geometry",
-            "key_topics": ["Dual connections", "Divergence functions"]
+            "key_topics": [
+              "Dual connections",
+              "Divergence functions"
+            ]
           }
         ]
       },
       {
         "title": "Methods of Information Geometry",
-        "authors": ["Amari and Nagaoka"],
+        "authors": [
+          "Amari and Nagaoka"
+        ],
         "publisher": "AMS/Oxford",
         "year": 2000,
         "chapters": [
           {
             "number": 1,
             "title": "Geometrical Structures",
-            "key_topics": ["Manifold structure", "Connections"]
+            "key_topics": [
+              "Manifold structure",
+              "Connections"
+            ]
           },
           {
             "number": 2,
             "title": "Statistical Manifolds",
-            "key_topics": ["Fisher information", "Cramer-Rao bounds"]
+            "key_topics": [
+              "Fisher information",
+              "Cramer-Rao bounds"
+            ]
           }
         ]
       }

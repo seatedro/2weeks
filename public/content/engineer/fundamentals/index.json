@@ -16,7 +16,9 @@
       "id": "loss_functions",
       "title": "Loss Functions",
       "timeEstimate": "4_HOURS",
-      "prerequisites": ["tensor_operations"],
+      "prerequisites": [
+        "tensor_operations"
+      ],
       "order": 2,
       "description": "Understand how neural networks measure their performance through loss functions - the compass that guides learning"
     },
@@ -24,16 +26,30 @@
       "id": "autograd_mechanics",
       "title": "Autograd",
       "timeEstimate": "8_HOURS",
-      "prerequisites": ["loss_functions"],
+      "prerequisites": [
+        "loss_functions"
+      ],
       "order": 3,
       "description": "Unlock the secrets of automatic differentiation - your neural network's learning mechanism"
+    },
+    {
+      "id": "neural_network_basics",
+      "title": "Neural Network Basics",
+      "timeEstimate": "8_HOURS",
+      "prerequisites": [
+        "autograd_mechanics"
+      ],
+      "order": 5,
+      "description": "Learn the essential concepts of neural networks including neurons, layers, activation functions and forward propagation"
     },
     {
       "id": "neural_architecture",
       "title": "Network Architecture",
       "timeEstimate": "8_HOURS",
-      "prerequisites": ["autograd_mechanics"],
-      "order": 4,
+      "prerequisites": [
+        "autograd_mechanics"
+      ],
+      "order": 5,
       "description": "Construct neural pathways using PyTorch's building blocks - the foundation of deep learning"
     }
   ],

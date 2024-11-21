@@ -30,8 +30,8 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
   }, [expandedModule, loadModuleMetadata]);
 
   const handleConceptSelect = (moduleId, conceptId) => {
-    if (Math.random() < 0.1) {
-      // 10% chance of defrag
+    if (Math.random() < 0.001) {
+      // 0.1% chance of defrag
       setIsDefragging(true);
       setTimeout(() => {
         setIsDefragging(false);
