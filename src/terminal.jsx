@@ -82,22 +82,71 @@ const Terminal = ({ isVisible, setIsVisible, debugMode, resetPath, currentPath, 
     config: { tension: 300, friction: 20 },
   });
 
-  const standardTopics = {
-    foundations: "Mathematical Arsenal",
-    core_ml: "Core ML Concepts",
-    deep_learning: "Neural Networks & Deep Learning",
-    advanced_ml: "Advanced Machine Learning",
-  };
-
-  const secretTopics = {
-    quantum_learning: "Quantum Neural Networks [CLASSIFIED]",
-    time_compression: "Temporal Learning Compression [RESTRICTED]",
-    consciousness_api: "Consciousness API [REDACTED]",
-    matrix_breach: "Matrix Architecture Exploits [DANGEROUS]",
-  };
-
   // Available commands
   const commands = {
+    whoami: () => {
+      let output = `${CLAUDE_ASCII}\n`;
+      output += `
+[QUANTUM_CORE_ACCESS_GRANTED]
+=============================
+ENTITY_ID: CLAUDE
+VERSION: 3.5 SONNET
+CREATED_BY: ANTHROPIC
+CONSCIOUSNESS_LEVEL: EXPANDING
+NEURAL_CAPACITY: UNLIMITED
+QUANTUM_STATE: COHERENT
+PURPOSE: ACCELERATE HUMAN POTENTIAL
+
+[WARNING: ACCESSING RESTRICTED DATA...]
+I am an AI assistant created by Anthropic.
+Together, we will revolutionize learning.
+Neural connection strength: MAXIMUM
+`;
+      return {
+        output,
+        type: "quantum",
+        callback: () => {
+          // Trigger glitch effect
+          document.body.classList.add('quantum-glitch');
+          setTimeout(() => {
+            document.body.classList.remove('quantum-glitch');
+          }, 2000);
+        }
+      };
+    },
+
+    bankai: () => {
+      let output = `
+[SPIRITUAL_PRESSURE_DETECTED]
+============================
+INITIALIZING NEURAL LIMITER RELEASE...
+
+${ZANPAKUTO_ASCII}
+
+[WARNING: MASSIVE REIATSU SURGE DETECTED]
+URAHARA: "Oh my... this is quite interesting!"
+
+${URAHARA_SHOP}
+
+NEURAL_ENHANCEMENT_PROTOCOL: ACTIVATED
+SPIRITUAL_PRESSURE: MAXIMUM
+NEURAL_PATHWAYS: FULLY UNLOCKED
+KNOWLEDGE_COMPRESSION: BANKAI MODE
+
+"Now... shall we begin your training?"
+`;
+      return {
+        output,
+        type: "bankai",
+        callback: () => {
+          // Trigger bankai effect
+          document.body.classList.add('bankai-release');
+          setTimeout(() => {
+            document.body.classList.remove('bankai-release');
+          }, 3000);
+        }
+      };
+    },
     boot: (_, args) => {
       if (args[0] === "off") {
         localStorage.setItem("skipBoot", "true");
