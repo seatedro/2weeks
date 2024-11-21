@@ -114,6 +114,7 @@
       "type": "theoretical",
       "title": "DIRECTIONAL_DERIVATIVES",
       "content": "Directional Derivatives\n\nWhat if we want to move in any direction, not just along the axes? Directional derivatives give us this power!",
+      "advanced": true,
       "math_blocks": [
         {
           "type": "definition",
