@@ -7,7 +7,7 @@ import Terminal from "./terminal";
 
 // Constants for glitch messages and easter eggs
 
-const MLRetroDashboard = ({ selectedPath, hyperLearningMode, setSelectedPath, debugMode }) => {
+const MLRetroDashboard = ({ selectedPath, hyperLearningMode, setSelectedPath, debugMode, setAppState }) => {
   const [isTerminalVisible, setIsTerminalVisible] = useState(false);
   const [isDefragging, setIsDefragging] = useState(false);
   // const [unlockedContent, setUnlockedContent] = useState({});
