@@ -1,18 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
-import { createHighlighter } from "shiki";
-// Create a singleton highlighter instance
-let highlighterPromise = null;
-
-const initHighlighter = async () => {
-  if (!highlighterPromise) {
-    highlighterPromise = createHighlighter({
-      themes: ["tokyo-night"],
-      langs: ["javascript", "typescript", "python", "shell"],
-    });
-  }
-  return highlighterPromise;
-};
+import { initHighlighter } from "./shiki";
 
 // Helper to get raw text from HTML string
 const getTextFromHTML = (html) => {
@@ -56,11 +44,10 @@ const CodeBlock = ({ code, language = "python", isError = false }) => {
 
   return (
     <div
-      className={`relative group rounded border transition-all duration-300 overflow-hidden p-4 ${
-        isError
+      className={`relative group rounded border transition-all duration-300 overflow-hidden p-4 ${isError
           ? "bg-black/80 border-red-400/20 hover:border-red-400/40"
           : "bg-black/80 border-green-400/20 hover:border-green-400/40"
-      }`}
+        }`}
     >
       {/* Code content with direct Shiki HTML injection */}
       <div
@@ -73,25 +60,22 @@ const CodeBlock = ({ code, language = "python", isError = false }) => {
         onClick={handleCopy}
         className={`absolute top-2 right-2 opacity-0 group-hover:opacity-100
                  bg-black/80 px-2 py-1
-                 transition-all duration-300 text-xs ${
-                   isError
-                     ? "text-red-400/50 hover:text-red-400"
-                     : "text-green-400/50 hover:text-green-400"
-                 }`}
+                 transition-all duration-300 text-xs ${isError
+            ? "text-red-400/50 hover:text-red-400"
+            : "text-green-400/50 hover:text-green-400"
+          }`}
       >
         {copied ? "[COPIED]" : "[COPY]"}
       </button>
 
       {/* Retro scan line effect */}
       <div
-        className={`absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent ${
-          isError ? "via-red-400/[0.05]" : "via-green-400/[0.05]"
-        } to-transparent animate-scan`}
+        className={`absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent ${isError ? "via-red-400/[0.05]" : "via-green-400/[0.05]"
+          } to-transparent animate-scan`}
       />
       <div
-        className={`absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent ${
-          isError ? "via-red-400/[0.03]" : "via-green-400/[0.03]"
-        } to-transparent animate-scan delay-75`}
+        className={`absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent ${isError ? "via-red-400/[0.03]" : "via-green-400/[0.03]"
+          } to-transparent animate-scan delay-75`}
       />
     </div>
   );
