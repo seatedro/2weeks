@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import Terminal from "./terminal";
 import EnhancedMatrixRain from "./matrix";
 import KonamiHandler from "./konami";
 import MLRetroDashboard from "./dashboard";
@@ -136,7 +135,7 @@ export default function App() {
         <KonamiHandler hyperLearningMode={hyperLearningMode} />
       </div>
       {/* Global styles for effects */}
-      <style jsx global>{`
+      <style>{`
         /* Scanline effect in debug mode */
         ${debugMode
           ? `

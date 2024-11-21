@@ -1,5 +1,5 @@
 {
-  "id": "loss_and_optimization",
+  "id": "loss_functions",
   "title": "Loss Functions and Optimization Fundamentals",
   "timeEstimate": "6 hours",
   "sections": [
@@ -198,9 +198,15 @@
       {
         "title": "Adam: A Method for Stochastic Optimization",
         "url": "https://arxiv.org/abs/1412.6980",
-        "authors": ["Diederik P. Kingma", "Jimmy Ba"],
+        "authors": [
+          "Diederik P. Kingma",
+          "Jimmy Ba"
+        ],
         "year": 2014,
-        "relevantSections": ["Algorithm", "Convergence Analysis"]
+        "relevantSections": [
+          "Algorithm",
+          "Convergence Analysis"
+        ]
       }
     ]
   },

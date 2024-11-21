@@ -99,16 +99,12 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode, setSelectedPath, de
                 </span>
                 <span>{module.title.toUpperCase()}</span>
               </div>
-              <div className="text-green-400/50 text-sm ml-6">
-                TIME_TO_COMPLETION: {module.timeToCompletion}
-              </div>
             </button>
 
             {/* Concepts List */}
             {expandedModule === module.id && moduleMetadata?.concepts && (
               <div className="border-t border-green-400/30">
                 {moduleMetadata.concepts.map((concept) => {
-                  // const isLocked = !checkPrerequisites(module.id, concept.id);
                   const isSelected =
                     currentModule?.id === module.id &&
                     currentConcept?.id === concept.id;
@@ -124,9 +120,6 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode, setSelectedPath, de
                       <div className="flex items-center text-green-400">
                         <span className="mr-2">{">"}</span>
                         {concept.title}
-                      </div>
-                      <div className="text-green-400/50 text-sm ml-6">
-                        EST_TIME: {concept.timeEstimate}
                       </div>
                     </button>
                   );
