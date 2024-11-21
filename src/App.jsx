@@ -119,6 +119,7 @@ export default function App() {
               selectedPath={selectedPath}
               hyperLearningMode={hyperLearningMode}
               setSelectedPath={setSelectedPath}
+              setAppState={setAppState}
             />
           </>
         );

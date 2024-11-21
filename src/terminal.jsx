@@ -247,32 +247,6 @@ ACTION: Redirecting to path selection...`,
         type: "error",
       };
     },
-    help: () => {
-      let output = `Available commands:
-
-help        - Show this help message
-clear       - Clear terminal
-topics      - List all learning topics
-select      - Select a topic (usage: select <topic>)
-matrix      - Toggle matrix rain effect
-boot        - Control boot sequence (usage: boot <on|off>)
-reset_path  - Reset learning path selection
-unlock      - Unlock special modes (if you know the code...)
-exit        - Close terminal`;
-
-      if (debugMode) {
-        output += `
-
-[DEBUG COMMANDS AVAILABLE]
-scan     - Scan for hidden modules
-debug    - Control debug mode (usage: debug off)`;
-      }
-
-      return {
-        output,
-        type: debugMode ? "warning" : "info",
-      };
-    },
     scan: (_, args) => {
       if (!debugMode) {
         return {
