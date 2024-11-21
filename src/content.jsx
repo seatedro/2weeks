@@ -101,8 +101,6 @@ const ResourcePanel = ({ resources }) => {
                   {video.title}
                 </a>
                 <div className="text-green-400/50 text-xs md:text-sm ml-1 md:ml-2">
-                  <div>DURATION: {video.duration}</div>
-                  <div>CREATOR: {video.creator}</div>
                 </div>
                 {video.highlights && (
                   <div className="mt-2">

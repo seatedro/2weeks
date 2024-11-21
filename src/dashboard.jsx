@@ -3,14 +3,26 @@ import MatrixRain from "./matrix";
 import { Defragmentation } from "./retro";
 import { useContentManager } from "./hooks/useContentManager";
 import { SectionContent } from "./content";
+import Terminal from "./terminal";
 
 // Constants for glitch messages and easter eggs
 
-const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
+const MLRetroDashboard = ({ selectedPath, hyperLearningMode, setSelectedPath, debugMode }) => {
+  const [isTerminalVisible, setIsTerminalVisible] = useState(false);
   const [isDefragging, setIsDefragging] = useState(false);
   // const [unlockedContent, setUnlockedContent] = useState({});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [expandedModule, setExpandedModule] = useState(null);
+  const handleResetPath = () => {
+    localStorage.removeItem("selectedPath");
+    setSelectedPath(null);
+    setAppState("pathSelect");
+    // Trigger matrix effect for transition
+    window.dispatchEvent(new CustomEvent("matrixIntensify"));
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("matrixNormalize"));
+    }, 1000);
+  };
   const {
     modules, // List of all modules
     moduleMetadata, // Current module's detailed metadata
@@ -150,6 +162,15 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode }) => {
 
   return (
     <div className="min-h-screen bg-black p-4 md:p-8 relative overflow-hidden ">
+      <Terminal
+        isVisible={isTerminalVisible}
+        setIsVisible={setIsTerminalVisible}
+        debugMode={debugMode}
+        resetPath={handleResetPath}
+        currentPath={selectedPath}
+        moduleData={modules}
+      />
+
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}

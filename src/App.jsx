@@ -8,7 +8,6 @@ import PathSelector from "./path";
 import PathStatus from "./pathstatus";
 
 export default function App() {
-  const [isTerminalVisible, setIsTerminalVisible] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
   const [hyperLearningMode, setHyperLearningMode] = useState(false);
   const [bootSequence, setBootSequence] = useState(() => {
@@ -20,16 +19,6 @@ export default function App() {
     return localStorage.getItem("selectedPath");
   });
 
-  const handleResetPath = () => {
-    localStorage.removeItem("selectedPath");
-    setSelectedPath(null);
-    setAppState("pathSelect");
-    // Trigger matrix effect for transition
-    window.dispatchEvent(new CustomEvent("matrixIntensify"));
-    setTimeout(() => {
-      window.dispatchEvent(new CustomEvent("matrixNormalize"));
-    }, 1000);
-  };
 
   // Initialize appState based on whether path is already selected
   const [appState, setAppState] = useState(() => {
@@ -130,6 +119,7 @@ export default function App() {
               debugMode={debugMode}
               selectedPath={selectedPath}
               hyperLearningMode={hyperLearningMode}
+              setSelectedPath={setSelectedPath}
             />
           </>
         );
@@ -143,12 +133,6 @@ export default function App() {
       <div className="h-screen w-screen overflow-auto relative">
         {renderContent()}
         <PathStatus selectedPath={selectedPath} />
-        <Terminal
-          isVisible={isTerminalVisible}
-          setIsVisible={setIsTerminalVisible}
-          debugMode={debugMode}
-          resetPath={handleResetPath}
-        />
         <KonamiHandler hyperLearningMode={hyperLearningMode} />
       </div>
       {/* Global styles for effects */}

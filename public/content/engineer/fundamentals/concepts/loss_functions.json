@@ -148,24 +148,50 @@
     "videos": [
       {
         "title": "Understanding Loss Functions",
-        "url": "https://www.youtube.com/watch?example1",
-        "duration": "20:00",
-        "creator": "Stanford CS231n",
-        "description": "Comprehensive overview of loss functions in deep learning",
-        "highlights": [
-          { "timestamp": "3:20", "topic": "MSE Loss Derivation" },
-          { "timestamp": "12:45", "topic": "Cross-Entropy Implementation" }
-        ]
+        "url": "https://youtu.be/IVVVjBSk9N0?si=pNplbxFrXaGpdcVm",
+        "creator": "Stanford CS231n"
       }
     ],
     "blog_posts": [
       {
-        "title": "A Deep Dive into Loss Functions",
-        "url": "https://medium.com/example",
-        "author": "Sebastian Ruder",
-        "readingTime": "25 mins",
-        "difficulty": "intermediate",
-        "tags": ["loss-functions", "optimization", "deep-learning"]
+        "title": "Machine Learning: Loss Functions",
+        "author": "Evergreen Innovations",
+        "url": "https://www.evergreeninnovations.co/blog-machine-learning-loss-functions/"
+      },
+      {
+        "title": "Introduction to Loss Functions",
+        "author": "DataRobot",
+        "url": "https://www.datarobot.com/blog/introduction-to-loss-functions/"
+      },
+      {
+        "title": "What is Loss Function?",
+        "author": "IBM",
+        "url": "https://www.ibm.com/think/topics/loss-function"
+      },
+      {
+        "title": "Machine learning: What are loss functions?",
+        "author": "Monitaur",
+        "url": "https://www.monitaur.ai/blog-posts/machine-learning-what-are-loss-functions"
+      },
+      {
+        "title": "Loss Functions in Machine Learning Explained",
+        "author": "DataCamp",
+        "url": "https://www.datacamp.com/tutorial/loss-function-in-machine-learning"
+      },
+      {
+        "title": "An Algorithm-wise Summary of Loss Functions in Machine Learning",
+        "author": "Daily Dose of Data Science",
+        "url": "https://blog.dailydoseofds.com/p/an-algorithm-wise-summary-of-loss"
+      },
+      {
+        "title": "Common Loss functions in machine learning",
+        "author": "Ravindra Parmar",
+        "url": "https://towardsdatascience.com/common-loss-functions-in-machine-learning-46af0ffc4d23"
+      },
+      {
+        "title": "PyTorch Loss Functions: The Ultimate Guide",
+        "author": "Neptune.ai",
+        "url": "https://neptune.ai/blog/pytorch-loss-functions"
       }
     ],
     "research_papers": [

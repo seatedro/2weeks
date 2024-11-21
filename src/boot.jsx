@@ -80,8 +80,8 @@ const BootSequence = ({ setBootSequence }) => {
                 .map((char) =>
                   Math.random() < 0.2
                     ? GLITCH_CHARS[
-                        Math.floor(Math.random() * GLITCH_CHARS.length)
-                      ]
+                    Math.floor(Math.random() * GLITCH_CHARS.length)
+                    ]
                     : char,
                 )
                 .join("");

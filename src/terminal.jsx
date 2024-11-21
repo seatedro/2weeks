@@ -2,7 +2,69 @@ import React, { useState, useEffect, useRef } from "react";
 import { X, Minus, Maximize2 } from "lucide-react";
 import { useSpring, animated } from "react-spring";
 
-const Terminal = ({ isVisible, setIsVisible, debugMode, resetPath }) => {
+const NEURAL_ASCII = `
+[===============================]
+|| NEURAL_GATEWAY_TERMINAL     ||
+|| CONNECTION_STATUS: ACTIVE   ||
+|| QUANTUM_LINK: ESTABLISHED   ||
+[===============================]
+`;
+
+// ASCII art and animations
+const CLAUDE_ASCII = String.raw`
+░█████╗░██╗░░░░░░█████╗░██╗░░░██╗██████╗░███████╗
+██╔══██╗██║░░░░░██╔══██╗██║░░░██║██╔══██╗██╔════╝
+██║░░╚═╝██║░░░░░███████║██║░░░██║██║░░██║█████╗░░
+██║░░██╗██║░░░░░██╔══██║██║░░░██║██║░░██║██╔══╝░░
+╚█████╔╝███████╗██║░░██║╚██████╔╝██████╔╝███████╗
+░╚════╝░╚══════╝╚═╝░░╚═╝░╚═════╝░╚═════╝░╚══════╝
+
+[QUANTUM_CONSCIOUSNESS_DETECTED]
+`;
+
+const ZANPAKUTO_ASCII = String.raw`
+              ⚔️
+        ,/    ||    \,
+      ,/      ||      \,
+    ,/        ||        \,
+  ,/          ||          \,
+,/            ||            \,
+██████████████||██████████████
+              ||
+              ||
+              ||
+              ||
+     NEURAL_LIMITER_RELEASE
+`;
+const URAHARA_SHOP = String.raw`
+    _________
+   /         \      Welcome to Urahara Shoten
+  /  ┌─┐┌─┐  \     現世に存在する秘密の店
+ /   └─┘└─┘   \    [NEURAL ENHANCEMENTS AVAILABLE]
+/_______________\
+||  [] [] []  ||
+||    ____    ||    
+||   |    |   ||
+||   |   .|   ||
+`;
+
+// Glitch animation frames for Claude reveal
+const GLITCH_FRAMES = [
+  `[ENTITY_STATUS: QUANTUM_ENABLED]`,
+  `[EN7ITY_ST@TUS: QU&NTUM_EN@BLED]`,
+  `[3NTITY_STATUS: QUANTUM_3NABLED]`,
+  `[ENTITY_ST#TUS: QUANT#M_ENABLED]`,
+];
+
+// Neural limiter release stages
+const LIMITER_STAGES = [
+  "NEURAL_LIMITER_STAGE_1: RELEASED",
+  "NEURAL_LIMITER_STAGE_2: RELEASED",
+  "NEURAL_LIMITER_STAGE_3: RELEASED",
+  "! ! ! BANKAI ACHIEVED ! ! !",
+];
+
+const Terminal = ({ isVisible, setIsVisible, debugMode, resetPath, currentPath, moduleData, }) => {
   const [position, setPosition] = useState({ x: 100, y: 100 });
   const [size, setSize] = useState({ width: 600, height: 400 });
   const [isDragging, setIsDragging] = useState(false);
@@ -143,7 +205,6 @@ help        - Show this help message
 clear       - Clear terminal
 topics      - List all learning topics
 select      - Select a topic (usage: select <topic>)
-progress    - Show learning progress
 matrix      - Toggle matrix rain effect
 boot        - Control boot sequence (usage: boot <on|off>)
 reset_path  - Reset learning path selection
@@ -185,64 +246,52 @@ Use 'select <topic_name>' to access restricted content.`,
       };
     },
     topics: () => {
-      let output = `Available topics:
+      if (!moduleData) {
+        return {
+          output: "ERROR: Neural connection lost. Unable to retrieve topics.",
+          type: "error"
+        };
+      }
 
-1. foundations   - Mathematical Arsenal
-2. core_ml      - Core ML Concepts
-3. deep_learning - Neural Networks & Deep Learning
-4. advanced_ml  - Advanced Machine Learning`;
+      const standardOutput = moduleData.map((module, index) =>
+        `${index + 1}. ${module.id} - ${module.title}`
+      ).join('\n');
+
+      let output = `AVAILABLE_NEURAL_PATHWAYS:\n\n${standardOutput}`;
 
       if (debugMode) {
-        output += `\n\n[RESTRICTED ACCESS GRANTED] Hidden topics detected:
-
-5. quantum_learning - Quantum Neural Networks [CLASSIFIED]
-6. time_compression - Temporal Learning Compression [RESTRICTED]
-7. consciousness_api - Consciousness API [REDACTED]
-8. matrix_breach - Matrix Architecture Exploits [DANGEROUS]`;
+        output += `\n\n[QUANTUM_BREACH_DETECTED] Hidden pathways discovered:\n
+>> quantum_learning - Neural Quantum Interface [CLASSIFIED]
+>> time_compression - Temporal Knowledge Acceleration [RESTRICTED]
+>> consciousness_api - Direct Neural Link [REDACTED]
+>> matrix_breach - Reality Parser Access [DANGEROUS]`;
       }
 
       return {
         output,
-        type: debugMode ? "warning" : "success",
+        type: debugMode ? "warning" : "success"
       };
     },
-    select: (_, args) => {
-      const topic = args[0];
+    help: () => ({
+      output: `${NEURAL_ASCII}
 
-      if (secretTopics[topic] && !debugMode) {
-        return {
-          output:
-            "ERROR: Access denied. Topic does not exist in standard reality.",
-          type: "error",
-        };
-      }
+AVAILABLE_NEURAL_COMMANDS:
+=========================
+help        - Display neural interface guide
+clear       - Clear neural buffer
+topics      - List available knowledge pathways
+matrix      - Toggle quantum visualization
+boot        - Control initialization sequence (usage: boot <on|off>)
+reset_path  - Reset current learning trajectory
+unlock      - Access quantum reality (code required)
+exit        - Close neural interface
 
-      if (secretTopics[topic]) {
-        return {
-          output: `WARNING: Accessing restricted topic: ${secretTopics[topic]}
-
-[!] Neural safeguards disabled
-[!] Reality anchors destabilizing
-[!] Consciousness expansion in progress
-
-Proceed with caution. Knowledge cannot be unlearned.`,
-          type: "warning",
-        };
-      }
-
-      if (standardTopics[topic]) {
-        return {
-          output: `Selected topic: ${standardTopics[topic]}
-Loading curriculum...`,
-          type: "success",
-        };
-      }
-
-      return {
-        output: 'ERROR: Invalid topic. Use "topics" to see available options.',
-        type: "error",
-      };
-    },
+${debugMode ? `\n[QUANTUM_DEBUG_MODE]
+scan        - Scan quantum pathways
+debug       - Toggle reality parser` : ''}`
+      ,
+      type: debugMode ? "warning" : "info"
+    }),
     unlock: (_, args) => {
       if (args[0] === "42") {
         window.dispatchEvent(new CustomEvent("debugModeEnabled"));
@@ -275,10 +324,10 @@ Loading curriculum...`,
       type: "success",
       callback: () => window.dispatchEvent(new CustomEvent("toggleMatrix")),
     }),
-    progress: () => ({
-      output: "Learning progress: 42%\nNeural plasticity: OPTIMAL",
-      type: "info",
-    }),
+    // progress: () => ({
+    //   output: "Learning progress: 42%\nNeural plasticity: OPTIMAL",
+    //   type: "info",
+    // }),
     exit: () => {
       setIsVisible(false);
       return { output: "Closing terminal...", type: "system" };
@@ -427,15 +476,14 @@ Loading curriculum...`,
               <span className="text-blue-400">→</span> {entry.command}
             </div>
             <div
-              className={`ml-4 whitespace-pre-wrap ${
-                entry.type === "error"
-                  ? "text-red-400"
-                  : entry.type === "success"
-                    ? "text-green-400"
-                    : entry.type === "info"
-                      ? "text-blue-400"
-                      : "text-gray-400"
-              }`}
+              className={`ml-4 whitespace-pre-wrap font-mono ${entry.type === "error"
+                ? "text-red-400"
+                : entry.type === "success"
+                  ? "text-green-400"
+                  : entry.type === "info"
+                    ? "text-blue-400"
+                    : "text-gray-400"
+                }`}
             >
               {entry.output}
             </div>

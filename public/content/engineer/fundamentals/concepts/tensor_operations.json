@@ -203,49 +203,82 @@
   "resources": {
     "official_docs": [
       {
-        "title": "PyTorch Tensor Documentation",
+        "title": "[CORE_MANUAL] PyTorch Tensor Operations",
         "url": "https://pytorch.org/docs/stable/tensors.html",
-        "description": "Official documentation for PyTorch tensors"
-      }
-    ],
-    "videos": [
+        "description": "OFFICIAL_DOCUMENTATION: Core tensor operations and creation methods"
+      },
       {
-        "title": "Understanding PyTorch Tensors",
-        "url": "https://youtube.com/...",
-        "duration": "15:30",
-        "creator": "PyTorch Official",
-        "description": "Comprehensive overview of tensor operations",
-        "highlights": [
-          { "timestamp": "2:30", "topic": "Tensor Creation" },
-          { "timestamp": "8:45", "topic": "Broadcasting Rules" }
-        ]
+        "title": "[ADVANCED_PROTOCOLS] Tensor Autograd Mechanics",
+        "url": "https://pytorch.org/docs/stable/autograd.html",
+        "description": "SYSTEM_SPECS: Automatic differentiation engine specifications"
+      },
+      {
+        "title": "[MEMORY_MANAGEMENT] Tensor Memory Format",
+        "url": "https://pytorch.org/blog/tensor-memory-format-matters/",
+        "description": "MEMORY_ARCHITECTURE: Advanced memory layout and optimization protocols"
+      },
+      {
+        "title": "[CUDA_ACCELERATION] GPU Tensor Operations",
+        "url": "https://pytorch.org/docs/stable/notes/cuda.html",
+        "description": "NEURAL_ACCELERATION: Hardware acceleration specifications for tensor computation"
       }
     ],
     "blog_posts": [
       {
-        "title": "Deep Dive into PyTorch Tensors",
-        "url": "https://blog.pytorch.org/...",
-        "author": "PyTorch Team",
-        "readingTime": "15 mins",
-        "difficulty": "intermediate",
-        "tags": ["tensors", "basics", "memory-management"]
+        "title": "A Light Intro To Tensors",
+        "author": "Setzeus",
+        "url": "https://www.setzeus.com/community-blog-posts/a-light-intro-to-tensors"
+      },
+      {
+        "title": "Tensors, Tensors, Tensors",
+        "author": "Brian Keng",
+        "url": "https://bjlkeng.io/posts/tensors-tensors-tensors/"
+      },
+      {
+        "title": "A peek into the world of tensors",
+        "author": "Gaurish4Math",
+        "url": "https://gaurish4math.wordpress.com/2017/01/20/a-peek-into-the-world-of-tensors/"
+      },
+      {
+        "title": "PyTorch [Basics] — Tensors and Autograd",
+        "author": "Towards Data Science",
+        "url": "https://towardsdatascience.com/how-to-train-your-neural-net-tensors-and-autograd-941f2c4cc77c"
+      },
+      {
+        "title": "Tensors from Scratch #1: Tensors and their Shapes",
+        "author": "Maharshi",
+        "url": "https://maharshi.bearblog.dev/tensors-from-scratch-part-1/"
+      },
+      {
+        "title": "Tensors from Scratch #2: Elementwise operations and Broadcasting",
+        "author": "Maharshi",
+        "url": "https://maharshi.bearblog.dev/tensors-from-scratch-part-2/"
       }
     ],
-    "research_papers": [
+    "videos": [
       {
-        "title": "Tensor Operations in Deep Learning",
-        "url": "https://arxiv.org/...",
-        "authors": ["A. Researcher", "B. Scientist"],
-        "year": 2023,
-        "relevantSections": ["3.1", "4.2"]
-      }
-    ],
-    "interactive_notebooks": [
+        "title": "PyTorch Tensor Basics Tutorial",
+        "url": "https://www.youtube.com/watch?v=x9JiIFvlUwk",
+        "duration": "45_MINUTES",
+        "creator": "INSTRUCTOR: Aladdin Persson"
+      },
       {
-        "title": "Tensor Operations Playground",
-        "url": "https://colab.research.google.com/...",
-        "type": "Google Colab",
-        "description": "Interactive exercises for tensor manipulation"
+        "title": "Deep Learning with PyTorch: Tensor Operations",
+        "url": "https://www.youtube.com/watch?v=r7QDUPb2dCM",
+        "duration": "60_MINUTES",
+        "creator": "SPECIALIST: Daniel Bourke"
+      },
+      {
+        "title": "PyTorch Memory Management and Optimization",
+        "url": "https://www.youtube.com/watch?v=g6kQl_EFn84",
+        "duration": "40_MINUTES",
+        "creator": "ENGINEER: Andrej Karpathy"
+      },
+      {
+        "title": "CUDA and GPU Computing",
+        "url": "https://www.youtube.com/watch?v=nOxKexn3iBo",
+        "duration": "55_MINUTES",
+        "creator": "ARCHITECT: Jeremy Howard"
       }
     ]
   },

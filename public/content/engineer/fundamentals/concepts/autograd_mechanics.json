@@ -21,12 +21,39 @@
     ],
     "blog_posts": [
       {
-        "title": "Understanding Autograd Internals",
-        "url": "https://pytorch.org/blog/autograd-internals/",
-        "author": "PyTorch Team",
-        "readingTime": "25 minutes",
-        "difficulty": "intermediate",
-        "tags": ["autograd", "backpropagation", "optimization"]
+        "title": "PyTorch Autograd - Understanding the Heart of PyTorch's Magic",
+        "author": "Aakash N S",
+        "url": "https://towardsdatascience.com/pytorch-autograd-understanding-the-heart-of-pytorchs-magic-2686cd94ec95"
+      },
+      {
+        "title": "A simplified introduction to PyTorch's autograd implementation",
+        "author": "PyTorch Dev Discuss",
+        "url": "https://dev-discuss.pytorch.org/t/a-simplified-introduction-to-pytorchs-autograd-implementation/51"
+      },
+      {
+        "title": "The Fundamentals of Autograd",
+        "author": "PyTorch",
+        "url": "https://pytorch.org/tutorials/beginner/introyt/autogradyt_tutorial.html"
+      },
+      {
+        "title": "Autograd for Torch",
+        "author": "X.com Engineering Blog",
+        "url": "https://blog.x.com/engineering/en_us/topics/infrastructure/2015/autograd-for-torch"
+      },
+      {
+        "title": "Introducing torch autograd",
+        "author": "Sigrid Keydana",
+        "url": "https://blogs.rstudio.com/ai/posts/2020-10-05-torch-network-with-autograd/"
+      },
+      {
+        "title": "PyTorch [Basics] — Tensors and Autograd",
+        "author": "Towards Data Science",
+        "url": "https://towardsdatascience.com/how-to-train-your-neural-net-tensors-and-autograd-941f2c4cc77c"
+      },
+      {
+        "title": "Deep Dive to Pytorch AutoGrad(1)",
+        "author": "Yewentao",
+        "url": "https://wentao.site/deep_dive_to_autograd_1/"
       }
     ],
     "github_repos": [
