@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import EnhancedMatrixRain from "./matrix";
 
 const GLITCH_CHARS = "!@#$%^&*()_+-=[]{}|;:,.<>?`~¡™£¢∞§¶•ªº–≠åß∂ƒ©˙∆˚¬…æ";
 const ASCII_BRAIN = String.raw`
@@ -149,6 +150,7 @@ const BootSequence = ({ setBootSequence }) => {
         height="256"
         className="fixed inset-0 w-full h-full opacity-[0.15] mix-blend-screen pointer-events-none"
       />
+      <EnhancedMatrixRain />
 
       {/* CRT effects */}
       <div className="fixed inset-0 pointer-events-none">
