@@ -93,7 +93,7 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode, setSelectedPath, de
               }}
               className="w-full text-left p-4  hover:bg-green-400/10 transition-colors"
             >
-              <div className="flex items-center text-green-400">
+              <div className="flex items-center text-green-400 font-mono">
                 <span className="mr-2">
                   {expandedModule === module.id ? "▼" : "▶"}
                 </span>
