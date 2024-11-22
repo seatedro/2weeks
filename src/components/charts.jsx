@@ -1,9 +1,16 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from "react";
 import {
-  ScatterChart, Scatter, LineChart, Line,
-  XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, ReferenceLine
-} from 'recharts';
+  ScatterChart,
+  Scatter,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ReferenceLine,
+} from "recharts";
 
 export const GeometricTransform = ({ config }) => {
   const [hoverPoint, setHoverPoint] = useState(null);
@@ -20,16 +27,17 @@ export const GeometricTransform = ({ config }) => {
         { x: -2, y: -2 },
         { x: -2, y: 4 },
         { x: 4, y: -2 },
-        { x: 4, y: 4 }
+        { x: 4, y: 4 },
       ];
 
       startPoints.forEach((start, i) => {
         const path = [];
-        for (let t = 0; t <= 1; t += 0.1) {
+        // Reduced number of points per path
+        for (let t = 0; t <= 1; t += 0.2) {
           path.push({
             x: start.x + (targetPoint.x - start.x) * t,
             y: start.y + (targetPoint.y - start.y) * t,
-            pathId: i
+            pathId: i,
           });
         }
         paths.push(path);
@@ -38,26 +46,24 @@ export const GeometricTransform = ({ config }) => {
       return paths;
     };
 
-    const pathData = generatePathData();
+    const pathData = useMemo(() => generatePathData(), []); // Memoize path data
 
     return (
-      <div style={{ width: '100%', height: 400 }}>
+      <div style={{ width: "100%", height: 400 }}>
         <ResponsiveContainer>
-          <ScatterChart
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-          >
+          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               type="number"
               dataKey="x"
               domain={[-3, 5]}
-              tickFormatter={val => val.toFixed(1)}
+              tickFormatter={(val) => val.toFixed(1)}
             />
             <YAxis
               type="number"
               dataKey="y"
               domain={[-3, 5]}
-              tickFormatter={val => val.toFixed(1)}
+              tickFormatter={(val) => val.toFixed(1)}
             />
             <Tooltip formatter={(value) => value.toFixed(2)} />
 
@@ -88,7 +94,8 @@ export const GeometricTransform = ({ config }) => {
           </ScatterChart>
         </ResponsiveContainer>
         <div className="text-sm mt-2">
-          Different paths converging to the red point. Notice they all reach the same destination!
+          Different paths converging to the red point. Notice they all reach the
+          same destination!
         </div>
       </div>
     );
@@ -98,10 +105,10 @@ export const GeometricTransform = ({ config }) => {
     // 3D surface visualization with gradients
     const generateSurfaceData = () => {
       const data = [];
-      for (let x = -2; x <= 2; x += 0.2) {
+      // Reduced resolution of surface points
+      for (let x = -2; x <= 2; x += 0.4) {
         const points = [];
-        for (let y = -2; y <= 2; y += 0.2) {
-          // Simple quadratic function for demonstration
+        for (let y = -2; y <= 2; y += 0.4) {
           const z = x * x + y * y;
           points.push({ x, y, z });
         }
@@ -110,34 +117,37 @@ export const GeometricTransform = ({ config }) => {
       return data.flat();
     };
 
-    const surfaceData = generateSurfaceData();
+    const surfaceData = useMemo(() => generateSurfaceData(), []); // Memoize surface data
 
     // Generate gradient vectors at selected points
-    const gradientVectors = surfaceData.filter((_, i) => i % 20 === 0)
-      .map(point => ({
-        ...point,
-        dx: 2 * point.x,  // Derivative with respect to x
-        dy: 2 * point.y   // Derivative with respect to y
-      }));
+    const gradientVectors = useMemo(
+      () =>
+        surfaceData
+          .filter((_, i) => i % 30 === 0)
+          .map((point) => ({
+            ...point,
+            dx: 2 * point.x,
+            dy: 2 * point.y,
+          })),
+      [surfaceData],
+    );
 
     return (
-      <div style={{ width: '100%', height: 400 }}>
+      <div style={{ width: "100%", height: 400 }}>
         <ResponsiveContainer>
-          <ScatterChart
-            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-          >
+          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               type="number"
               dataKey="x"
               domain={[-2, 2]}
-              tickFormatter={val => val.toFixed(1)}
+              tickFormatter={(val) => val.toFixed(1)}
             />
             <YAxis
               type="number"
               dataKey="y"
               domain={[-2, 2]}
-              tickFormatter={val => val.toFixed(1)}
+              tickFormatter={(val) => val.toFixed(1)}
             />
             <Tooltip
               formatter={(value) => value.toFixed(2)}
@@ -155,11 +165,7 @@ export const GeometricTransform = ({ config }) => {
             />
 
             {/* Surface points */}
-            <Scatter
-              data={surfaceData}
-              fill="#8884d8"
-              opacity={0.6}
-            />
+            <Scatter data={surfaceData} fill="#8884d8" opacity={0.6} />
 
             {/* Gradient vectors */}
             {gradientVectors.map((vector, i) => (
@@ -170,10 +176,10 @@ export const GeometricTransform = ({ config }) => {
                   {
                     x: vector.x + vector.dx * 0.2,
                     y: vector.y + vector.dy * 0.2,
-                    z: vector.z
-                  }
+                    z: vector.z,
+                  },
                 ]}
-                line={{ stroke: '#ff7300' }}
+                line={{ stroke: "#ff7300" }}
                 lineType="monotone"
                 shape="none"
               />
@@ -181,7 +187,8 @@ export const GeometricTransform = ({ config }) => {
           </ScatterChart>
         </ResponsiveContainer>
         <div className="text-sm mt-2">
-          3D surface with gradient vectors (orange arrows). The arrows point in the direction of steepest increase.
+          3D surface with gradient vectors (orange arrows). The arrows point in
+          the direction of steepest increase.
         </div>
       </div>
     );
@@ -189,52 +196,47 @@ export const GeometricTransform = ({ config }) => {
 
   // Default: Simple transformation visualization
   const generateTransformData = () => {
-    // Generate a grid of points
     const gridPoints = [];
-    for (let x = -2; x <= 2; x += 0.5) {
-      for (let y = -2; y <= 2; y += 0.5) {
-        // Original point
+    // Reduced grid density
+    for (let x = -2; x <= 2; x += 0.8) {
+      for (let y = -2; y <= 2; y += 0.8) {
         gridPoints.push({
           origX: x,
           origY: y,
-          // Transform the point (example: rotation + scaling)
           x: x * Math.cos(Math.PI / 4) - y * Math.sin(Math.PI / 4),
           y: x * Math.sin(Math.PI / 4) + y * Math.cos(Math.PI / 4),
-          type: 'transformed'
+          type: "transformed",
         });
-        // Also include original point for comparison
         gridPoints.push({
           x: x,
           y: y,
           origX: x,
           origY: y,
-          type: 'original'
+          type: "original",
         });
       }
     }
     return gridPoints;
   };
 
-  const transformData = generateTransformData();
+  const transformData = useMemo(() => generateTransformData(), []); // Memoize transform data
 
   return (
-    <div style={{ width: '100%', height: 400 }}>
+    <div style={{ width: "100%", height: 400 }}>
       <ResponsiveContainer>
-        <ScatterChart
-          margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-        >
+        <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             type="number"
             dataKey="x"
             domain={[-3, 3]}
-            tickFormatter={val => val.toFixed(1)}
+            tickFormatter={(val) => val.toFixed(1)}
           />
           <YAxis
             type="number"
             dataKey="y"
             domain={[-3, 3]}
-            tickFormatter={val => val.toFixed(1)}
+            tickFormatter={(val) => val.toFixed(1)}
           />
           <Tooltip
             content={({ payload }) => {
@@ -242,12 +244,18 @@ export const GeometricTransform = ({ config }) => {
               const p = payload[0].payload;
               return (
                 <div className="bg-white p-2 border shadow">
-                  {p.type === 'original' ? (
-                    <div>Original Point: ({p.x.toFixed(2)}, {p.y.toFixed(2)})</div>
+                  {p.type === "original" ? (
+                    <div>
+                      Original Point: ({p.x.toFixed(2)}, {p.y.toFixed(2)})
+                    </div>
                   ) : (
                     <div>
-                      <div>Original: ({p.origX.toFixed(2)}, {p.origY.toFixed(2)})</div>
-                      <div>Transformed: ({p.x.toFixed(2)}, {p.y.toFixed(2)})</div>
+                      <div>
+                        Original: ({p.origX.toFixed(2)}, {p.origY.toFixed(2)})
+                      </div>
+                      <div>
+                        Transformed: ({p.x.toFixed(2)}, {p.y.toFixed(2)})
+                      </div>
                     </div>
                   )}
                 </div>
@@ -257,14 +265,14 @@ export const GeometricTransform = ({ config }) => {
 
           {/* Original grid points */}
           <Scatter
-            data={transformData.filter(p => p.type === 'original')}
+            data={transformData.filter((p) => p.type === "original")}
             fill="#8884d8"
             opacity={0.3}
           />
 
           {/* Transformed grid points */}
           <Scatter
-            data={transformData.filter(p => p.type === 'transformed')}
+            data={transformData.filter((p) => p.type === "transformed")}
             fill="#82ca9d"
           />
 
@@ -274,7 +282,8 @@ export const GeometricTransform = ({ config }) => {
         </ScatterChart>
       </ResponsiveContainer>
       <div className="text-sm mt-2">
-        Visualization of a geometric transformation. Purple points show original positions, green points show transformed positions.
+        Visualization of a geometric transformation. Purple points show original
+        positions, green points show transformed positions.
       </div>
     </div>
   );
@@ -293,15 +302,15 @@ export const DistributionPlot = ({ config }) => {
     // Generate 2D Gaussian function
     for (let i = 0; i <= numPoints; i++) {
       const x = (i / numPoints) * 10 - 5;
-      const y = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+      const y = Math.exp((-x * x) / 2) / Math.sqrt(2 * Math.PI);
 
       // Calculate derivative
-      const derivative = -x * Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+      const derivative = (-x * Math.exp((-x * x) / 2)) / Math.sqrt(2 * Math.PI);
 
       points.push({
         x,
         y,
-        derivative
+        derivative,
       });
     }
     return points;
@@ -311,22 +320,24 @@ export const DistributionPlot = ({ config }) => {
   const gradientData = useMemo(() => {
     if (!config.parameters?.show_gradient) return [];
 
-    return functionData.filter((_, i) => i % 10 === 0).map(point => {
-      // Calculate partial derivatives
-      const dx = -point.x * point.y; // ∂f/∂x
-      const dy = point.y; // ∂f/∂y
+    return functionData
+      .filter((_, i) => i % 10 === 0)
+      .map((point) => {
+        // Calculate partial derivatives
+        const dx = -point.x * point.y; // ∂f/∂x
+        const dy = point.y; // ∂f/∂y
 
-      // Normalize gradient vector for better visualization
-      const magnitude = Math.sqrt(dx * dx + dy * dy);
-      const scale = 0.2; // Adjust scale for better visibility
+        // Normalize gradient vector for better visualization
+        const magnitude = Math.sqrt(dx * dx + dy * dy);
+        const scale = 0.2; // Adjust scale for better visibility
 
-      return {
-        ...point,
-        dx: (dx / magnitude) * scale,
-        dy: (dy / magnitude) * scale,
-        magnitude
-      };
-    });
+        return {
+          ...point,
+          dx: (dx / magnitude) * scale,
+          dy: (dy / magnitude) * scale,
+          magnitude,
+        };
+      });
   }, [functionData, config.parameters?.show_gradient]);
 
   // Calculate directional derivative data
@@ -349,7 +360,7 @@ export const DistributionPlot = ({ config }) => {
       const t = (i / numPoints) * scale - scale / 2;
       points.push({
         x: hoverPoint.x + t * Math.cos(angle),
-        y: hoverPoint.y + t * dirDeriv
+        y: hoverPoint.y + t * dirDeriv,
       });
     }
 
@@ -397,15 +408,8 @@ export const DistributionPlot = ({ config }) => {
             onMouseMove={handleMouseMove}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#1b4b2e" />
-            <XAxis
-              dataKey="x"
-              tick={{ fill: '#4ade80' }}
-              stroke="#4ade80"
-            />
-            <YAxis
-              tick={{ fill: '#4ade80' }}
-              stroke="#4ade80"
-            />
+            <XAxis dataKey="x" tick={{ fill: "#4ade80" }} stroke="#4ade80" />
+            <YAxis tick={{ fill: "#4ade80" }} stroke="#4ade80" />
             <Tooltip content={<CustomTooltip />} />
 
             {/* Main function curve */}
@@ -446,7 +450,7 @@ export const DistributionPlot = ({ config }) => {
                 key={`gradient-${i}`}
                 segment={[
                   { x: point.x, y: point.y },
-                  { x: point.x + point.dx * 0.5, y: point.y + point.dy * 0.5 }
+                  { x: point.x + point.dx * 0.5, y: point.y + point.dy * 0.5 },
                 ]}
                 stroke="#ef4444"
                 strokeWidth={2}
@@ -454,13 +458,7 @@ export const DistributionPlot = ({ config }) => {
             ))}
 
             {/* Hover point */}
-            {hoverPoint && (
-              <Scatter
-                data={[hoverPoint]}
-                fill="#ef4444"
-                r={4}
-              />
-            )}
+            {hoverPoint && <Scatter data={[hoverPoint]} fill="#ef4444" r={4} />}
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -473,12 +471,12 @@ export const DistributionPlot = ({ config }) => {
             type="range"
             min="0"
             max="360"
-            value={angle * 180 / Math.PI}
-            onChange={(e) => setAngle(e.target.value * Math.PI / 180)}
+            value={(angle * 180) / Math.PI}
+            onChange={(e) => setAngle((e.target.value * Math.PI) / 180)}
             className="w-48 accent-green-400"
           />
           <div className="text-green-400 w-16">
-            {Math.round(angle * 180 / Math.PI)}°
+            {Math.round((angle * 180) / Math.PI)}°
           </div>
         </div>
       )}
@@ -498,10 +496,11 @@ export const DistributionPlot = ({ config }) => {
               </div>
               <div className="text-green-400/80 border border-green-400/30 p-2">
                 <div>DIRECTIONAL DERIVATIVE:</div>
-                <div>Direction: {(angle * 180 / Math.PI).toFixed(1)}°</div>
+                <div>Direction: {((angle * 180) / Math.PI).toFixed(1)}°</div>
                 <div>
-                  Value: {(
-                    (-hoverPoint.x * hoverPoint.y) * Math.cos(angle) +
+                  Value:{" "}
+                  {(
+                    -hoverPoint.x * hoverPoint.y * Math.cos(angle) +
                     hoverPoint.y * Math.sin(angle)
                   ).toFixed(3)}
                 </div>

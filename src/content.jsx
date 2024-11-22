@@ -100,8 +100,7 @@ const ResourcePanel = ({ resources }) => {
                 >
                   {video.title}
                 </a>
-                <div className="text-green-400/50 text-xs md:text-sm ml-1 md:ml-2">
-                </div>
+                <div className="text-green-400/50 text-xs md:text-sm ml-1 md:ml-2"></div>
                 {video.highlights && (
                   <div className="mt-2">
                     <div className="text-green-400/50 text-xs md:text-sm">
@@ -205,12 +204,12 @@ export const SectionContent = ({
   // }, [currentConcept, moduleId, conceptId, isItemCompleted]);
 
   const renderTabs = () => (
-    <div className="flex border-b border-green-400/20 mb-6">
+    <div className="flex flex-wrap md:flex-nowrap border-b border-green-400/20 mb-6">
       {["content", "resources", "reference"].map((tab) => (
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`px-4 py-2 text-green-400/70 hover:text-green-400 transition-colors
+          className={`px-2 md:px-4 py-1 md:py-2 text-xs md:text-base text-green-400/70 hover:text-green-400 transition-colors
               ${activeTab === tab ? "border-b-2 border-green-400 text-green-400" : ""}`}
         >
           [{tab.toUpperCase()}]
