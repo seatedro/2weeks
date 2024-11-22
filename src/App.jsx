@@ -18,7 +18,6 @@ export default function App() {
     return localStorage.getItem("selectedPath");
   });
 
-
   // Initialize appState based on whether path is already selected
   const [appState, setAppState] = useState(() => {
     if (bootSequence) return "boot";
@@ -113,7 +112,6 @@ export default function App() {
       case "learning":
         return (
           <>
-            <EnhancedMatrixRain />
             <MLRetroDashboard
               debugMode={debugMode}
               selectedPath={selectedPath}
@@ -130,7 +128,7 @@ export default function App() {
 
   return (
     <>
-      <div className="h-screen w-screen overflow-auto relative">
+      <div className="h-screen overflow-y-auto w-full relative">
         {renderContent()}
         <PathStatus selectedPath={selectedPath} />
         <KonamiHandler hyperLearningMode={hyperLearningMode} />
@@ -138,8 +136,9 @@ export default function App() {
       {/* Global styles for effects */}
       <style>{`
         /* Scanline effect in debug mode */
-        ${debugMode
-          ? `
+        ${
+          debugMode
+            ? `
           ::after {
             content: '';
             position: fixed;
@@ -156,7 +155,8 @@ export default function App() {
             z-index: 9999;
           }
         `
-          : ""}
+            : ""
+        }
 
         /* Time compression effect */
         .hyperlearning-mode {

@@ -7,7 +7,13 @@ import Terminal from "./terminal";
 
 // Constants for glitch messages and easter eggs
 
-const MLRetroDashboard = ({ selectedPath, hyperLearningMode, setSelectedPath, debugMode, setAppState }) => {
+const MLRetroDashboard = ({
+  selectedPath,
+  hyperLearningMode,
+  setSelectedPath,
+  debugMode,
+  setAppState,
+}) => {
   const [isTerminalVisible, setIsTerminalVisible] = useState(false);
   const [isDefragging, setIsDefragging] = useState(false);
   // const [unlockedContent, setUnlockedContent] = useState({});
@@ -154,7 +160,7 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode, setSelectedPath, de
   );
 
   return (
-    <div className="min-h-screen bg-black p-4 md:p-8 relative overflow-hidden ">
+    <div className="min-h-screen w-full bg-black relative">
       <Terminal
         isVisible={isTerminalVisible}
         setIsVisible={setIsTerminalVisible}
@@ -199,74 +205,82 @@ const MLRetroDashboard = ({ selectedPath, hyperLearningMode, setSelectedPath, de
         <div className="text-red-400">NEURAL_TRANSFER_FAILED: {error}</div>
       ) : (
         <>
-          <MatrixRain />
-          <CRTEffect />
+          <div className="fixed inset-0 z-0">
+            <MatrixRain />
+          </div>
+          <div className="fixed inset-0 z-10 pointer-events-none">
+            <CRTEffect />
+          </div>
 
-          <div className="max-w-7xl mx-auto space-y-6 md:space-y-8 relative">
-            {/* Header with glitch effect */}
-            <div className="text-center space-y-2 md:space-y-4 pt-12 md:pt-0">
-              <h1
-                className={`text-green-400 text-2xl md:text-4xl font-bold tracking-tight glitch
+          <div className="relative z-20 w-full min-h-screen content-container">
+            <div className="max-w-7xl mx-auto space-y-6 md:space-y-8 relative">
+              {/* Header with glitch effect */}
+              <div className="text-center space-y-2 md:space-y-4 pt-12">
+                <h1
+                  className={`text-green-400 text-2xl md:text-4xl font-bold tracking-tight glitch
                            shadow-[0_0_10px_rgba(34,197,94,0.3)]`}
-                data-text="ML_MASTERY.exe"
-              >
-                ML_MASTERY.exe
-              </h1>
-              <p className="text-gray-400 text-sm md:text-base">
-                &gt; 2-week speedrun to machine learning mastery_
-              </p>
-            </div>
+                  data-text="ML_MASTERY.exe"
+                >
+                  ML_MASTERY.exe
+                </h1>
+                <p className="text-gray-400 text-sm md:text-base">
+                  &gt; 2-week speedrun to machine learning mastery_
+                </p>
+              </div>
 
-            {/* Main Content - Responsive Layout */}
-            <div className="flex flex-col md:grid md:grid-cols-3 md:gap-8">
-              {/* Left Panel - Topic List */}
-              <div
-                className={`fixed md:relative top-0 left-0 h-full md:h-auto
+              {/* Main Content - Responsive Layout */}
+              <div className="flex flex-col md:grid md:grid-cols-3 md:gap-8">
+                {/* Left Panel - Topic List */}
+                <div
+                  className={`fixed md:relative top-0 left-0 h-full md:h-auto
                          w-64 md:w-auto bg-black md:bg-transparent z-40
                          transform transition-transform duration-300 ease-in-out
                          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
                          border-r border-green-400/30 md:border-none
                          overflow-y-auto`}
-              >
-                <div className="p-4 pt-16 md:pt-4">
-                  {/* Mobile Only Header */}
-                  <div className="md:hidden text-green-400 mb-6 border-b border-green-400/30 pb-4">
-                    <div className="text-lg tracking-wider">SELECT_MODULE</div>
-                    <div className="text-xs opacity-70">
-                      Choose your learning path
+                >
+                  <div className="p-4 pt-16 md:pt-4">
+                    {/* Mobile Only Header */}
+                    <div className="md:hidden text-green-400 mb-6 border-b border-green-400/30 pb-4">
+                      <div className="text-lg tracking-wider">
+                        SELECT_MODULE
+                      </div>
+                      <div className="text-xs opacity-70">
+                        Choose your learning path
+                      </div>
                     </div>
+
+                    <WindowFrame title="> SELECT_MODULE">
+                      <ModulesList />
+                    </WindowFrame>
                   </div>
-
-                  <WindowFrame title="> SELECT_MODULE">
-                    <ModulesList />
-                  </WindowFrame>
                 </div>
-              </div>
 
-              {/* Right Panel - Details */}
-              <div className="md:col-span-2">
-                {currentModule && currentConcept ? (
-                  <WindowFrame
-                    title={`> ${currentConcept.title.toUpperCase()}`}
-                  >
-                    <SectionContent
-                      selectedPath={selectedPath}
-                      currentConcept={currentConcept}
-                      moduleId={currentModule.id}
-                      conceptId={currentConcept.id}
-                      markItemCompleted={markItemCompleted}
-                      isItemCompleted={isItemCompleted}
-                      hyperLearningMode={hyperLearningMode}
-                    />
-                  </WindowFrame>
-                ) : (
-                  <WindowFrame title="> Welcome">
-                    <div className="text-green-400 p-4">
-                      <span className="animate-pulse mr-2">█</span>
-                      Select a module to begin your ML journey...
-                    </div>
-                  </WindowFrame>
-                )}
+                {/* Right Panel - Details */}
+                <div className="md:col-span-2">
+                  {currentModule && currentConcept ? (
+                    <WindowFrame
+                      title={`> ${currentConcept.title.toUpperCase()}`}
+                    >
+                      <SectionContent
+                        selectedPath={selectedPath}
+                        currentConcept={currentConcept}
+                        moduleId={currentModule.id}
+                        conceptId={currentConcept.id}
+                        markItemCompleted={markItemCompleted}
+                        isItemCompleted={isItemCompleted}
+                        hyperLearningMode={hyperLearningMode}
+                      />
+                    </WindowFrame>
+                  ) : (
+                    <WindowFrame title="> Welcome">
+                      <div className="text-green-400 p-4">
+                        <span className="animate-pulse mr-2">█</span>
+                        Select a module to begin your ML journey...
+                      </div>
+                    </WindowFrame>
+                  )}
+                </div>
               </div>
             </div>
           </div>
